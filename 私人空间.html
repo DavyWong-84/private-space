@@ -50,10 +50,10 @@ a { text-decoration: none; }
 .url-preview { color: var(--text2); font-family: 'DM Mono', monospace; font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 200px; }
 
 /* FILTER TABS */
-.filter-scroll { display: flex; gap: 5px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
-.filter-scroll::-webkit-scrollbar { display: none; }
-.ftab { flex-shrink: 0; font-size: 11px; font-weight: 500; padding: 4px 11px; border-radius: 99px; border: 1.5px solid var(--border); color: var(--text2); background: var(--surface); }
-.ftab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+
+
+
 
 /* MAIN GRID AREA */
 .grid-wrap { flex: 1; overflow-y: auto; padding: 10px 12px; min-height: 0; -webkit-overflow-scrolling: touch; }
@@ -141,12 +141,12 @@ a { text-decoration: none; }
 .tag-sheet-body { padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; padding-bottom: env(safe-area-inset-bottom, 16px); }
 .ts-title { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .ts-section { font-size: 10px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 7px; }
-.pill-grid { display: flex; flex-wrap: wrap; gap: 6px; }
-.ts-tag-grid { display: flex; flex-wrap: wrap; gap: 5px; }
 
-.sel-pill { font-size: 12px; padding: 5px 13px; border-radius: 99px; border: 1.5px solid var(--border); color: var(--text2); background: var(--surface2); }
-.sel-pill.active { background: var(--accent-bg); border-color: var(--accent); color: var(--accent-text); font-weight: 500; }
-.sel-pill.tag-active { background: #fff8e1; border-color: #ba7517; color: #7a5000; font-weight: 500; }
+
+
+
+
+
 .new-tag-row { display: flex; gap: 6px; }
 .new-tag-inp { flex: 1; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 99px; padding: 5px 12px; font-size: 12px; outline: none; color: var(--text); font-family: inherit; }
 .new-tag-inp:focus { border-color: var(--accent); }
@@ -279,6 +279,10 @@ a { text-decoration: none; }
 .csel-opt:active { background: var(--surface2); }
 .csel-opt.selected { color: var(--accent); font-weight: 500; }
 .csel-opt.selected::after { content: '✓'; font-size: 12px; }
+.search-bar { display: flex; align-items: center; gap: 8px; background: var(--surface2); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 7px 11px; margin-bottom: 8px; transition: border-color .15s; }
+.search-bar:focus-within { border-color: var(--accent); background: var(--surface); }
+.search-input { flex: 1; background: none; border: none; outline: none; font-size: 13px; color: var(--text); font-family: inherit; }
+.search-input::placeholder { color: var(--text3); }
 </style>
 </head>
 <body>
@@ -290,19 +294,19 @@ a { text-decoration: none; }
       <h1>私人<span>空间</span></h1>
       <div class="sb-logo-sub">
         <p id="sb-count">1 条已保存</p>
-        <span class="sb-ver" id="sb-ver">v1.21</span>
+        <span class="sb-ver" id="sb-ver">v1.22</span>
       </div>
     </div>
     <div class="sb-sec">
       <div class="sb-lbl">平台</div>
-      <button class="snav active" data-fp="all" onclick="filterPlat('all')"><span class="snav-dot" style="background:#a8a69e"></span>全部<span class="snav-count" id="sc-all">1</span></button>
+      <button class="snav" data-fp="all" onclick="filterPlat('all')"><span class="snav-dot" style="background:#a8a69e"></span>全部<span class="snav-count" id="sc-all">1</span></button>
       <button class="snav" data-fp="youtube" onclick="filterPlat('youtube')"><span class="snav-dot" style="background:#e03e2d"></span>YouTube<span class="snav-count" id="sc-youtube">0</span></button>
       <button class="snav" data-fp="tiktok" onclick="filterPlat('tiktok')"><span class="snav-dot" style="background:#1a1916"></span>TikTok<span class="snav-count" id="sc-tiktok">0</span></button>
       <button class="snav" data-fp="douyin" onclick="filterPlat('douyin')"><span class="snav-dot" style="background:#1a7a4a"></span>抖音<span class="snav-count" id="sc-douyin">1</span></button>
       <button class="snav" data-fp="xiaohongshu" onclick="filterPlat('xiaohongshu')"><span class="snav-dot" style="background:#e03e2d"></span>小红书<span class="snav-count" id="sc-xiaohongshu">0</span></button>
       <button class="snav" data-fp="facebook" onclick="filterPlat('facebook')"><span class="snav-dot" style="background:#1877f2"></span>Facebook<span class="snav-count" id="sc-facebook">0</span></button>
       <button class="snav" data-fp="instagram" onclick="filterPlat('instagram')"><span class="snav-dot" style="background:#c13584"></span>Instagram<span class="snav-count" id="sc-instagram">0</span></button>
-      <button class="snav" data-fp="webpage" onclick="filterPlat('webpage')"><span class="snav-dot" style="background:#4a5568"></span>网页<span class="snav-count" id="sc-webpage">0</span></button>
+      <button class="snav active" data-fp="webpage" onclick="filterPlat('webpage')"><span class="snav-dot" style="background:#4a5568"></span>网页<span class="snav-count" id="sc-webpage">0</span></button>
     </div>
     <div class="sb-div"></div>
     <div class="sb-sec" style="flex:1">
@@ -389,7 +393,7 @@ a { text-decoration: none; }
       <div class="header-top">
         <div class="logo">私人<span>空间</span></div>
         <div class="header-right">
-          <span class="ver-badge" id="mob-ver">v1.21</span>
+          <span class="ver-badge" id="mob-ver">v1.22</span>
           <button class="icon-btn" onclick="openSettings()" title="设定">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
           </button>
@@ -399,7 +403,7 @@ a { text-decoration: none; }
       <div class="paste-bar">
         <div class="paste-wrap">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-top:2px;color:var(--text3)"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-          <textarea id="paste-input" class="paste-input" rows="1" placeholder="粘贴链接或整段分享文字..." oninput="onPasteInput()" onkeydown="pasteKeydown(event)"></textarea>
+          <textarea id="paste-input" class="paste-input" rows="1" placeholder="粘贴链接或整段分享文字..." oninput="onPasteInput()" onkeydown="pasteKeydown(event)" style="height: auto;"></textarea>
         </div>
         <button class="save-btn" id="save-btn" onclick="handleSave()" disabled="">保存</button>
       </div>
@@ -407,11 +411,16 @@ a { text-decoration: none; }
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
         已识别：<span id="extracted-url" class="url-preview"></span>
       </div>
+      <div class="search-bar">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text3);flex-shrink:0"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input id="search-input" class="search-input" placeholder="搜索标题、标签..." oninput="onSearch(this.value)" autocomplete="off">
+        <button id="search-clear" onclick="clearSearch()" style="display:none;color:var(--text3);font-size:16px;line-height:1;background:none;border:none;cursor:pointer">×</button>
+      </div>
       <div class="filter-selects">
-        <div class="csel" id="plat-csel" onclick="toggleCsel('plat')">
-          <span id="plat-csel-label"><span style="display:flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>全部平台</span></span>
+        <div class="csel active" id="plat-csel" onclick="toggleCsel('plat')">
+          <span id="plat-csel-label"><span style="display:flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4a5568" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>网页</span></span>
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
-          <div class="csel-drop" id="plat-csel-drop"><div class="csel-opt selected" onclick="event.stopPropagation();pickPlat('all')"><span style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>全部平台</span><span style="color:var(--accent);font-size:11px">✓</span></div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('youtube')"><span style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e03e2d"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.54 3.5 12 3.5 12 3.5s-7.54 0-9.38.55A3.02 3.02 0 0 0 .5 6.19C0 8.04 0 12 0 12s0 3.96.5 5.81a3.02 3.02 0 0 0 2.12 2.14C4.46 20.5 12 20.5 12 20.5s7.54 0 9.38-.55a3.02 3.02 0 0 0 2.12-2.14C24 15.96 24 12 24 12s0-3.96-.5-5.81zM9.75 15.52V8.48L15.5 12l-5.75 3.52z"></path></svg>YouTube</span></div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('tiktok')"><span style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#1a1916"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"></path></svg>TikTok</span></div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('douyin')"><span style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#1a1916"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"></path></svg>抖音</span></div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('xiaohongshu')"><span style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e03e2d"><path d="M12 3l1.5 4.5H18l-3.75 2.75 1.5 4.5L12 12l-3.75 2.75 1.5-4.5L6 7.5h4.5L12 3z"></path><path d="M5 17h14v2H5z"></path></svg>小红书</span></div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('facebook')"><span style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg>Facebook</span></div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('instagram')"><span style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#c13584"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"></path></svg>Instagram</span></div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('webpage')"><span style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4a5568" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>网页</span></div></div>
+          <div class="csel-drop" id="plat-csel-drop"><div class="csel-opt" onclick="event.stopPropagation();pickPlat('all')"><span style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>全部平台</span></div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('youtube')"><span style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e03e2d"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.54 3.5 12 3.5 12 3.5s-7.54 0-9.38.55A3.02 3.02 0 0 0 .5 6.19C0 8.04 0 12 0 12s0 3.96.5 5.81a3.02 3.02 0 0 0 2.12 2.14C4.46 20.5 12 20.5 12 20.5s7.54 0 9.38-.55a3.02 3.02 0 0 0 2.12-2.14C24 15.96 24 12 24 12s0-3.96-.5-5.81zM9.75 15.52V8.48L15.5 12l-5.75 3.52z"></path></svg>YouTube</span></div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('tiktok')"><span style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#1a1916"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"></path></svg>TikTok</span></div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('douyin')"><span style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#1a1916"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"></path></svg>抖音</span></div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('xiaohongshu')"><span style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e03e2d"><path d="M12 3l1.5 4.5H18l-3.75 2.75 1.5 4.5L12 12l-3.75 2.75 1.5-4.5L6 7.5h4.5L12 3z"></path><path d="M5 17h14v2H5z"></path></svg>小红书</span></div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('facebook')"><span style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg>Facebook</span></div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('instagram')"><span style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#c13584"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"></path></svg>Instagram</span></div><div class="csel-opt selected" onclick="event.stopPropagation();pickPlat('webpage')"><span style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4a5568" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>网页</span><span style="color:var(--accent);font-size:11px">✓</span></div></div>
         </div>
         <div class="csel" id="cat-csel" onclick="toggleCsel('cat')">
           <span id="cat-csel-label">全部分类</span>
@@ -422,29 +431,8 @@ a { text-decoration: none; }
     </div>
 
     <div class="grid-wrap" id="grid-wrap">
-      <div id="card-area"><div class="section-label" style="margin-top:4px">外链平台</div><div class="link-list">
-      <div class="lrow" onclick="openLink('ec6c4a2e-6944-46d8-8f64-7da85dda834f')">
-        <div class="lrow-header" style="background:#1a1916">
-          <div style="position:absolute;inset:0;background:linear-gradient(90deg, rgba(0,0,0,.25) 0%, rgba(0,0,0,0) 60%);pointer-events:none"></div>
-          <div class="lrow-icon" style="position:relative"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"></path></svg></div>
-          <span class="lrow-plat-name" style="position:relative">抖音</span>
-          <span class="lrow-cat-badge" style="position:relative">个人 IP</span>
-        </div>
-        <div class="lrow-body">
-          <div class="lrow-title">我把这个香港富婆忽悠了 # 老板思维 # IP孵化...</div>
-          <div class="lrow-footer">
-            <div class="lrow-tags"></div>
-            <div class="lrow-right">
-              <span class="lrow-date">今天</span>
-              <button class="lrow-open" style="background:#1a1916" onclick="event.stopPropagation();openUrl('https://v.douyin.com/CWqvGhYeSlM/')">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                打开
-              </button>
-            </div>
-          </div>
-        </div>
-      </div></div></div>
-      <div class="empty" id="empty-state" style="display:none">
+      <div id="card-area"></div>
+      <div class="empty" id="empty-state" style="display: flex;">
         <div class="empty-icon">🔗</div>
         <p>还没有保存任何链接</p>
       </div>
@@ -453,10 +441,32 @@ a { text-decoration: none; }
 
   <!-- DESKTOP RIGHT PANEL -->
   <div class="dp" id="dp" style="display:none">
-    <div class="dp-empty" id="dp-empty"><div class="ei">▶</div><p>选择内容预览</p></div>
-    <div id="dp-content" style="display:none;flex-direction:column;height:100%">
+    <div class="dp-empty" id="dp-empty" style="display: none;"><div class="ei">▶</div><p>选择内容预览</p></div>
+    <div id="dp-content" style="display: flex; flex-direction: column; height: 100%;">
       <div class="dp-hdr"><span style="font-size:12px;color:var(--text2);font-weight:500">正在查看</span><button class="dp-close" onclick="closePanel()">✕</button></div>
-      <div class="dp-body"><div class="dp-embed" id="dp-embed"></div><div class="dp-info" id="dp-info"></div></div>
+      <div class="dp-body"><div class="dp-embed" id="dp-embed"></div><div class="dp-info" id="dp-info">
+    <div style="padding:14px 14px 8px; border-bottom:1px solid var(--border); flex-shrink:0;">
+      <div style="font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">保存链接</div>
+      <div class="dp-save-title">tobiblee.com.my</div>
+    </div>
+    <div class="dp-save-panel" id="dp-save-form">
+    <div>
+      <div class="dp-save-label">分类</div>
+      <select class="dp-save-select" id="dp-cat-select" onchange="tsSelectedCat=this.value">
+        <option value="IT / Tech">IT / Tech</option><option value="生活">生活</option><option value="健康">健康</option><option value="美食">美食</option><option value="鼻子 / 鼻窦">鼻子 / 鼻窦</option><option value="其他" selected="">其他</option><option value="个人 IP">个人 IP</option>
+      </select>
+    </div>
+    <div>
+      <div class="dp-save-label">标签（可多选）</div>
+      <div class="dp-tag-grid" id="dp-tag-grid"><button class="dp-tag-btn" onclick="dpToggleTag('待看')"> 待看</button><button class="dp-tag-btn" onclick="dpToggleTag('已看')"> 已看</button><button class="dp-tag-btn" onclick="dpToggleTag('重要')"> 重要</button><button class="dp-tag-btn" onclick="dpToggleTag('灵感')"> 灵感</button><button class="dp-tag-btn" onclick="dpToggleTag('搞笑')"> 搞笑</button><button class="dp-tag-btn" onclick="dpToggleTag('学习')"> 学习</button><button class="dp-tag-btn" onclick="dpToggleTag('工作')"> 工作</button></div>
+      <div class="dp-new-tag-row" style="margin-top:7px">
+        <input id="dp-new-tag" class="dp-new-tag-inp" placeholder="新标签..." onkeydown="if(event.key==='Enter')dpAddTag()">
+        <button class="new-tag-add" onclick="dpAddTag()" style="height:28px;padding:0 10px;font-size:11px">+ 加</button>
+      </div>
+    </div>
+    <button class="dp-confirm-btn" onclick="confirmSave()">确认保存</button>
+    <button class="dp-cancel-btn" onclick="cancelDesktopSave()">取消</button>
+  </div></div></div>
       <div class="dp-actions" id="dp-actions"></div>
     </div>
   </div>
@@ -529,7 +539,7 @@ a { text-decoration: none; }
         <div class="sg-desc" style="margin-top:4px">Token 需要 <strong>repo</strong> 权限。</div>
       </div>
       <button class="save-cfg-btn" onclick="saveSettings()">保存设定</button>
-      <div id="modal-ver" style="text-align:center;font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:-10px">v1.21</div>
+      <div id="modal-ver" style="text-align:center;font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:-10px">v1.22</div>
       <div class="divider"></div>
       <div class="sg">
         <div class="sg-label">推送到 GitHub</div>
@@ -537,7 +547,7 @@ a { text-decoration: none; }
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"></path></svg>
           推送到 GitHub
         </button>
-        <div class="push-status loading" id="push-status">正在推送 v1.21...</div>
+        <div class="push-status loading" id="push-status">正在推送 v1.22...</div>
       </div>
     </div>
   </div>
@@ -547,22 +557,17 @@ a { text-decoration: none; }
 // ── CONFIG ────────────────────────────────────────────────────────────────────
 const DEFAULT_CATEGORIES = ['IT / Tech','生活','健康','美食','鼻子 / 鼻窦','其他']
 const DEFAULT_QUICK_TAGS = ['待看','已看','重要','灵感','搞笑','学习','工作']
-const EMBEDDABLE = ['youtube','facebook','webpage']
+const EMBEDDABLE = ['youtube','webpage']
 
 function getConfig() { try { return JSON.parse(localStorage.getItem('siren-config')||'{}') } catch { return {} } }
 function saveConfig(c) { localStorage.setItem('siren-config', JSON.stringify(c)) }
 function getApiKey() { return getConfig().geminiKey || '' }
-function getVersion() { return getConfig().version || 'v1.21' }
-function bumpVersion(v) {
-  const m = v.match(/v(\d+)\.(\d+)/); if (!m) return 'v1.21'
-  let [,maj,min] = m; min = parseInt(min)+1
-  if (min > 99) { maj = parseInt(maj)+1; min = 0 }
-  return `v${maj}.${String(min).padStart(2,'0')}`
-}
+function getVersion() { return getConfig().version || 'v1.22' }
+
 function getQuickTags() { return getConfig().quickTags || [...DEFAULT_QUICK_TAGS] }
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
-let state = { links:[], categories:[...DEFAULT_CATEGORIES], selectedId:null, filterPlat:'all', filterCat:'all' }
+let state = { links:[], categories:[...DEFAULT_CATEGORIES], selectedId:null, filterPlat:'all', filterCat:'all', searchQuery:'' }
 let tapCount = {} // track tap count per link id
 let pendingSave = null // { url, rawText, title, platform, embedUrl }
 let tsSelectedCat = '其他'
@@ -708,8 +713,6 @@ function renderTsTags() {
     </button>`
   ).join('')
 }
-
-function selectTsCat(cat) { tsSelectedCat=cat; renderTsCats() }
 function toggleTsTag(tag) {
   if (tsSelectedTags.includes(tag)) tsSelectedTags=tsSelectedTags.filter(t=>t!==tag)
   else tsSelectedTags.push(tag)
@@ -785,15 +788,8 @@ function getYoutubeThumbnail(url) {
     if (id) return `https://img.youtube.com/vi/${id}/hqdefault.jpg`
   } catch {}
   return null
-}
-
-function getDouyinThumbnail(url) { return null } // Douyin blocks hotlinking
-function getTiktokThumbnail(url) { return null }  // TikTok blocks hotlinking
-
-function getPlatformThumbnail(url, platform) {
-  if (platform === 'youtube') return getYoutubeThumbnail(url)
-  return null // others fetched async
-}
+} // Douyin blocks hotlinking
+  // TikTok blocks hotlinking
 
 async function fetchYouTubeTitle(url) {
   try {
@@ -868,23 +864,6 @@ async function fetchPlatformMeta(url, platform) {
   }
 }
 
-async function fetchPageTitle(url) {
-  // Use allorigins as CORS proxy to fetch og:title from any page
-  try {
-    const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`
-    const res = await fetch(proxy)
-    if (!res.ok) return null
-    const data = await res.json()
-    const html = data.contents || ''
-    // Extract og:title
-    const ogMatch = html.match(/<meta[^>]*property=["']og:title["'][^>]*content=["']([^"']+)["']/i)
-    if (ogMatch) return decodeHTMLEntities(ogMatch[1])
-    // Fallback to <title>
-    const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i)
-    if (titleMatch) return decodeHTMLEntities(titleMatch[1].trim())
-    return null
-  } catch { return null }
-}
 
 function decodeHTMLEntities(str) {
   return str.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&nbsp;/g,' ')
@@ -927,9 +906,14 @@ function filterCat(c) {
 
 // ── RENDER ────────────────────────────────────────────────────────────────────
 function getFiltered() {
+  const q = state.searchQuery
   return state.links.filter(l=>{
     if (state.filterPlat!=='all'&&l.platform!==state.filterPlat) return false
     if (state.filterCat!=='all'&&l.category!==state.filterCat) return false
+    if (q) {
+      const haystack = [l.title, l.category, ...l.tags, l.url].join(' ').toLowerCase()
+      if (!haystack.includes(q)) return false
+    }
     return true
   })
 }
@@ -1073,8 +1057,6 @@ function render() {
 
   document.getElementById('card-area').innerHTML=html
 }
-
-function thumbIcon(p) { return {youtube:'▶',tiktok:'♪',xiaohongshu:'✿',facebook:'f',douyin:'♬',instagram:'◈',other:'🔗'}[p]||'▶' }
 
 const PLAT_ICONS = {
   youtube: `<svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.54 3.5 12 3.5 12 3.5s-7.54 0-9.38.55A3.02 3.02 0 0 0 .5 6.19C0 8.04 0 12 0 12s0 3.96.5 5.81a3.02 3.02 0 0 0 2.12 2.14C4.46 20.5 12 20.5 12 20.5s7.54 0 9.38-.55a3.02 3.02 0 0 0 2.12-2.14C24 15.96 24 12 24 12s0-3.96-.5-5.81zM9.75 15.52V8.48L15.5 12l-5.75 3.52z"/></svg>`,
@@ -1459,6 +1441,20 @@ document.addEventListener('click', function(e) {
 
 function openUrl(url) {
   window.open(url, '_blank', 'noopener,noreferrer')
+}
+
+
+// ── SEARCH ────────────────────────────────────────────────────────────────────
+function onSearch(q) {
+  state.searchQuery = q.trim().toLowerCase()
+  document.getElementById('search-clear').style.display = q ? 'block' : 'none'
+  render()
+}
+function clearSearch() {
+  state.searchQuery = ''
+  document.getElementById('search-input').value = ''
+  document.getElementById('search-clear').style.display = 'none'
+  render()
 }
 
 // ── UTILS ─────────────────────────────────────────────────────────────────────
