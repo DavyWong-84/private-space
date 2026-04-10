@@ -222,7 +222,7 @@ a { text-decoration: none; }
   /* desktop: right panel */
   .sheet-overlay, .sheet, .tag-sheet { display: none !important; }
   #dp { display: flex !important; }
-  .filter-selects { display: none; }
+  .filter-selects { display: none !important; }
   .dp { width: 300px; flex-shrink: 0; background: var(--surface); border-left: 1px solid var(--border); flex-direction: column; overflow: hidden; }
   .dp-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 6px; }
   .dp-empty .ei { font-size: 28px; opacity: .15; }
@@ -290,7 +290,7 @@ a { text-decoration: none; }
       <h1>私人<span>空间</span></h1>
       <div class="sb-logo-sub">
         <p id="sb-count">1 条已保存</p>
-        <span class="sb-ver" id="sb-ver">v1.19</span>
+        <span class="sb-ver" id="sb-ver">v1.21</span>
       </div>
     </div>
     <div class="sb-sec">
@@ -389,7 +389,7 @@ a { text-decoration: none; }
       <div class="header-top">
         <div class="logo">私人<span>空间</span></div>
         <div class="header-right">
-          <span class="ver-badge" id="mob-ver">v1.19</span>
+          <span class="ver-badge" id="mob-ver">v1.21</span>
           <button class="icon-btn" onclick="openSettings()" title="设定">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
           </button>
@@ -529,7 +529,7 @@ a { text-decoration: none; }
         <div class="sg-desc" style="margin-top:4px">Token 需要 <strong>repo</strong> 权限。</div>
       </div>
       <button class="save-cfg-btn" onclick="saveSettings()">保存设定</button>
-      <div id="modal-ver" style="text-align:center;font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:-10px">v1.19</div>
+      <div id="modal-ver" style="text-align:center;font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:-10px">v1.21</div>
       <div class="divider"></div>
       <div class="sg">
         <div class="sg-label">推送到 GitHub</div>
@@ -537,7 +537,7 @@ a { text-decoration: none; }
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"></path></svg>
           推送到 GitHub
         </button>
-        <div class="push-status loading" id="push-status">正在推送 v1.19...</div>
+        <div class="push-status loading" id="push-status">正在推送 v1.21...</div>
       </div>
     </div>
   </div>
@@ -552,9 +552,9 @@ const EMBEDDABLE = ['youtube','facebook','webpage']
 function getConfig() { try { return JSON.parse(localStorage.getItem('siren-config')||'{}') } catch { return {} } }
 function saveConfig(c) { localStorage.setItem('siren-config', JSON.stringify(c)) }
 function getApiKey() { return getConfig().geminiKey || '' }
-function getVersion() { return getConfig().version || 'v1.19' }
+function getVersion() { return getConfig().version || 'v1.21' }
 function bumpVersion(v) {
-  const m = v.match(/v(\d+)\.(\d+)/); if (!m) return 'v1.19'
+  const m = v.match(/v(\d+)\.(\d+)/); if (!m) return 'v1.21'
   let [,maj,min] = m; min = parseInt(min)+1
   if (min > 99) { maj = parseInt(maj)+1; min = 0 }
   return `v${maj}.${String(min).padStart(2,'0')}`
@@ -645,8 +645,13 @@ function onPasteInput() {
 function pasteKeydown(e) { if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();handleSave()} }
 
 async function handleSave() {
-  const val = document.getElementById('paste-input').value.trim()
+  let val = document.getElementById('paste-input').value.trim()
   if (!val) return
+  // Auto-add https:// if user typed a bare domain
+  if (val && !val.startsWith('http') && !val.includes(' ') && val.includes('.')) {
+    val = 'https://' + val
+    document.getElementById('paste-input').value = val
+  }
   const url = extractedUrl||(()=>{try{new URL(val);return val}catch{return null}})()
   if (!url) { alert('找不到有效链接'); return }
   const rawText = val!==url ? val : undefined
@@ -812,17 +817,21 @@ async function fetchTikTokMeta(url) {
   } catch { return null }
 }
 
-// Microlink - og:image fallback for douyin, xiaohongshu, etc
+// Microlink - og:image + title for any URL
 // Free tier: 100 requests/month, no auth needed
 async function fetchMicrolinkMeta(url) {
   try {
-    const res = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(url)}&meta=false`)
+    const endpoint = `https://api.microlink.io/?url=${encodeURIComponent(url)}&screenshot=false&video=false`
+    const res = await fetch(endpoint, {
+      headers: { 'Accept': 'application/json' }
+    })
     if (!res.ok) return null
     const data = await res.json()
     if (data.status !== 'success') return null
+    const d = data.data || {}
     return {
-      title: data.data?.title || null,
-      thumbnail: data.data?.image?.url || data.data?.screenshot?.url || null
+      title: d.title || d.description || null,
+      thumbnail: d.image?.url || d.logo?.url || null
     }
   } catch { return null }
 }
@@ -837,18 +846,25 @@ async function fetchPlatformMeta(url, platform) {
     }
     case 'tiktok': {
       const meta = await fetchTikTokMeta(url)
-      return meta || {}
+      if (meta?.title || meta?.thumbnail) return meta
+      // TikTok oEmbed sometimes fails, try microlink
+      return await fetchMicrolinkMeta(url) || {}
     }
     case 'douyin':
     case 'xiaohongshu':
     case 'instagram':
     case 'facebook':
     case 'webpage':
-    case 'other': {
+    case 'other':
+    default: {
       const meta = await fetchMicrolinkMeta(url)
-      return meta || {}
+      if (meta) return meta
+      // Last resort: use domain as title
+      try {
+        const domain = new URL(url).hostname.replace(/^www\./, '')
+        return { title: domain, thumbnail: null }
+      } catch { return {} }
     }
-    default: return {}
   }
 }
 
@@ -1351,13 +1367,15 @@ function openDesktopSavePanel(title) {
   document.getElementById('dp-empty').style.display = 'none'
   const c = document.getElementById('dp-content')
   c.style.display = 'flex'
+  // Use dp-body for the full save form (more space)
   document.getElementById('dp-embed').innerHTML = ''
   document.getElementById('dp-info').innerHTML = `
-    <div style="padding:14px 14px 0">
-      <div style="font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">保存链接</div>
+    <div style="padding:14px 14px 8px; border-bottom:1px solid var(--border); flex-shrink:0;">
+      <div style="font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">保存链接</div>
       <div class="dp-save-title">${esc(title)}</div>
-    </div>`
-  document.getElementById('dp-actions').innerHTML = buildDesktopSaveForm()
+    </div>
+    ${buildDesktopSaveForm()}`
+  document.getElementById('dp-actions').innerHTML = ''
   renderDpSaveForm()
 }
 
@@ -1411,6 +1429,9 @@ function cancelDesktopSave() {
   pendingSave = null
   document.getElementById('dp-empty').style.display = 'flex'
   document.getElementById('dp-content').style.display = 'none'
+  document.getElementById('dp-embed').innerHTML = ''
+  document.getElementById('dp-info').innerHTML = ''
+  document.getElementById('dp-actions').innerHTML = ''
 }
 
 
