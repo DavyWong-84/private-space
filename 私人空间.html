@@ -29,7 +29,7 @@ a { text-decoration: none; }
 #app { display: flex; flex-direction: column; height: 100dvh; overflow: hidden; }
 
 /* HEADER */
-.header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 12px 14px 0; flex-shrink: 0; overflow: hidden; }
+.header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 12px 14px 0; flex-shrink: 0; position: relative; z-index: 10; }
 .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
 .logo { font-size: 17px; font-weight: 500; color: var(--text); }
 .logo span { color: var(--accent); }
@@ -76,15 +76,15 @@ a { text-decoration: none; }
 .ecard-meta { font-size: 9px; color: var(--text3); }
 
 /* LINK LIST ROWS (non-embeddable) */
-.link-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
+.link-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
 .lrow { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: transform .1s; }
 .lrow:active { transform: scale(.98); }
 .lrow.selected { border-color: var(--accent); }
-.lrow-header { padding: 9px 12px; display: flex; align-items: center; gap: 9px; }
+.lrow-header { padding: 8px 10px; display: flex; align-items: center; gap: 7px; position: relative; overflow: hidden; }
 .lrow-icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.lrow-plat-name { font-size: 14px; font-weight: 500; color: #fff; }
-.lrow-cat-badge { margin-left: auto; font-size: 10px; background: rgba(255,255,255,.2); color: rgba(255,255,255,.9); padding: 2px 8px; border-radius: 99px; }
-.lrow-body { padding: 10px 12px 10px; }
+.lrow-plat-name { font-size: 13px; font-weight: 500; color: #fff; }
+.lrow-cat-badge { margin-left: auto; font-size: 10px; background: rgba(255,255,255,.15); color: rgba(255,255,255,.85); padding: 2px 8px; border-radius: 99px; }
+.lrow-body { padding: 8px 10px 10px; }
 .lrow-title { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 7px; }
 .lrow-footer { display: flex; align-items: center; justify-content: space-between; }
 .lrow-tags { display: flex; gap: 4px; flex-wrap: wrap; }
@@ -268,8 +268,16 @@ a { text-decoration: none; }
 .ts-tag-btn.ts-tag-on { background: #fff8e1; border-color: #ba7517; color: #7a5000; }
 .ts-tag-check { font-size: 11px; color: #ba7517; font-weight: 500; }
 .filter-selects { display: flex; gap: 8px; margin-bottom: 10px; }
-.filter-select { flex: 1; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 99px; padding: 6px 14px; font-size: 12px; font-weight: 500; color: var(--text2); outline: none; font-family: inherit; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23a8a69e' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; cursor: pointer; }
-.filter-select:focus { border-color: var(--accent); }
+.csel { flex: 1; position: relative; display: flex; align-items: center; justify-content: space-between; gap: 6px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 99px; padding: 7px 12px; font-size: 12px; font-weight: 500; color: var(--text2); cursor: pointer; user-select: none; -webkit-user-select: none; }
+.csel.active { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+.csel svg { flex-shrink: 0; transition: transform .2s; color: var(--text3); }
+.csel.active svg { transform: rotate(180deg); color: var(--accent); }
+.csel-drop { display: none; position: absolute; top: calc(100% + 6px); left: 0; min-width: 140px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,.12); z-index: 999; overflow: hidden; }
+.csel.open .csel-drop { display: block; }
+.csel-opt { padding: 10px 14px; font-size: 13px; color: var(--text2); display: flex; align-items: center; justify-content: space-between; }
+.csel-opt:active { background: var(--surface2); }
+.csel-opt.selected { color: var(--accent); font-weight: 500; }
+.csel-opt.selected::after { content: '✓'; font-size: 12px; }
 </style>
 </head>
 <body>
@@ -281,7 +289,7 @@ a { text-decoration: none; }
       <h1>私人<span>空间</span></h1>
       <div class="sb-logo-sub">
         <p id="sb-count">1 条已保存</p>
-        <span class="sb-ver" id="sb-ver">v1.12</span>
+        <span class="sb-ver" id="sb-ver">v1.16</span>
       </div>
     </div>
     <div class="sb-sec">
@@ -379,7 +387,7 @@ a { text-decoration: none; }
       <div class="header-top">
         <div class="logo">私人<span>空间</span></div>
         <div class="header-right">
-          <span class="ver-badge" id="mob-ver">v1.12</span>
+          <span class="ver-badge" id="mob-ver">v1.16</span>
           <button class="icon-btn" onclick="openSettings()" title="设定">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
           </button>
@@ -398,18 +406,27 @@ a { text-decoration: none; }
         已识别：<span id="extracted-url" class="url-preview"></span>
       </div>
       <div class="filter-selects">
-        <select class="filter-select" id="mob-plat-select" onchange="filterPlat(this.value)"><option value="all" selected="">全部平台</option><option value="youtube">YouTube</option><option value="tiktok">TikTok</option><option value="douyin">抖音</option><option value="xiaohongshu">小红书</option><option value="facebook">Facebook</option><option value="instagram">Instagram</option></select>
-        <select class="filter-select" id="mob-cat-select" onchange="filterCat(this.value)"><option value="all" selected="">全部分类</option><option value="IT / Tech">IT / Tech</option><option value="生活">生活</option><option value="健康">健康</option><option value="美食">美食</option><option value="鼻子 / 鼻窦">鼻子 / 鼻窦</option><option value="其他">其他</option><option value="个人 IP">个人 IP</option></select>
+        <div class="csel" id="plat-csel" onclick="toggleCsel('plat')">
+          <span id="plat-csel-label">全部平台</span>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          <div class="csel-drop" id="plat-csel-drop"><div class="csel-opt selected" onclick="event.stopPropagation();pickPlat('all')">全部平台</div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('youtube')">YouTube</div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('tiktok')">TikTok</div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('douyin')">抖音</div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('xiaohongshu')">小红书</div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('facebook')">Facebook</div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('instagram')">Instagram</div></div>
+        </div>
+        <div class="csel" id="cat-csel" onclick="toggleCsel('cat')">
+          <span id="cat-csel-label">全部分类</span>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          <div class="csel-drop" id="cat-csel-drop"><div class="csel-opt selected" onclick="event.stopPropagation();pickCat('all')">全部分类</div><div class="csel-opt" onclick="event.stopPropagation();pickCat('IT / Tech')">IT / Tech</div><div class="csel-opt" onclick="event.stopPropagation();pickCat('生活')">生活</div><div class="csel-opt" onclick="event.stopPropagation();pickCat('健康')">健康</div><div class="csel-opt" onclick="event.stopPropagation();pickCat('美食')">美食</div><div class="csel-opt" onclick="event.stopPropagation();pickCat('鼻子 / 鼻窦')">鼻子 / 鼻窦</div><div class="csel-opt" onclick="event.stopPropagation();pickCat('其他')">其他</div><div class="csel-opt" onclick="event.stopPropagation();pickCat('个人 IP')">个人 IP</div></div>
+        </div>
       </div>
     </div>
 
     <div class="grid-wrap" id="grid-wrap">
       <div id="card-area"><div class="section-label" style="margin-top:4px">外链平台</div><div class="link-list">
       <div class="lrow" onclick="openLink('ec6c4a2e-6944-46d8-8f64-7da85dda834f')">
-        <div class="lrow-header" style="background:#2ec5ce">
-          <div class="lrow-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"></path></svg></div>
-          <span class="lrow-plat-name">抖音</span>
-          <span class="lrow-cat-badge">个人 IP</span>
+        <div class="lrow-header" style="background:#1a1916">
+          <div style="position:absolute;inset:0;background:linear-gradient(90deg, rgba(0,0,0,.25) 0%, rgba(0,0,0,0) 60%);pointer-events:none"></div>
+          <div class="lrow-icon" style="position:relative"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"></path></svg></div>
+          <span class="lrow-plat-name" style="position:relative">抖音</span>
+          <span class="lrow-cat-badge" style="position:relative">个人 IP</span>
         </div>
         <div class="lrow-body">
           <div class="lrow-title">我把这个香港富婆忽悠了 # 老板思维 # IP孵化...</div>
@@ -417,10 +434,10 @@ a { text-decoration: none; }
             <div class="lrow-tags"></div>
             <div class="lrow-right">
               <span class="lrow-date">今天</span>
-              <a href="https://v.douyin.com/CWqvGhYeSlM/" target="_blank" class="lrow-open" style="background:#2ec5ce" onclick="event.stopPropagation()">
+              <button class="lrow-open" style="background:#1a1916" onclick="event.stopPropagation();openUrl('https://v.douyin.com/CWqvGhYeSlM/')">
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                 打开
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -510,7 +527,7 @@ a { text-decoration: none; }
         <div class="sg-desc" style="margin-top:4px">Token 需要 <strong>repo</strong> 权限。</div>
       </div>
       <button class="save-cfg-btn" onclick="saveSettings()">保存设定</button>
-      <div id="modal-ver" style="text-align:center;font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:-10px">v1.12</div>
+      <div id="modal-ver" style="text-align:center;font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:-10px">v1.16</div>
       <div class="divider"></div>
       <div class="sg">
         <div class="sg-label">推送到 GitHub</div>
@@ -518,7 +535,7 @@ a { text-decoration: none; }
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"></path></svg>
           推送到 GitHub
         </button>
-        <div class="push-status loading" id="push-status">正在推送 v1.12...</div>
+        <div class="push-status loading" id="push-status">正在推送 v1.16...</div>
       </div>
     </div>
   </div>
@@ -533,9 +550,9 @@ const EMBEDDABLE = ['youtube','facebook']
 function getConfig() { try { return JSON.parse(localStorage.getItem('siren-config')||'{}') } catch { return {} } }
 function saveConfig(c) { localStorage.setItem('siren-config', JSON.stringify(c)) }
 function getApiKey() { return getConfig().geminiKey || '' }
-function getVersion() { return getConfig().version || 'v1.12' }
+function getVersion() { return getConfig().version || 'v1.16' }
 function bumpVersion(v) {
-  const m = v.match(/v(\d+)\.(\d+)/); if (!m) return 'v1.12'
+  const m = v.match(/v(\d+)\.(\d+)/); if (!m) return 'v1.16'
   let [,maj,min] = m; min = parseInt(min)+1
   if (min > 99) { maj = parseInt(maj)+1; min = 0 }
   return `v${maj}.${String(min).padStart(2,'0')}`
@@ -556,7 +573,7 @@ function saveState() { localStorage.setItem('siren-v1', JSON.stringify({links:st
 
 // ── PLATFORM ──────────────────────────────────────────────────────────────────
 const PLAT_LABELS = {youtube:'YouTube',tiktok:'TikTok',xiaohongshu:'小红书',facebook:'Facebook',douyin:'抖音',instagram:'Instagram',other:'其他'}
-const PLAT_COLORS = {youtube:'#e03e2d',tiktok:'#1a1916',xiaohongshu:'#e03e2d',facebook:'#1877f2',douyin:'#2ec5ce',instagram:'#c13584',other:'#a8a69e'}
+const PLAT_COLORS = {youtube:'#e03e2d',tiktok:'#1a1916',xiaohongshu:'#e03e2d',facebook:'#1877f2',douyin:'#1a1916',instagram:'#c13584',other:'#a8a69e'}
 
 function detectPlatform(url) {
   try {
@@ -704,12 +721,15 @@ function addNewTagInSheet() {
   renderTsTags()
 }
 
-function confirmSave() {
+async function confirmSave() {
   if (!pendingSave) return
   const id = crypto.randomUUID()
   const thumbnail = getPlatformThumbnail(pendingSave.url, pendingSave.platform)
+
+  // Optimistic insert first
+  let title = pendingSave.title
   const link = {
-    id, url: pendingSave.url, title: pendingSave.title,
+    id, url: pendingSave.url, title,
     platform: pendingSave.platform, embedUrl: pendingSave.embedUrl,
     category: tsSelectedCat, tags: [...tsSelectedTags],
     addedAt: new Date().toISOString(), notes: '',
@@ -724,6 +744,20 @@ function confirmSave() {
     cancelTagSheet()
   }
   render()
+
+  // Fetch real YouTube title in background
+  if (link.platform === 'youtube') {
+    fetchYouTubeTitle(link.url).then(realTitle => {
+      if (realTitle) {
+        const idx = state.links.findIndex(l => l.id === id)
+        if (idx !== -1) {
+          state.links[idx].title = realTitle
+          saveState()
+          render()
+        }
+      }
+    })
+  }
 }
 
 function cancelTagSheet() {
@@ -751,6 +785,15 @@ function getTiktokThumbnail(url) { return null }  // TikTok blocks hotlinking
 function getPlatformThumbnail(url, platform) {
   if (platform === 'youtube') return getYoutubeThumbnail(url)
   return null
+}
+
+async function fetchYouTubeTitle(url) {
+  try {
+    const res = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`)
+    if (!res.ok) return null
+    const data = await res.json()
+    return data.title || null
+  } catch { return null }
 }
 
 // ── AI CLASSIFY (title only, no category) ────────────────────────────────────
@@ -835,7 +878,7 @@ function render() {
   }).join('')
 
   // mobile filter tabs
-  // Platform select
+  // Platform custom dropdown
   const platOpts = [
     {key:'all', label:'全部平台'},
     {key:'youtube', label:'YouTube'},
@@ -845,17 +888,25 @@ function render() {
     {key:'facebook', label:'Facebook'},
     {key:'instagram', label:'Instagram'},
   ]
-  const platSel = document.getElementById('mob-plat-select')
-  if (platSel) {
-    platSel.innerHTML = platOpts.map(p=>`<option value="${p.key}"${state.filterPlat===p.key?' selected':''}>${p.label}</option>`).join('')
+  const platDrop = document.getElementById('plat-csel-drop')
+  const platLabel = document.getElementById('plat-csel-label')
+  if (platDrop) {
+    platDrop.innerHTML = platOpts.map(p=>`<div class="csel-opt${state.filterPlat===p.key?' selected':''}" onclick="event.stopPropagation();pickPlat('${p.key}')">${p.label}</div>`).join('')
   }
+  if (platLabel) platLabel.textContent = platOpts.find(p=>p.key===state.filterPlat)?.label || '全部平台'
+  const platCsel = document.getElementById('plat-csel')
+  if (platCsel) platCsel.classList.toggle('active', state.filterPlat !== 'all')
 
-  // Category select
-  const catSel = document.getElementById('mob-cat-select')
-  if (catSel) {
-    catSel.innerHTML = `<option value="all"${state.filterCat==='all'?' selected':''}>全部分类</option>` +
-      state.categories.map(cat=>`<option value="${esc(cat)}"${state.filterCat===cat?' selected':''}>${esc(cat)}</option>`).join('')
+  // Category custom dropdown
+  const catOpts = [{key:'all', label:'全部分类'}, ...state.categories.map(c=>({key:c,label:c}))]
+  const catDrop = document.getElementById('cat-csel-drop')
+  const catLabel = document.getElementById('cat-csel-label')
+  if (catDrop) {
+    catDrop.innerHTML = catOpts.map(c=>`<div class="csel-opt${state.filterCat===c.key?' selected':''}" onclick="event.stopPropagation();pickCat('${esc(c.key)}')">${esc(c.label)}</div>`).join('')
   }
+  if (catLabel) catLabel.textContent = state.filterCat === 'all' ? '全部分类' : state.filterCat
+  const catCsel = document.getElementById('cat-csel')
+  if (catCsel) catCsel.classList.toggle('active', state.filterCat !== 'all')
 
   // split links
   const embedLinks = links.filter(l=>EMBEDDABLE.includes(l.platform))
@@ -892,9 +943,10 @@ function render() {
     html += listLinks.map(l=>`
       <div class="lrow${state.selectedId===l.id?' selected':''}" onclick="openLink('${l.id}')">
         <div class="lrow-header" style="background:${PLAT_COLORS[l.platform]}">
-          <div class="lrow-icon">${platIcon(l.platform)}</div>
-          <span class="lrow-plat-name">${PLAT_LABELS[l.platform]}</span>
-          <span class="lrow-cat-badge">${esc(l.category)}</span>
+          <div style="position:absolute;inset:0;background:linear-gradient(90deg, rgba(0,0,0,.25) 0%, rgba(0,0,0,0) 60%);pointer-events:none"></div>
+          <div class="lrow-icon" style="position:relative">${platIcon(l.platform)}</div>
+          <span class="lrow-plat-name" style="position:relative">${PLAT_LABELS[l.platform]}</span>
+          <span class="lrow-cat-badge" style="position:relative">${esc(l.category)}</span>
         </div>
         <div class="lrow-body">
           <div class="lrow-title">${esc(l.title)}</div>
@@ -902,10 +954,10 @@ function render() {
             <div class="lrow-tags">${l.tags.slice(0,3).map(t=>`<span class="lrow-tag">#${esc(t)}</span>`).join('')}</div>
             <div class="lrow-right">
               <span class="lrow-date">${fmtDate(l.addedAt)}</span>
-              <a href="${l.url}" target="_blank" class="lrow-open" style="background:${PLAT_COLORS[l.platform]}" onclick="event.stopPropagation()">
+              <button class="lrow-open" style="background:${PLAT_COLORS[l.platform]}" onclick="event.stopPropagation();openUrl('${l.url}')">
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                 打开
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -968,7 +1020,7 @@ function openLink(id) {
 function buildEmbedHtml(link) {
   if (link.embedUrl) return `<iframe src="${link.embedUrl}" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>`
   const msgs={tiktok:'TikTok 不支持内嵌',douyin:'抖音不支持内嵌',xiaohongshu:'小红书不支持内嵌',instagram:'Instagram 不支持内嵌'}
-  return `<div class="no-embed"><div class="no-embed-icon">▶</div><p>${msgs[link.platform]||'无法内嵌'}</p><a href="${link.url}" target="_blank">点击在浏览器打开</a></div>`
+  return `<div class="no-embed"><div class="no-embed-icon">▶</div><p>${msgs[link.platform]||'无法内嵌'}</p><button onclick="openUrl('${link.url}')" style="color:var(--accent);font-size:13px;background:none;cursor:pointer;border:none;font-family:inherit">点击在浏览器打开</button></div>`
 }
 
 function buildInfoHtml(link) {
@@ -998,7 +1050,7 @@ function buildInfoHtml(link) {
 
 function buildActionsHtml(link) {
   return `
-    <a class="act-btn btn-open" href="${link.url}" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>在浏览器打开</a>
+    <button class="act-btn btn-open" onclick="openUrl('${link.url}')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>在浏览器打开</button>
     <button class="act-btn btn-dl" onclick="requestDownload('${link.id}')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>下载视频</button>
     <button class="act-btn btn-del" onclick="deleteLink('${link.id}')">删除此链接</button>`
 }
@@ -1269,6 +1321,33 @@ function cancelDesktopSave() {
   pendingSave = null
   document.getElementById('dp-empty').style.display = 'flex'
   document.getElementById('dp-content').style.display = 'none'
+}
+
+
+// ── CUSTOM SELECT DROPDOWNS ────────────────────────────────────────────────────
+function toggleCsel(type) {
+  const el = document.getElementById(type === 'plat' ? 'plat-csel' : 'cat-csel')
+  const other = document.getElementById(type === 'plat' ? 'cat-csel' : 'plat-csel')
+  other.classList.remove('open')
+  el.classList.toggle('open')
+}
+function pickPlat(val) {
+  document.getElementById('plat-csel').classList.remove('open')
+  filterPlat(val)
+}
+function pickCat(val) {
+  document.getElementById('cat-csel').classList.remove('open')
+  filterCat(val)
+}
+// Close dropdowns when clicking outside
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('#plat-csel')) document.getElementById('plat-csel')?.classList.remove('open')
+  if (!e.target.closest('#cat-csel')) document.getElementById('cat-csel')?.classList.remove('open')
+})
+
+
+function openUrl(url) {
+  window.open(url, '_blank', 'noopener,noreferrer')
 }
 
 // ── UTILS ─────────────────────────────────────────────────────────────────────
