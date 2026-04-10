@@ -66,7 +66,7 @@ a { text-decoration: none; }
 .ecard { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: transform .1s; }
 .ecard:active { transform: scale(.97); }
 .ecard.selected { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-bg); }
-.ecard-thumb { aspect-ratio: 16/9; background: var(--surface2); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+.ecard-thumb { aspect-ratio: 16/9; background: #111; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 .ecard-thumb img { width: 100%; height: 100%; object-fit: cover; }
 .thumb-play { position: absolute; width: 28px; height: 28px; border-radius: 50%; background: rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center; }
 .thumb-tri { width: 0; height: 0; border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-left: 9px solid white; margin-left: 2px; }
@@ -256,7 +256,7 @@ a { text-decoration: none; }
       <h1>私人<span>空间</span></h1>
       <div class="sb-logo-sub">
         <p id="sb-count">1 条已保存</p>
-        <span class="sb-ver" id="sb-ver">v1.06</span>
+        <span class="sb-ver" id="sb-ver">v1.07</span>
       </div>
     </div>
     <div class="sb-sec">
@@ -354,7 +354,7 @@ a { text-decoration: none; }
       <div class="header-top">
         <div class="logo">私人<span>空间</span></div>
         <div class="header-right">
-          <span class="ver-badge" id="mob-ver">v1.06</span>
+          <span class="ver-badge" id="mob-ver">v1.07</span>
           <button class="icon-btn" onclick="openSettings()" title="设定">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
           </button>
@@ -482,7 +482,7 @@ a { text-decoration: none; }
         <div class="sg-desc" style="margin-top:4px">Token 需要 <strong>repo</strong> 权限。</div>
       </div>
       <button class="save-cfg-btn" onclick="saveSettings()">保存设定</button>
-      <div id="modal-ver" style="text-align:center;font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:-10px">v1.06</div>
+      <div id="modal-ver" style="text-align:center;font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:-10px">v1.07</div>
       <div class="divider"></div>
       <div class="sg">
         <div class="sg-label">推送到 GitHub</div>
@@ -490,7 +490,7 @@ a { text-decoration: none; }
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"></path></svg>
           推送到 GitHub
         </button>
-        <div class="push-status loading" id="push-status">正在推送 v1.06...</div>
+        <div class="push-status loading" id="push-status">正在推送 v1.07...</div>
       </div>
     </div>
   </div>
@@ -505,9 +505,9 @@ const EMBEDDABLE = ['youtube','facebook']
 function getConfig() { try { return JSON.parse(localStorage.getItem('siren-config')||'{}') } catch { return {} } }
 function saveConfig(c) { localStorage.setItem('siren-config', JSON.stringify(c)) }
 function getApiKey() { return getConfig().geminiKey || '' }
-function getVersion() { return getConfig().version || 'v1.06' }
+function getVersion() { return getConfig().version || 'v1.07' }
 function bumpVersion(v) {
-  const m = v.match(/v(\d+)\.(\d+)/); if (!m) return 'v1.06'
+  const m = v.match(/v(\d+)\.(\d+)/); if (!m) return 'v1.07'
   let [,maj,min] = m; min = parseInt(min)+1
   if (min > 99) { maj = parseInt(maj)+1; min = 0 }
   return `v${maj}.${String(min).padStart(2,'0')}`
@@ -659,11 +659,13 @@ function addNewTagInSheet() {
 function confirmSave() {
   if (!pendingSave) return
   const id = crypto.randomUUID()
+  const thumbnail = getPlatformThumbnail(pendingSave.url, pendingSave.platform)
   const link = {
     id, url: pendingSave.url, title: pendingSave.title,
     platform: pendingSave.platform, embedUrl: pendingSave.embedUrl,
     category: tsSelectedCat, tags: [...tsSelectedTags],
-    addedAt: new Date().toISOString(), notes: ''
+    addedAt: new Date().toISOString(), notes: '',
+    thumbnail: thumbnail || ''
   }
   state.links.unshift(link)
   saveState()
@@ -677,6 +679,26 @@ function cancelTagSheet() {
   document.getElementById('ts-overlay').classList.remove('open')
   document.getElementById('tag-sheet').classList.remove('open')
   document.body.style.overflow=''
+}
+
+// ── THUMBNAIL EXTRACTION ─────────────────────────────────────────────────────
+function getYoutubeThumbnail(url) {
+  try {
+    const p = new URL(url)
+    let id = p.searchParams.get('v')
+    if (!id && p.hostname.includes('youtu.be')) id = p.pathname.slice(1)
+    if (!id) { const m = p.pathname.match(/\/shorts\/([^/?]+)/); if(m) id = m[1] }
+    if (id) return `https://img.youtube.com/vi/${id}/hqdefault.jpg`
+  } catch {}
+  return null
+}
+
+function getDouyinThumbnail(url) { return null } // Douyin blocks hotlinking
+function getTiktokThumbnail(url) { return null }  // TikTok blocks hotlinking
+
+function getPlatformThumbnail(url, platform) {
+  if (platform === 'youtube') return getYoutubeThumbnail(url)
+  return null
 }
 
 // ── AI CLASSIFY (title only, no category) ────────────────────────────────────
@@ -782,10 +804,10 @@ function render() {
     html += `<div class="section-label">可播放</div><div class="embed-grid">`
     html += embedLinks.map(l=>`
       <div class="ecard${state.selectedId===l.id?' selected':''}" onclick="openLink('${l.id}')">
-        <div class="ecard-thumb">
-          ${l.thumbnail?`<img src="${l.thumbnail}" loading="lazy"/>`:''}
-          <div class="thumb-play"><div class="thumb-tri"></div></div>
-          <span class="plat-badge" style="background:${PLAT_COLORS[l.platform]}">${PLAT_LABELS[l.platform]}</span>
+        <div class="ecard-thumb" style="background:#111">
+          ${l.thumbnail ? `<img src="${l.thumbnail}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"/>` : `<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center"><svg width="32" height="32" viewBox="0 0 24 24" fill="rgba(255,255,255,.15)"><rect width="24" height="24" rx="4"/><polygon points="10,8 16,12 10,16" fill="white"/></svg></div>`}
+          <div class="thumb-play" style="position:absolute"><div class="thumb-tri"></div></div>
+          <span class="plat-badge" style="background:${PLAT_COLORS[l.platform]};position:absolute;top:5px;left:5px">${PLAT_LABELS[l.platform]}</span>
         </div>
         <div class="ecard-body">
           <div class="ecard-title">${esc(l.title)}</div>
@@ -918,12 +940,17 @@ function openSheet(link) {
   document.getElementById('sheet').classList.add('open')
   document.getElementById('sheet-overlay').classList.add('open')
   document.body.style.overflow='hidden'
+  history.pushState({sheet:true}, '')
 }
 function closeSheet() {
+  // Clear iframe to pause any playing video
+  document.getElementById('sheet-embed').innerHTML=''
   document.getElementById('sheet').classList.remove('open')
   document.getElementById('sheet-overlay').classList.remove('open')
   document.body.style.overflow=''
-  state.selectedId=null; render()
+  state.selectedId=null
+  tapCount={}
+  render()
 }
 
 function openDesktopPanel(link) {
@@ -1118,6 +1145,19 @@ function fmtDate(iso) {
 loadState()
 render()
 document.getElementById('settings-overlay').classList.remove('open')
+
+// Handle Android back button
+window.addEventListener('popstate', function(e) {
+  if (document.getElementById('sheet').classList.contains('open')) {
+    closeSheet()
+  } else if (document.getElementById('tag-sheet').classList.contains('open')) {
+    cancelTagSheet()
+  } else if (document.getElementById('settings-overlay').classList.contains('open')) {
+    closeSettings()
+  } else if (document.getElementById('cat-picker').classList.contains('open')) {
+    closeCatPicker()
+  }
+})
 </script>
 
 
