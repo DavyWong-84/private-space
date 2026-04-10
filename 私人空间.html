@@ -922,6 +922,8 @@ function showPushStatus(type, msg) {
 // ── INIT ──────────────────────────────────────────────────────────────────────
 loadState()
 render()
+// Ensure settings modal is always closed on load
+document.getElementById('settings-overlay').classList.remove('open')
 </script>
 
 
