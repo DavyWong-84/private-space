@@ -340,6 +340,8 @@ a { text-decoration: none; }
 .sset-section.open .sset-body { display: block; }
 .sset-divider { height: 1px; background: var(--border); margin: 0; }
 .sset-add-btn { height: 36px; padding: 0 14px; background: var(--accent); color: #fff; border-radius: var(--radius-sm); font-size: 12px; font-weight: 500; white-space: nowrap; cursor: pointer; border: none; font-family: inherit; }
+.toast { position: fixed; bottom: calc(80px + env(safe-area-inset-bottom,0px)); left: 50%; transform: translateX(-50%) translateY(20px); background: #1a1916; color: #fff; font-size: 13px; font-weight: 500; padding: 10px 20px; border-radius: 99px; opacity: 0; transition: opacity .2s, transform .2s; z-index: 9999; pointer-events: none; white-space: nowrap; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
@@ -351,7 +353,7 @@ a { text-decoration: none; }
       <h1>私人<span>空间</span></h1>
       <div class="sb-logo-sub">
         <p id="sb-count">1 条已保存</p>
-        <span class="sb-ver" id="sb-ver">v1.31</span>
+        <span class="sb-ver" id="sb-ver">v1.33</span>
       </div>
     </div>
     <div class="sb-sec">
@@ -374,13 +376,13 @@ a { text-decoration: none; }
       <span class="snav-drag" title="拖动排序">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"></circle><circle cx="7" cy="2" r="1.2"></circle><circle cx="3" cy="7" r="1.2"></circle><circle cx="7" cy="7" r="1.2"></circle><circle cx="3" cy="12" r="1.2"></circle><circle cx="7" cy="12" r="1.2"></circle></svg>
       </span>
-      <button class="snav" data-fc="IT / Tech" onclick="filterCat('IT / Tech')">
-        <span class="snav-dot" style="background:#6b7280"></span>IT / Tech<span class="snav-count">0</span>
+      <button class="snav" data-fc="IT 科技" onclick="filterCat('IT 科技')">
+        <span class="snav-dot" style="background:#16a34a"></span>IT 科技<span class="snav-count">0</span>
       </button>
-      <button class="snav-edit" onclick="openCatEditor('IT / Tech')" title="编辑分类">
+      <button class="snav-edit" onclick="openCatEditor('IT 科技')" title="编辑分类">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
       </button>
-      <button class="snav-del" onclick="deleteCat('IT / Tech')" title="删除分类">
+      <button class="snav-del" onclick="deleteCat('IT 科技')" title="删除分类">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
       </button>
     </div><div class="snav-wrap" draggable="true" data-cat-idx="1" ondragstart="catDragStart(event,1)" ondragover="catDragOver(event,1)" ondragleave="catDragLeave(event)" ondrop="catDrop(event,1)" ondragend="catDragEnd(event)">
@@ -388,7 +390,7 @@ a { text-decoration: none; }
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"></circle><circle cx="7" cy="2" r="1.2"></circle><circle cx="3" cy="7" r="1.2"></circle><circle cx="7" cy="7" r="1.2"></circle><circle cx="3" cy="12" r="1.2"></circle><circle cx="7" cy="12" r="1.2"></circle></svg>
       </span>
       <button class="snav" data-fc="生活" onclick="filterCat('生活')">
-        <span class="snav-dot" style="background:#6b7280"></span>生活<span class="snav-count">0</span>
+        <span class="snav-dot" style="background:#7c3aed"></span>生活<span class="snav-count">0</span>
       </button>
       <button class="snav-edit" onclick="openCatEditor('生活')" title="编辑分类">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
@@ -400,21 +402,8 @@ a { text-decoration: none; }
       <span class="snav-drag" title="拖动排序">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"></circle><circle cx="7" cy="2" r="1.2"></circle><circle cx="3" cy="7" r="1.2"></circle><circle cx="7" cy="7" r="1.2"></circle><circle cx="3" cy="12" r="1.2"></circle><circle cx="7" cy="12" r="1.2"></circle></svg>
       </span>
-      <button class="snav" data-fc="健康" onclick="filterCat('健康')">
-        <span class="snav-dot" style="background:#6b7280"></span>健康<span class="snav-count">0</span>
-      </button>
-      <button class="snav-edit" onclick="openCatEditor('健康')" title="编辑分类">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-      </button>
-      <button class="snav-del" onclick="deleteCat('健康')" title="删除分类">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-      </button>
-    </div><div class="snav-wrap" draggable="true" data-cat-idx="3" ondragstart="catDragStart(event,3)" ondragover="catDragOver(event,3)" ondragleave="catDragLeave(event)" ondrop="catDrop(event,3)" ondragend="catDragEnd(event)">
-      <span class="snav-drag" title="拖动排序">
-        <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"></circle><circle cx="7" cy="2" r="1.2"></circle><circle cx="3" cy="7" r="1.2"></circle><circle cx="7" cy="7" r="1.2"></circle><circle cx="3" cy="12" r="1.2"></circle><circle cx="7" cy="12" r="1.2"></circle></svg>
-      </span>
       <button class="snav" data-fc="美食" onclick="filterCat('美食')">
-        <span class="snav-dot" style="background:#6b7280"></span>美食<span class="snav-count">0</span>
+        <span class="snav-dot" style="background:#475569"></span>美食<span class="snav-count">0</span>
       </button>
       <button class="snav-edit" onclick="openCatEditor('美食')" title="编辑分类">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
@@ -422,43 +411,30 @@ a { text-decoration: none; }
       <button class="snav-del" onclick="deleteCat('美食')" title="删除分类">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
       </button>
-    </div><div class="snav-wrap" draggable="true" data-cat-idx="4" ondragstart="catDragStart(event,4)" ondragover="catDragOver(event,4)" ondragleave="catDragLeave(event)" ondrop="catDrop(event,4)" ondragend="catDragEnd(event)">
-      <span class="snav-drag" title="拖动排序">
-        <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"></circle><circle cx="7" cy="2" r="1.2"></circle><circle cx="3" cy="7" r="1.2"></circle><circle cx="7" cy="7" r="1.2"></circle><circle cx="3" cy="12" r="1.2"></circle><circle cx="7" cy="12" r="1.2"></circle></svg>
-      </span>
-      <button class="snav" data-fc="鼻子 " onclick="filterCat('鼻子 ')">
-        <span class="snav-dot" style="background:#6b7280"></span>鼻子 <span class="snav-count">0</span>
-      </button>
-      <button class="snav-edit" onclick="openCatEditor('鼻子 ')" title="编辑分类">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-      </button>
-      <button class="snav-del" onclick="deleteCat('鼻子 ')" title="删除分类">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-      </button>
-    </div><div class="snav-wrap" draggable="true" data-cat-idx="5" ondragstart="catDragStart(event,5)" ondragover="catDragOver(event,5)" ondragleave="catDragLeave(event)" ondrop="catDrop(event,5)" ondragend="catDragEnd(event)">
-      <span class="snav-drag" title="拖动排序">
-        <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"></circle><circle cx="7" cy="2" r="1.2"></circle><circle cx="3" cy="7" r="1.2"></circle><circle cx="7" cy="7" r="1.2"></circle><circle cx="3" cy="12" r="1.2"></circle><circle cx="7" cy="12" r="1.2"></circle></svg>
-      </span>
-      <button class="snav" data-fc="其他" onclick="filterCat('其他')">
-        <span class="snav-dot" style="background:#6b7280"></span>其他<span class="snav-count">0</span>
-      </button>
-      <button class="snav-edit" onclick="openCatEditor('其他')" title="编辑分类">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-      </button>
-      <button class="snav-del" onclick="deleteCat('其他')" title="删除分类">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-      </button>
-    </div><div class="snav-wrap" draggable="true" data-cat-idx="6" ondragstart="catDragStart(event,6)" ondragover="catDragOver(event,6)" ondragleave="catDragLeave(event)" ondrop="catDrop(event,6)" ondragend="catDragEnd(event)">
+    </div><div class="snav-wrap" draggable="true" data-cat-idx="3" ondragstart="catDragStart(event,3)" ondragover="catDragOver(event,3)" ondragleave="catDragLeave(event)" ondrop="catDrop(event,3)" ondragend="catDragEnd(event)">
       <span class="snav-drag" title="拖动排序">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"></circle><circle cx="7" cy="2" r="1.2"></circle><circle cx="3" cy="7" r="1.2"></circle><circle cx="7" cy="7" r="1.2"></circle><circle cx="3" cy="12" r="1.2"></circle><circle cx="7" cy="12" r="1.2"></circle></svg>
       </span>
       <button class="snav" data-fc="个人 IP" onclick="filterCat('个人 IP')">
-        <span class="snav-dot" style="background:#6b7280"></span>个人 IP<span class="snav-count">1</span>
+        <span class="snav-dot" style="background:#0284c7"></span>个人 IP<span class="snav-count">1</span>
       </button>
       <button class="snav-edit" onclick="openCatEditor('个人 IP')" title="编辑分类">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
       </button>
       <button class="snav-del" onclick="deleteCat('个人 IP')" title="删除分类">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div><div class="snav-wrap" draggable="true" data-cat-idx="4" ondragstart="catDragStart(event,4)" ondragover="catDragOver(event,4)" ondragleave="catDragLeave(event)" ondrop="catDrop(event,4)" ondragend="catDragEnd(event)">
+      <span class="snav-drag" title="拖动排序">
+        <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"></circle><circle cx="7" cy="2" r="1.2"></circle><circle cx="3" cy="7" r="1.2"></circle><circle cx="7" cy="7" r="1.2"></circle><circle cx="3" cy="12" r="1.2"></circle><circle cx="7" cy="12" r="1.2"></circle></svg>
+      </span>
+      <button class="snav" data-fc="鼻子" onclick="filterCat('鼻子')">
+        <span class="snav-dot" style="background:#1a7a4a"></span>鼻子<span class="snav-count">0</span>
+      </button>
+      <button class="snav-edit" onclick="openCatEditor('鼻子')" title="编辑分类">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="snav-del" onclick="deleteCat('鼻子')" title="删除分类">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
       </button>
     </div></div>
@@ -471,7 +447,7 @@ a { text-decoration: none; }
       <div class="header-top">
         <div class="logo">私人<span>空间</span></div>
         <div class="header-right">
-          <span class="ver-badge" id="mob-ver">v1.31</span>
+          <span class="ver-badge" id="mob-ver">v1.33</span>
           <button class="icon-btn" onclick="openSettings()" title="设定">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
           </button>
@@ -503,7 +479,7 @@ a { text-decoration: none; }
         <div class="csel" id="cat-csel" onclick="toggleCsel('cat')">
           <span id="cat-csel-label">全部分类</span>
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
-          <div class="csel-drop" id="cat-csel-drop"><div class="csel-opt selected" onclick="event.stopPropagation();pickCat('all')"><span style="display:flex;align-items:center;gap:8px"> 全部分类</span></div><div class="csel-opt" onclick="event.stopPropagation();pickCat('IT / Tech')"><span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#6b7280;display:inline-block"></span> IT / Tech</span></div><div class="csel-opt" onclick="event.stopPropagation();pickCat('生活')"><span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#6b7280;display:inline-block"></span> 生活</span></div><div class="csel-opt" onclick="event.stopPropagation();pickCat('健康')"><span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#6b7280;display:inline-block"></span> 健康</span></div><div class="csel-opt" onclick="event.stopPropagation();pickCat('美食')"><span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#6b7280;display:inline-block"></span> 美食</span></div><div class="csel-opt" onclick="event.stopPropagation();pickCat('鼻子 ')"><span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#6b7280;display:inline-block"></span> 鼻子 </span></div><div class="csel-opt" onclick="event.stopPropagation();pickCat('其他')"><span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#6b7280;display:inline-block"></span> 其他</span></div><div class="csel-opt" onclick="event.stopPropagation();pickCat('个人 IP')"><span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#6b7280;display:inline-block"></span> 个人 IP</span></div></div>
+          <div class="csel-drop" id="cat-csel-drop"><div class="csel-opt selected" onclick="event.stopPropagation();pickCat('all')"><span style="display:flex;align-items:center;gap:8px"> 全部分类</span></div><div class="csel-opt" onclick="event.stopPropagation();pickCat('IT 科技')"><span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#16a34a;display:inline-block"></span> IT 科技</span></div><div class="csel-opt" onclick="event.stopPropagation();pickCat('生活')"><span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#7c3aed;display:inline-block"></span> 生活</span></div><div class="csel-opt" onclick="event.stopPropagation();pickCat('美食')"><span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#475569;display:inline-block"></span> 美食</span></div><div class="csel-opt" onclick="event.stopPropagation();pickCat('个人 IP')"><span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#0284c7;display:inline-block"></span> 个人 IP</span></div><div class="csel-opt" onclick="event.stopPropagation();pickCat('鼻子')"><span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#1a7a4a;display:inline-block"></span> 鼻子</span></div></div>
         </div>
       </div>
     </div>
@@ -612,7 +588,7 @@ a { text-decoration: none; }
 
 
 <!-- CAT EDITOR MODAL -->
-<div class="modal-overlay" id="cat-editor-overlay" onclick="closeCatEditorOutside(event)">
+<div class="modal-overlay" id="cat-editor-overlay" onclick="closeCatEditorOutside(event)" style="z-index:500">
   <div class="modal" style="max-width:340px">
     <div class="modal-hdr">
       <span class="modal-ttl">编辑分类</span>
@@ -639,13 +615,13 @@ a { text-decoration: none; }
 
 <!-- SETTINGS MODAL -->
 <div class="modal-overlay open" id="settings-overlay" onclick="closeSettingsOutside(event)">
-  <div class="modal">
+  <div class="modal" style="display:flex;flex-direction:column;max-height:90dvh">
     <div class="modal-hdr">
       <span class="modal-ttl">设定</span>
-      <span id="modal-ver" style="font-size:10px;color:var(--text3);font-family:'DM Mono',monospace">v1.31</span>
+      <span id="modal-ver" style="font-size:10px;color:var(--text3);font-family:'DM Mono',monospace">v1.33</span>
       <button class="close-btn" onclick="closeSettings()">✕</button>
     </div>
-    <div class="modal-body" style="gap:0;padding:0">
+    <div class="modal-body" style="gap:0;padding:0;overflow-y:auto;flex:1">
 
       <!-- SECTION: AI -->
       <div class="sset-section" id="sset-ai">
@@ -678,7 +654,7 @@ a { text-decoration: none; }
             </div>
             <div>
               <div class="sset-title">分类管理</div>
-              <div class="sset-sub" id="sset-cats-sub">7 个分类</div>
+              <div class="sset-sub" id="sset-cats-sub">5 个分类</div>
             </div>
           </div>
           <svg class="sset-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
@@ -686,39 +662,29 @@ a { text-decoration: none; }
         <div class="sset-body" id="sset-cats-body">
           <div id="settings-cat-list" style="display:flex;flex-direction:column;gap:5px;margin-bottom:10px">
     <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--surface2);border-radius:var(--radius-sm)">
-      <div onclick="openCatEditor('IT / Tech')" style="width:22px;height:22px;border-radius:6px;background:#6b7280;cursor:pointer;flex-shrink:0;border:2px solid rgba(0,0,0,.08)" title="点击改颜色"></div>
-      <input value="IT / Tech" onchange="settingsRenamecat(0,this.value)" onblur="settingsRenamecat(0,this.value)" style="flex:1;background:none;border:none;outline:none;font-size:13px;color:var(--text);font-family:inherit;min-width:0">
-      <button onclick="settingsConfirmDelete('IT / Tech')" style="color:var(--text3);font-size:18px;line-height:1;background:none;border:none;cursor:pointer;padding:0 2px;flex-shrink:0" title="删除">×</button>
+      <div onclick="openCatEditor('IT 科技')" style="width:22px;height:22px;border-radius:6px;background:#16a34a;cursor:pointer;flex-shrink:0;border:2px solid rgba(0,0,0,.08)" title="点击改颜色"></div>
+      <input value="IT 科技" onchange="settingsRenamecat(0,this.value)" onblur="settingsRenamecat(0,this.value)" style="flex:1;background:none;border:none;outline:none;font-size:13px;color:var(--text);font-family:inherit;min-width:0">
+      <button onclick="settingsConfirmDelete('IT 科技')" style="color:var(--text3);font-size:18px;line-height:1;background:none;border:none;cursor:pointer;padding:0 2px;flex-shrink:0" title="删除">×</button>
     </div>
     <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--surface2);border-radius:var(--radius-sm)">
-      <div onclick="openCatEditor('生活')" style="width:22px;height:22px;border-radius:6px;background:#6b7280;cursor:pointer;flex-shrink:0;border:2px solid rgba(0,0,0,.08)" title="点击改颜色"></div>
+      <div onclick="openCatEditor('生活')" style="width:22px;height:22px;border-radius:6px;background:#7c3aed;cursor:pointer;flex-shrink:0;border:2px solid rgba(0,0,0,.08)" title="点击改颜色"></div>
       <input value="生活" onchange="settingsRenamecat(1,this.value)" onblur="settingsRenamecat(1,this.value)" style="flex:1;background:none;border:none;outline:none;font-size:13px;color:var(--text);font-family:inherit;min-width:0">
       <button onclick="settingsConfirmDelete('生活')" style="color:var(--text3);font-size:18px;line-height:1;background:none;border:none;cursor:pointer;padding:0 2px;flex-shrink:0" title="删除">×</button>
     </div>
     <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--surface2);border-radius:var(--radius-sm)">
-      <div onclick="openCatEditor('健康')" style="width:22px;height:22px;border-radius:6px;background:#6b7280;cursor:pointer;flex-shrink:0;border:2px solid rgba(0,0,0,.08)" title="点击改颜色"></div>
-      <input value="健康" onchange="settingsRenamecat(2,this.value)" onblur="settingsRenamecat(2,this.value)" style="flex:1;background:none;border:none;outline:none;font-size:13px;color:var(--text);font-family:inherit;min-width:0">
-      <button onclick="settingsConfirmDelete('健康')" style="color:var(--text3);font-size:18px;line-height:1;background:none;border:none;cursor:pointer;padding:0 2px;flex-shrink:0" title="删除">×</button>
-    </div>
-    <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--surface2);border-radius:var(--radius-sm)">
-      <div onclick="openCatEditor('美食')" style="width:22px;height:22px;border-radius:6px;background:#6b7280;cursor:pointer;flex-shrink:0;border:2px solid rgba(0,0,0,.08)" title="点击改颜色"></div>
-      <input value="美食" onchange="settingsRenamecat(3,this.value)" onblur="settingsRenamecat(3,this.value)" style="flex:1;background:none;border:none;outline:none;font-size:13px;color:var(--text);font-family:inherit;min-width:0">
+      <div onclick="openCatEditor('美食')" style="width:22px;height:22px;border-radius:6px;background:#475569;cursor:pointer;flex-shrink:0;border:2px solid rgba(0,0,0,.08)" title="点击改颜色"></div>
+      <input value="美食" onchange="settingsRenamecat(2,this.value)" onblur="settingsRenamecat(2,this.value)" style="flex:1;background:none;border:none;outline:none;font-size:13px;color:var(--text);font-family:inherit;min-width:0">
       <button onclick="settingsConfirmDelete('美食')" style="color:var(--text3);font-size:18px;line-height:1;background:none;border:none;cursor:pointer;padding:0 2px;flex-shrink:0" title="删除">×</button>
     </div>
     <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--surface2);border-radius:var(--radius-sm)">
-      <div onclick="openCatEditor('鼻子 / 鼻窦')" style="width:22px;height:22px;border-radius:6px;background:#6b7280;cursor:pointer;flex-shrink:0;border:2px solid rgba(0,0,0,.08)" title="点击改颜色"></div>
-      <input value="鼻子 / 鼻窦" onchange="settingsRenamecat(4,this.value)" onblur="settingsRenamecat(4,this.value)" style="flex:1;background:none;border:none;outline:none;font-size:13px;color:var(--text);font-family:inherit;min-width:0">
-      <button onclick="settingsConfirmDelete('鼻子 / 鼻窦')" style="color:var(--text3);font-size:18px;line-height:1;background:none;border:none;cursor:pointer;padding:0 2px;flex-shrink:0" title="删除">×</button>
-    </div>
-    <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--surface2);border-radius:var(--radius-sm)">
-      <div onclick="openCatEditor('其他')" style="width:22px;height:22px;border-radius:6px;background:#6b7280;cursor:pointer;flex-shrink:0;border:2px solid rgba(0,0,0,.08)" title="点击改颜色"></div>
-      <input value="其他" onchange="settingsRenamecat(5,this.value)" onblur="settingsRenamecat(5,this.value)" style="flex:1;background:none;border:none;outline:none;font-size:13px;color:var(--text);font-family:inherit;min-width:0">
-      <button onclick="settingsConfirmDelete('其他')" style="color:var(--text3);font-size:18px;line-height:1;background:none;border:none;cursor:pointer;padding:0 2px;flex-shrink:0" title="删除">×</button>
-    </div>
-    <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--surface2);border-radius:var(--radius-sm)">
-      <div onclick="openCatEditor('个人 IP')" style="width:22px;height:22px;border-radius:6px;background:#6b7280;cursor:pointer;flex-shrink:0;border:2px solid rgba(0,0,0,.08)" title="点击改颜色"></div>
-      <input value="个人 IP" onchange="settingsRenamecat(6,this.value)" onblur="settingsRenamecat(6,this.value)" style="flex:1;background:none;border:none;outline:none;font-size:13px;color:var(--text);font-family:inherit;min-width:0">
+      <div onclick="openCatEditor('个人 IP')" style="width:22px;height:22px;border-radius:6px;background:#0284c7;cursor:pointer;flex-shrink:0;border:2px solid rgba(0,0,0,.08)" title="点击改颜色"></div>
+      <input value="个人 IP" onchange="settingsRenamecat(3,this.value)" onblur="settingsRenamecat(3,this.value)" style="flex:1;background:none;border:none;outline:none;font-size:13px;color:var(--text);font-family:inherit;min-width:0">
       <button onclick="settingsConfirmDelete('个人 IP')" style="color:var(--text3);font-size:18px;line-height:1;background:none;border:none;cursor:pointer;padding:0 2px;flex-shrink:0" title="删除">×</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--surface2);border-radius:var(--radius-sm)">
+      <div onclick="openCatEditor('鼻子')" style="width:22px;height:22px;border-radius:6px;background:#1a7a4a;cursor:pointer;flex-shrink:0;border:2px solid rgba(0,0,0,.08)" title="点击改颜色"></div>
+      <input value="鼻子" onchange="settingsRenamecat(4,this.value)" onblur="settingsRenamecat(4,this.value)" style="flex:1;background:none;border:none;outline:none;font-size:13px;color:var(--text);font-family:inherit;min-width:0">
+      <button onclick="settingsConfirmDelete('鼻子')" style="color:var(--text3);font-size:18px;line-height:1;background:none;border:none;cursor:pointer;padding:0 2px;flex-shrink:0" title="删除">×</button>
     </div></div>
           <div style="display:flex;gap:8px">
             <input id="settings-new-cat-inp" class="sg-input" placeholder="新分类名称..." style="flex:1;font-size:13px" onkeydown="if(event.key==='Enter')settingsAddCat()">
@@ -779,14 +745,13 @@ a { text-decoration: none; }
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"></path></svg>
             推送到 GitHub
           </button>
-          <div class="push-status loading" id="push-status">正在推送 v1.31...</div>
+          <div class="push-status loading" id="push-status">正在推送 v1.33...</div>
         </div>
       </div>
 
-      <div style="padding:14px 18px">
-        <button class="save-cfg-btn" onclick="saveSettings()">保存设定</button>
-      </div>
-
+    </div>
+    <div style="padding:12px 18px;border-top:1px solid var(--border);background:var(--surface);flex-shrink:0">
+      <button class="save-cfg-btn" onclick="saveSettings()" style="margin:0">保存设定</button>
     </div>
   </div>
 </div>
@@ -807,7 +772,7 @@ const EMBEDDABLE = ['youtube','webpage']
 function getConfig() { try { return JSON.parse(localStorage.getItem('siren-config')||'{}') } catch { return {} } }
 function saveConfig(c) { localStorage.setItem('siren-config', JSON.stringify(c)) }
 function getApiKey() { return getConfig().geminiKey || '' }
-function getVersion() { return getConfig().version || 'v1.31' }
+function getVersion() { return getConfig().version || 'v1.33' }
 
 function getQuickTags() { return getConfig().quickTags || [...DEFAULT_QUICK_TAGS] }
 
@@ -1322,7 +1287,7 @@ function render() {
   if (embedLinks.length>0) {
     html += `<div class="section-label">可播放</div><div class="embed-grid">`
     html += embedLinks.map(l=>`
-      <div class="ecard${state.selectedId===l.id?' selected':''}" onclick="${l.platform==='webpage'?`openUrl('${l.url}')`:`openLink('${l.id}')`}">
+      <div class="ecard${state.selectedId===l.id?' selected':''}" onclick="openLink('${l.id}')">
         <div class="ecard-thumb" style="background:#111">
           ${(()=>{
             const vid = l.platform==='youtube' ? getYouTubeVideoId(l.url) : null
@@ -1446,9 +1411,26 @@ function buildInfoHtml(link) {
 }
 
 function buildActionsHtml(link) {
+  const hasShare = !!navigator.share
   return `
-    <button class="act-btn btn-open" onclick="openUrl('${link.url}')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>在浏览器打开</button>
-    <button class="act-btn btn-dl" onclick="requestDownload('${link.id}')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>下载视频</button>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:7px">
+      <button class="act-btn btn-open" onclick="openUrl('${link.url}')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        打开
+      </button>
+      <button class="act-btn" style="border:1.5px solid var(--border);color:var(--text2)" onclick="copyLink('${link.url}')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        复制链接
+      </button>
+    </div>
+    ${hasShare ? `<button class="act-btn" style="border:1.5px solid var(--border);color:var(--text2);margin-bottom:7px" onclick="shareLink('${link.url}','${esc(link.title)}')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+      分享链接
+    </button>` : ''}
+    <button class="act-btn btn-dl" onclick="requestDownload('${link.id}')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      下载视频
+    </button>
     <button class="act-btn btn-del" onclick="deleteLink('${link.id}')">删除此链接</button>`
 }
 
@@ -1596,8 +1578,7 @@ function saveSettings() {
   cfg.ghRepo=document.getElementById('cfg-gh-repo').value.trim()
   cfg.ghFilename=document.getElementById('cfg-gh-filename').value.trim()||'私人空间.html'
   saveConfig(cfg)
-  const btn=document.querySelector('.save-cfg-btn'); btn.textContent='已保存 ✓'
-  setTimeout(()=>btn.textContent='保存设定',1500)
+  showToast('设定已保存 ✓')
 }
 
 // ── GITHUB PUSH ───────────────────────────────────────────────────────────────
@@ -1906,6 +1887,8 @@ function saveCatEdit() {
   if (newName !== catEditTarget) renameCat(catEditTarget, newName)
   updateCatColor(newName !== catEditTarget ? newName : catEditTarget, catEditColor)
   closeCatEditor()
+  renderSettingsCats()
+  showToast('分类已保存 ✓')
 }
 
 function closeCatEditor() {
@@ -1977,6 +1960,53 @@ function settingsConfirmAddTag() {
   if (!val) return
   if (getQuickTags().includes(val)) { alert('标签已存在'); return }
   addQuickTag()
+}
+
+
+// ── TOAST ──────────────────────────────────────────────────────────────────────
+let toastTimer = null
+function showToast(msg) {
+  let el = document.getElementById('app-toast')
+  if (!el) {
+    el = document.createElement('div')
+    el.id = 'app-toast'
+    el.className = 'toast'
+    document.body.appendChild(el)
+  }
+  el.textContent = msg
+  el.classList.add('show')
+  clearTimeout(toastTimer)
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2000)
+}
+
+
+// ── SHARE & COPY ──────────────────────────────────────────────────────────────
+async function copyLink(url) {
+  try {
+    await navigator.clipboard.writeText(url)
+    showToast('链接已复制 ✓')
+  } catch {
+    // Fallback for older browsers
+    const el = document.createElement('textarea')
+    el.value = url
+    el.style.position = 'fixed'
+    el.style.opacity = '0'
+    document.body.appendChild(el)
+    el.select()
+    document.execCommand('copy')
+    document.body.removeChild(el)
+    showToast('链接已复制 ✓')
+  }
+}
+
+async function shareLink(url, title) {
+  try {
+    await navigator.share({ title: title || '私人空间', url })
+  } catch (e) {
+    if (e.name !== 'AbortError') {
+      copyLink(url)
+    }
+  }
 }
 
 // ── UTILS ─────────────────────────────────────────────────────────────────────
