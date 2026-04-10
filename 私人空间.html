@@ -77,14 +77,21 @@ a { text-decoration: none; }
 
 /* LINK LIST ROWS (non-embeddable) */
 .link-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
-.lrow { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 9px 10px; display: flex; align-items: center; gap: 9px; cursor: pointer; transition: transform .1s; }
+.lrow { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: transform .1s; }
 .lrow:active { transform: scale(.98); }
 .lrow.selected { border-color: var(--accent); }
-.lrow-icon { width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: #fff; }
-.lrow-info { flex: 1; min-width: 0; }
-.lrow-title { font-size: 12px; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
-.lrow-meta { font-size: 10px; color: var(--text3); }
-.lrow-open { flex-shrink: 0; height: 26px; padding: 0 10px; border-radius: 5px; font-size: 10px; font-weight: 500; color: #fff; display: flex; align-items: center; gap: 4px; }
+.lrow-header { padding: 9px 12px; display: flex; align-items: center; gap: 9px; }
+.lrow-icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.lrow-plat-name { font-size: 14px; font-weight: 500; color: #fff; }
+.lrow-cat-badge { margin-left: auto; font-size: 10px; background: rgba(255,255,255,.2); color: rgba(255,255,255,.9); padding: 2px 8px; border-radius: 99px; }
+.lrow-body { padding: 10px 12px 10px; }
+.lrow-title { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 7px; }
+.lrow-footer { display: flex; align-items: center; justify-content: space-between; }
+.lrow-tags { display: flex; gap: 4px; flex-wrap: wrap; }
+.lrow-tag { font-size: 10px; background: var(--surface2); color: var(--text2); padding: 2px 7px; border-radius: 99px; border: 1px solid var(--border); }
+.lrow-right { display: flex; align-items: center; gap: 7px; }
+.lrow-date { font-size: 10px; color: var(--text3); }
+.lrow-open { flex-shrink: 0; height: 28px; padding: 0 12px; border-radius: 6px; font-size: 11px; font-weight: 500; color: #fff; display: flex; align-items: center; gap: 5px; }
 
 /* EMPTY STATE */
 .empty { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 180px; gap: 6px; }
@@ -227,6 +234,17 @@ a { text-decoration: none; }
   .modal-overlay { align-items: center; }
   .modal { border-radius: 16px; max-height: 80vh; }
 }
+
+/* DRAG & DROP CATEGORIES */
+.snav-wrap { position: relative; display: flex; align-items: center; }
+.snav-wrap .snav { flex: 1; }
+.snav-drag { cursor: grab; color: var(--text3); padding: 4px 3px; display: flex; align-items: center; opacity: 0; transition: opacity .15s; flex-shrink: 0; }
+.snav-wrap:hover .snav-drag { opacity: 1; }
+.snav-del { color: var(--text3); padding: 4px 2px; display: flex; align-items: center; opacity: 0; transition: opacity .15s; flex-shrink: 0; }
+.snav-del:hover { color: #e03e2d; }
+.snav-wrap:hover .snav-del { opacity: 1; }
+.snav-wrap.dragging { opacity: .4; }
+.snav-wrap.drag-over { border-top: 2px solid var(--accent); }
 </style>
 </head>
 <body>
@@ -238,7 +256,7 @@ a { text-decoration: none; }
       <h1>私人<span>空间</span></h1>
       <div class="sb-logo-sub">
         <p id="sb-count">1 条已保存</p>
-        <span class="sb-ver" id="sb-ver">v1.04</span>
+        <span class="sb-ver" id="sb-ver">v1.06</span>
       </div>
     </div>
     <div class="sb-sec">
@@ -256,19 +274,77 @@ a { text-decoration: none; }
       <div class="sb-lbl" style="display:flex;align-items:center">分类<button onclick="toggleAddCat()" style="margin-left:auto;font-size:16px;color:var(--text3);cursor:pointer;padding:0 2px">+</button></div>
       <input id="new-cat-inp" class="new-cat-inp" placeholder="新分类..." style="display:none" onkeydown="newCatKey(event)">
       <button class="snav active" data-fc="all" onclick="filterCat('all')"><span class="snav-dot" style="background:#2d5be3"></span>全部<span class="snav-count" id="cc-all">1</span></button>
-      <div id="cat-nav"><button class="snav" data-fc="IT / Tech" onclick="filterCat('IT / Tech')">
-      <span class="snav-dot" style="background:#c8d4f8"></span>IT / Tech<span class="snav-count">0</span>
-    </button><button class="snav" data-fc="生活" onclick="filterCat('生活')">
-      <span class="snav-dot" style="background:#c8d4f8"></span>生活<span class="snav-count">0</span>
-    </button><button class="snav" data-fc="健康" onclick="filterCat('健康')">
-      <span class="snav-dot" style="background:#c8d4f8"></span>健康<span class="snav-count">0</span>
-    </button><button class="snav" data-fc="美食" onclick="filterCat('美食')">
-      <span class="snav-dot" style="background:#c8d4f8"></span>美食<span class="snav-count">0</span>
-    </button><button class="snav" data-fc="鼻子 / 鼻窦" onclick="filterCat('鼻子 / 鼻窦')">
-      <span class="snav-dot" style="background:#c8d4f8"></span>鼻子 / 鼻窦<span class="snav-count">0</span>
-    </button><button class="snav" data-fc="其他" onclick="filterCat('其他')">
-      <span class="snav-dot" style="background:#c8d4f8"></span>其他<span class="snav-count">1</span>
-    </button></div>
+      <div id="cat-nav"><div class="snav-wrap" draggable="true" data-cat-idx="0" ondragstart="catDragStart(event,0)" ondragover="catDragOver(event,0)" ondragleave="catDragLeave(event)" ondrop="catDrop(event,0)" ondragend="catDragEnd(event)">
+      <span class="snav-drag" title="拖动排序">
+        <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"></circle><circle cx="7" cy="2" r="1.2"></circle><circle cx="3" cy="7" r="1.2"></circle><circle cx="7" cy="7" r="1.2"></circle><circle cx="3" cy="12" r="1.2"></circle><circle cx="7" cy="12" r="1.2"></circle></svg>
+      </span>
+      <button class="snav" data-fc="IT / Tech" onclick="filterCat('IT / Tech')">
+        <span class="snav-dot" style="background:#c8d4f8"></span>IT / Tech<span class="snav-count">0</span>
+      </button>
+      <button class="snav-del" onclick="deleteCat('IT / Tech')" title="删除分类">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div><div class="snav-wrap" draggable="true" data-cat-idx="1" ondragstart="catDragStart(event,1)" ondragover="catDragOver(event,1)" ondragleave="catDragLeave(event)" ondrop="catDrop(event,1)" ondragend="catDragEnd(event)">
+      <span class="snav-drag" title="拖动排序">
+        <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"></circle><circle cx="7" cy="2" r="1.2"></circle><circle cx="3" cy="7" r="1.2"></circle><circle cx="7" cy="7" r="1.2"></circle><circle cx="3" cy="12" r="1.2"></circle><circle cx="7" cy="12" r="1.2"></circle></svg>
+      </span>
+      <button class="snav" data-fc="生活" onclick="filterCat('生活')">
+        <span class="snav-dot" style="background:#c8d4f8"></span>生活<span class="snav-count">0</span>
+      </button>
+      <button class="snav-del" onclick="deleteCat('生活')" title="删除分类">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div><div class="snav-wrap" draggable="true" data-cat-idx="2" ondragstart="catDragStart(event,2)" ondragover="catDragOver(event,2)" ondragleave="catDragLeave(event)" ondrop="catDrop(event,2)" ondragend="catDragEnd(event)">
+      <span class="snav-drag" title="拖动排序">
+        <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"></circle><circle cx="7" cy="2" r="1.2"></circle><circle cx="3" cy="7" r="1.2"></circle><circle cx="7" cy="7" r="1.2"></circle><circle cx="3" cy="12" r="1.2"></circle><circle cx="7" cy="12" r="1.2"></circle></svg>
+      </span>
+      <button class="snav" data-fc="健康" onclick="filterCat('健康')">
+        <span class="snav-dot" style="background:#c8d4f8"></span>健康<span class="snav-count">0</span>
+      </button>
+      <button class="snav-del" onclick="deleteCat('健康')" title="删除分类">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div><div class="snav-wrap" draggable="true" data-cat-idx="3" ondragstart="catDragStart(event,3)" ondragover="catDragOver(event,3)" ondragleave="catDragLeave(event)" ondrop="catDrop(event,3)" ondragend="catDragEnd(event)">
+      <span class="snav-drag" title="拖动排序">
+        <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"></circle><circle cx="7" cy="2" r="1.2"></circle><circle cx="3" cy="7" r="1.2"></circle><circle cx="7" cy="7" r="1.2"></circle><circle cx="3" cy="12" r="1.2"></circle><circle cx="7" cy="12" r="1.2"></circle></svg>
+      </span>
+      <button class="snav" data-fc="美食" onclick="filterCat('美食')">
+        <span class="snav-dot" style="background:#c8d4f8"></span>美食<span class="snav-count">0</span>
+      </button>
+      <button class="snav-del" onclick="deleteCat('美食')" title="删除分类">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div><div class="snav-wrap" draggable="true" data-cat-idx="4" ondragstart="catDragStart(event,4)" ondragover="catDragOver(event,4)" ondragleave="catDragLeave(event)" ondrop="catDrop(event,4)" ondragend="catDragEnd(event)">
+      <span class="snav-drag" title="拖动排序">
+        <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"></circle><circle cx="7" cy="2" r="1.2"></circle><circle cx="3" cy="7" r="1.2"></circle><circle cx="7" cy="7" r="1.2"></circle><circle cx="3" cy="12" r="1.2"></circle><circle cx="7" cy="12" r="1.2"></circle></svg>
+      </span>
+      <button class="snav" data-fc="鼻子 / 鼻窦" onclick="filterCat('鼻子 / 鼻窦')">
+        <span class="snav-dot" style="background:#c8d4f8"></span>鼻子 / 鼻窦<span class="snav-count">0</span>
+      </button>
+      <button class="snav-del" onclick="deleteCat('鼻子 / 鼻窦')" title="删除分类">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div><div class="snav-wrap" draggable="true" data-cat-idx="5" ondragstart="catDragStart(event,5)" ondragover="catDragOver(event,5)" ondragleave="catDragLeave(event)" ondrop="catDrop(event,5)" ondragend="catDragEnd(event)">
+      <span class="snav-drag" title="拖动排序">
+        <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"></circle><circle cx="7" cy="2" r="1.2"></circle><circle cx="3" cy="7" r="1.2"></circle><circle cx="7" cy="7" r="1.2"></circle><circle cx="3" cy="12" r="1.2"></circle><circle cx="7" cy="12" r="1.2"></circle></svg>
+      </span>
+      <button class="snav" data-fc="其他" onclick="filterCat('其他')">
+        <span class="snav-dot" style="background:#c8d4f8"></span>其他<span class="snav-count">0</span>
+      </button>
+      <button class="snav-del" onclick="deleteCat('其他')" title="删除分类">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div><div class="snav-wrap" draggable="true" data-cat-idx="6" ondragstart="catDragStart(event,6)" ondragover="catDragOver(event,6)" ondragleave="catDragLeave(event)" ondrop="catDrop(event,6)" ondragend="catDragEnd(event)">
+      <span class="snav-drag" title="拖动排序">
+        <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"></circle><circle cx="7" cy="2" r="1.2"></circle><circle cx="3" cy="7" r="1.2"></circle><circle cx="7" cy="7" r="1.2"></circle><circle cx="3" cy="12" r="1.2"></circle><circle cx="7" cy="12" r="1.2"></circle></svg>
+      </span>
+      <button class="snav" data-fc="个人 IP" onclick="filterCat('个人 IP')">
+        <span class="snav-dot" style="background:#c8d4f8"></span>个人 IP<span class="snav-count">1</span>
+      </button>
+      <button class="snav-del" onclick="deleteCat('个人 IP')" title="删除分类">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div></div>
     </div>
   </aside>
 
@@ -278,7 +354,7 @@ a { text-decoration: none; }
       <div class="header-top">
         <div class="logo">私人<span>空间</span></div>
         <div class="header-right">
-          <span class="ver-badge" id="mob-ver">v1.04</span>
+          <span class="ver-badge" id="mob-ver">v1.06</span>
           <button class="icon-btn" onclick="openSettings()" title="设定">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
           </button>
@@ -296,18 +372,30 @@ a { text-decoration: none; }
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
         已识别：<span id="extracted-url" class="url-preview"></span>
       </div>
-      <div class="filter-scroll" id="mob-filters"><button class="ftab active" data-cat="all" onclick="filterCat('all')">全部</button><button class="ftab" data-cat="IT / Tech" onclick="filterCat('IT / Tech')">IT / Tech</button><button class="ftab" data-cat="生活" onclick="filterCat('生活')">生活</button><button class="ftab" data-cat="健康" onclick="filterCat('健康')">健康</button><button class="ftab" data-cat="美食" onclick="filterCat('美食')">美食</button><button class="ftab" data-cat="鼻子 / 鼻窦" onclick="filterCat('鼻子 / 鼻窦')">鼻子 / 鼻窦</button><button class="ftab" data-cat="其他" onclick="filterCat('其他')">其他</button></div>
+      <div class="filter-scroll" id="mob-filters"><button class="ftab active" data-cat="all" onclick="filterCat('all')">全部</button><button class="ftab" data-cat="IT / Tech" onclick="filterCat('IT / Tech')">IT / Tech</button><button class="ftab" data-cat="生活" onclick="filterCat('生活')">生活</button><button class="ftab" data-cat="健康" onclick="filterCat('健康')">健康</button><button class="ftab" data-cat="美食" onclick="filterCat('美食')">美食</button><button class="ftab" data-cat="鼻子 / 鼻窦" onclick="filterCat('鼻子 / 鼻窦')">鼻子 / 鼻窦</button><button class="ftab" data-cat="其他" onclick="filterCat('其他')">其他</button><button class="ftab" data-cat="个人 IP" onclick="filterCat('个人 IP')">个人 IP</button></div>
     </div>
 
     <div class="grid-wrap" id="grid-wrap">
       <div id="card-area"><div class="section-label" style="margin-top:4px">外链平台</div><div class="link-list">
       <div class="lrow" onclick="openLink('ec6c4a2e-6944-46d8-8f64-7da85dda834f')">
-        <div class="lrow-icon" style="background:#1a7a4a"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"></path></svg></div>
-        <div class="lrow-info">
-          <div class="lrow-title">我把这个香港富婆忽悠了 # 老板思维 # IP孵化...</div>
-          <div class="lrow-meta">抖音 · 其他 · 今天</div>
+        <div class="lrow-header" style="background:#1a7a4a">
+          <div class="lrow-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"></path></svg></div>
+          <span class="lrow-plat-name">抖音</span>
+          <span class="lrow-cat-badge">个人 IP</span>
         </div>
-        <a href="https://v.douyin.com/CWqvGhYeSlM/" target="_blank" class="lrow-open" style="background:#1a7a4a" onclick="event.stopPropagation()">开 →</a>
+        <div class="lrow-body">
+          <div class="lrow-title">我把这个香港富婆忽悠了 # 老板思维 # IP孵化...</div>
+          <div class="lrow-footer">
+            <div class="lrow-tags"></div>
+            <div class="lrow-right">
+              <span class="lrow-date">今天</span>
+              <a href="https://v.douyin.com/CWqvGhYeSlM/" target="_blank" class="lrow-open" style="background:#1a7a4a" onclick="event.stopPropagation()">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                打开
+              </a>
+            </div>
+          </div>
+        </div>
       </div></div></div>
       <div class="empty" id="empty-state" style="display:none">
         <div class="empty-icon">🔗</div>
@@ -318,7 +406,7 @@ a { text-decoration: none; }
 
   <!-- DESKTOP RIGHT PANEL -->
   <div class="dp" id="dp">
-    <div class="dp-empty" id="dp-empty"><div class="ei">▶</div><p>点击卡片预览</p></div>
+    <div class="dp-empty" id="dp-empty"><div class="ei">▶</div><p>选择内容预览</p></div>
     <div id="dp-content" style="display:none;flex-direction:column;height:100%">
       <div class="dp-hdr"><span style="font-size:12px;color:var(--text2);font-weight:500">正在查看</span><button class="dp-close" onclick="closePanel()">✕</button></div>
       <div class="dp-body"><div class="dp-embed" id="dp-embed"></div><div class="dp-info" id="dp-info"></div></div>
@@ -394,7 +482,7 @@ a { text-decoration: none; }
         <div class="sg-desc" style="margin-top:4px">Token 需要 <strong>repo</strong> 权限。</div>
       </div>
       <button class="save-cfg-btn" onclick="saveSettings()">保存设定</button>
-      <div id="modal-ver" style="text-align:center;font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:-10px">v1.04</div>
+      <div id="modal-ver" style="text-align:center;font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:-10px">v1.06</div>
       <div class="divider"></div>
       <div class="sg">
         <div class="sg-label">推送到 GitHub</div>
@@ -402,7 +490,7 @@ a { text-decoration: none; }
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"></path></svg>
           推送到 GitHub
         </button>
-        <div class="push-status loading" id="push-status">正在推送 v1.04...</div>
+        <div class="push-status loading" id="push-status">正在推送 v1.06...</div>
       </div>
     </div>
   </div>
@@ -417,9 +505,9 @@ const EMBEDDABLE = ['youtube','facebook']
 function getConfig() { try { return JSON.parse(localStorage.getItem('siren-config')||'{}') } catch { return {} } }
 function saveConfig(c) { localStorage.setItem('siren-config', JSON.stringify(c)) }
 function getApiKey() { return getConfig().geminiKey || '' }
-function getVersion() { return getConfig().version || 'v1.04' }
+function getVersion() { return getConfig().version || 'v1.06' }
 function bumpVersion(v) {
-  const m = v.match(/v(\d+)\.(\d+)/); if (!m) return 'v1.04'
+  const m = v.match(/v(\d+)\.(\d+)/); if (!m) return 'v1.06'
   let [,maj,min] = m; min = parseInt(min)+1
   if (min > 99) { maj = parseInt(maj)+1; min = 0 }
   return `v${maj}.${String(min).padStart(2,'0')}`
@@ -428,6 +516,7 @@ function getQuickTags() { return getConfig().quickTags || [...DEFAULT_QUICK_TAGS
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
 let state = { links:[], categories:[...DEFAULT_CATEGORIES], selectedId:null, filterPlat:'all', filterCat:'all' }
+let tapCount = {} // track tap count per link id
 let pendingSave = null // { url, rawText, title, platform, embedUrl }
 let tsSelectedCat = '其他'
 let tsSelectedTags = []
@@ -651,11 +740,24 @@ function render() {
   document.getElementById('cc-all').textContent=all.length
 
   // sidebar cat nav
-  document.getElementById('cat-nav').innerHTML=state.categories.map(cat=>{
+  document.getElementById('cat-nav').innerHTML=state.categories.map((cat,i)=>{
     const count=all.filter(l=>l.category===cat).length
-    return `<button class="snav${state.filterCat===cat?' active':''}" data-fc="${esc(cat)}" onclick="filterCat('${esc(cat)}')">
-      <span class="snav-dot" style="background:#c8d4f8"></span>${esc(cat)}<span class="snav-count">${count}</span>
-    </button>`
+    return `<div class="snav-wrap" draggable="true" data-cat-idx="${i}"
+      ondragstart="catDragStart(event,${i})"
+      ondragover="catDragOver(event,${i})"
+      ondragleave="catDragLeave(event)"
+      ondrop="catDrop(event,${i})"
+      ondragend="catDragEnd(event)">
+      <span class="snav-drag" title="拖动排序">
+        <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"/><circle cx="7" cy="2" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="12" r="1.2"/><circle cx="7" cy="12" r="1.2"/></svg>
+      </span>
+      <button class="snav${state.filterCat===cat?' active':''}" data-fc="${esc(cat)}" onclick="filterCat('${esc(cat)}')">
+        <span class="snav-dot" style="background:#c8d4f8"></span>${esc(cat)}<span class="snav-count">${count}</span>
+      </button>
+      <button class="snav-del" onclick="deleteCat('${esc(cat)}')" title="删除分类">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>`
   }).join('')
 
   // mobile filter tabs
@@ -697,12 +799,24 @@ function render() {
     html += `<div class="section-label" style="margin-top:${embedLinks.length?'8px':'4px'}">外链平台</div><div class="link-list">`
     html += listLinks.map(l=>`
       <div class="lrow${state.selectedId===l.id?' selected':''}" onclick="openLink('${l.id}')">
-        <div class="lrow-icon" style="background:${PLAT_COLORS[l.platform]}">${platIcon(l.platform)}</div>
-        <div class="lrow-info">
-          <div class="lrow-title">${esc(l.title)}</div>
-          <div class="lrow-meta">${PLAT_LABELS[l.platform]} · ${esc(l.category)}${l.tags.length?' · '+l.tags.slice(0,2).map(t=>'#'+t).join(' '):''} · ${fmtDate(l.addedAt)}</div>
+        <div class="lrow-header" style="background:${PLAT_COLORS[l.platform]}">
+          <div class="lrow-icon">${platIcon(l.platform)}</div>
+          <span class="lrow-plat-name">${PLAT_LABELS[l.platform]}</span>
+          <span class="lrow-cat-badge">${esc(l.category)}</span>
         </div>
-        <a href="${l.url}" target="_blank" class="lrow-open" style="background:${PLAT_COLORS[l.platform]}" onclick="event.stopPropagation()">开 →</a>
+        <div class="lrow-body">
+          <div class="lrow-title">${esc(l.title)}</div>
+          <div class="lrow-footer">
+            <div class="lrow-tags">${l.tags.slice(0,3).map(t=>`<span class="lrow-tag">#${esc(t)}</span>`).join('')}</div>
+            <div class="lrow-right">
+              <span class="lrow-date">${fmtDate(l.addedAt)}</span>
+              <a href="${l.url}" target="_blank" class="lrow-open" style="background:${PLAT_COLORS[l.platform]}" onclick="event.stopPropagation()">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                打开
+              </a>
+            </div>
+          </div>
+        </div>
       </div>`).join('')
     html += '</div>'
   }
@@ -725,10 +839,37 @@ function platIcon(p) { return PLAT_ICONS[p] || PLAT_ICONS.other }
 
 // ── OPEN LINK ─────────────────────────────────────────────────────────────────
 function openLink(id) {
-  state.selectedId=id
+  const link = state.links.find(l=>l.id===id); if(!link) return
+  const isEmbed = EMBEDDABLE.includes(link.platform)
+  const isMobile = window.innerWidth < 768
+
+  if (isEmbed && isMobile) {
+    // First tap: inline preview in sheet WITHOUT autoplay
+    // Second tap: open with autoplay / fullscreen
+    tapCount[id] = (tapCount[id] || 0) + 1
+    if (tapCount[id] === 1) {
+      state.selectedId = id
+      render()
+      // Open sheet with poster (no autoplay)
+      const previewEmbed = link.embedUrl ? link.embedUrl.replace('autoplay=1','autoplay=0') : null
+      const previewLink = {...link, embedUrl: previewEmbed}
+      openSheet(previewLink)
+      // Reset tap after 2s
+      setTimeout(() => { tapCount[id] = 0 }, 2000)
+      return
+    } else {
+      tapCount[id] = 0
+      // Second tap: open with autoplay
+      state.selectedId = id
+      render()
+      openSheet(link)
+      return
+    }
+  }
+
+  state.selectedId = id
   render()
-  const link=state.links.find(l=>l.id===id); if(!link) return
-  if (window.innerWidth<768) openSheet(link)
+  if (isMobile) openSheet(link)
   else openDesktopPanel(link)
 }
 
@@ -914,6 +1055,56 @@ async function pushToGitHub() {
   } finally { btn.disabled=false }
 }
 function showPushStatus(type,msg) { const el=document.getElementById('push-status'); el.className='push-status '+type; el.textContent=msg }
+
+
+// ── CATEGORY DRAG & DROP ──────────────────────────────────────────────────────
+let dragSrcIdx = null
+
+function catDragStart(e, idx) {
+  dragSrcIdx = idx
+  e.dataTransfer.effectAllowed = 'move'
+  setTimeout(() => e.currentTarget.classList.add('dragging'), 0)
+}
+
+function catDragOver(e, idx) {
+  e.preventDefault()
+  e.dataTransfer.dropEffect = 'move'
+  document.querySelectorAll('.snav-wrap').forEach(el => el.classList.remove('drag-over'))
+  if (idx !== dragSrcIdx) e.currentTarget.classList.add('drag-over')
+}
+
+function catDragLeave(e) {
+  e.currentTarget.classList.remove('drag-over')
+}
+
+function catDrop(e, targetIdx) {
+  e.preventDefault()
+  if (dragSrcIdx === null || dragSrcIdx === targetIdx) return
+  const cats = [...state.categories]
+  const [moved] = cats.splice(dragSrcIdx, 1)
+  cats.splice(targetIdx, 0, moved)
+  state.categories = cats
+  saveState()
+  render()
+}
+
+function catDragEnd(e) {
+  dragSrcIdx = null
+  document.querySelectorAll('.snav-wrap').forEach(el => {
+    el.classList.remove('dragging', 'drag-over')
+  })
+}
+
+function deleteCat(cat) {
+  if (state.links.filter(l => l.category === cat).length > 0) {
+    if (!confirm(`「${cat}」下有链接，删除后会归到「其他」，确定吗？`)) return
+    state.links = state.links.map(l => l.category === cat ? {...l, category: '其他'} : l)
+  }
+  state.categories = state.categories.filter(c => c !== cat)
+  if (state.filterCat === cat) state.filterCat = 'all'
+  saveState()
+  render()
+}
 
 // ── UTILS ─────────────────────────────────────────────────────────────────────
 function esc(str) { return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;') }
