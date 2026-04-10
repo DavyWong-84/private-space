@@ -1,11 +1,12 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<!DOCTYPE html><html lang="zh"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>私人空间</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #f5f4f0;
@@ -323,6 +324,22 @@ a { text-decoration: none; }
 .ecard:hover .thumb-static { opacity:0; }
 .preview-badge { position:absolute;bottom:5px;left:5px;font-size:9px;background:rgba(0,0,0,.7);color:white;padding:2px 6px;border-radius:4px;opacity:0;transition:opacity .3s; }
 .ecard:hover .preview-badge { opacity:1; }
+
+/* SETTINGS ACCORDION */
+.modal-body { padding: 0; gap: 0; }
+.sset-section { overflow: hidden; }
+.sset-hdr { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; cursor: pointer; transition: background .12s; }
+.sset-hdr:active { background: var(--surface2); }
+.sset-hdr-left { display: flex; align-items: center; gap: 12px; }
+.sset-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.sset-title { font-size: 13px; font-weight: 500; color: var(--text); }
+.sset-sub { font-size: 11px; color: var(--text3); margin-top: 1px; }
+.sset-arrow { color: var(--text3); transition: transform .25s; flex-shrink: 0; }
+.sset-section.open .sset-arrow { transform: rotate(180deg); }
+.sset-body { display: none; padding: 0 18px 16px; }
+.sset-section.open .sset-body { display: block; }
+.sset-divider { height: 1px; background: var(--border); margin: 0; }
+.sset-add-btn { height: 36px; padding: 0 14px; background: var(--accent); color: #fff; border-radius: var(--radius-sm); font-size: 12px; font-weight: 500; white-space: nowrap; cursor: pointer; border: none; font-family: inherit; }
 </style>
 </head>
 <body>
@@ -333,16 +350,16 @@ a { text-decoration: none; }
     <div class="sb-logo">
       <h1>私人<span>空间</span></h1>
       <div class="sb-logo-sub">
-        <p id="sb-count">0 条已保存</p>
-        <span class="sb-ver" id="sb-ver">v1.29</span>
+        <p id="sb-count">1 条已保存</p>
+        <span class="sb-ver" id="sb-ver">v1.31</span>
       </div>
     </div>
     <div class="sb-sec">
       <div class="sb-lbl">平台</div>
-      <button class="snav active" data-fp="all" onclick="filterPlat('all')"><span class="snav-dot" style="background:#a8a69e"></span>全部<span class="snav-count" id="sc-all">0</span></button>
+      <button class="snav active" data-fp="all" onclick="filterPlat('all')"><span class="snav-dot" style="background:#a8a69e"></span>全部<span class="snav-count" id="sc-all">1</span></button>
       <button class="snav" data-fp="youtube" onclick="filterPlat('youtube')"><span class="snav-dot" style="background:#e03e2d"></span>YouTube<span class="snav-count" id="sc-youtube">0</span></button>
       <button class="snav" data-fp="tiktok" onclick="filterPlat('tiktok')"><span class="snav-dot" style="background:#1a1916"></span>TikTok<span class="snav-count" id="sc-tiktok">0</span></button>
-      <button class="snav" data-fp="douyin" onclick="filterPlat('douyin')"><span class="snav-dot" style="background:#1a7a4a"></span>抖音<span class="snav-count" id="sc-douyin">0</span></button>
+      <button class="snav" data-fp="douyin" onclick="filterPlat('douyin')"><span class="snav-dot" style="background:#1a7a4a"></span>抖音<span class="snav-count" id="sc-douyin">1</span></button>
       <button class="snav" data-fp="xiaohongshu" onclick="filterPlat('xiaohongshu')"><span class="snav-dot" style="background:#e03e2d"></span>小红书<span class="snav-count" id="sc-xiaohongshu">0</span></button>
       <button class="snav" data-fp="facebook" onclick="filterPlat('facebook')"><span class="snav-dot" style="background:#1877f2"></span>Facebook<span class="snav-count" id="sc-facebook">0</span></button>
       <button class="snav" data-fp="instagram" onclick="filterPlat('instagram')"><span class="snav-dot" style="background:#c13584"></span>Instagram<span class="snav-count" id="sc-instagram">0</span></button>
@@ -351,9 +368,100 @@ a { text-decoration: none; }
     <div class="sb-div"></div>
     <div class="sb-sec" style="flex:1">
       <div class="sb-lbl" style="display:flex;align-items:center">分类<button onclick="toggleAddCat()" style="margin-left:auto;font-size:16px;color:var(--text3);cursor:pointer;padding:0 2px">+</button></div>
-      <input id="new-cat-inp" class="new-cat-inp" placeholder="新分类..." style="display:none" onkeydown="newCatKey(event)"/>
-      <button class="snav active" data-fc="all" onclick="filterCat('all')"><span class="snav-dot" style="background:#2d5be3"></span>全部<span class="snav-count" id="cc-all">0</span></button>
-      <div id="cat-nav"></div>
+      <input id="new-cat-inp" class="new-cat-inp" placeholder="新分类..." style="display:none" onkeydown="newCatKey(event)">
+      <button class="snav active" data-fc="all" onclick="filterCat('all')"><span class="snav-dot" style="background:#2d5be3"></span>全部<span class="snav-count" id="cc-all">1</span></button>
+      <div id="cat-nav"><div class="snav-wrap" draggable="true" data-cat-idx="0" ondragstart="catDragStart(event,0)" ondragover="catDragOver(event,0)" ondragleave="catDragLeave(event)" ondrop="catDrop(event,0)" ondragend="catDragEnd(event)">
+      <span class="snav-drag" title="拖动排序">
+        <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"></circle><circle cx="7" cy="2" r="1.2"></circle><circle cx="3" cy="7" r="1.2"></circle><circle cx="7" cy="7" r="1.2"></circle><circle cx="3" cy="12" r="1.2"></circle><circle cx="7" cy="12" r="1.2"></circle></svg>
+      </span>
+      <button class="snav" data-fc="IT / Tech" onclick="filterCat('IT / Tech')">
+        <span class="snav-dot" style="background:#6b7280"></span>IT / Tech<span class="snav-count">0</span>
+      </button>
+      <button class="snav-edit" onclick="openCatEditor('IT / Tech')" title="编辑分类">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="snav-del" onclick="deleteCat('IT / Tech')" title="删除分类">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div><div class="snav-wrap" draggable="true" data-cat-idx="1" ondragstart="catDragStart(event,1)" ondragover="catDragOver(event,1)" ondragleave="catDragLeave(event)" ondrop="catDrop(event,1)" ondragend="catDragEnd(event)">
+      <span class="snav-drag" title="拖动排序">
+        <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"></circle><circle cx="7" cy="2" r="1.2"></circle><circle cx="3" cy="7" r="1.2"></circle><circle cx="7" cy="7" r="1.2"></circle><circle cx="3" cy="12" r="1.2"></circle><circle cx="7" cy="12" r="1.2"></circle></svg>
+      </span>
+      <button class="snav" data-fc="生活" onclick="filterCat('生活')">
+        <span class="snav-dot" style="background:#6b7280"></span>生活<span class="snav-count">0</span>
+      </button>
+      <button class="snav-edit" onclick="openCatEditor('生活')" title="编辑分类">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="snav-del" onclick="deleteCat('生活')" title="删除分类">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div><div class="snav-wrap" draggable="true" data-cat-idx="2" ondragstart="catDragStart(event,2)" ondragover="catDragOver(event,2)" ondragleave="catDragLeave(event)" ondrop="catDrop(event,2)" ondragend="catDragEnd(event)">
+      <span class="snav-drag" title="拖动排序">
+        <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"></circle><circle cx="7" cy="2" r="1.2"></circle><circle cx="3" cy="7" r="1.2"></circle><circle cx="7" cy="7" r="1.2"></circle><circle cx="3" cy="12" r="1.2"></circle><circle cx="7" cy="12" r="1.2"></circle></svg>
+      </span>
+      <button class="snav" data-fc="健康" onclick="filterCat('健康')">
+        <span class="snav-dot" style="background:#6b7280"></span>健康<span class="snav-count">0</span>
+      </button>
+      <button class="snav-edit" onclick="openCatEditor('健康')" title="编辑分类">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="snav-del" onclick="deleteCat('健康')" title="删除分类">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div><div class="snav-wrap" draggable="true" data-cat-idx="3" ondragstart="catDragStart(event,3)" ondragover="catDragOver(event,3)" ondragleave="catDragLeave(event)" ondrop="catDrop(event,3)" ondragend="catDragEnd(event)">
+      <span class="snav-drag" title="拖动排序">
+        <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"></circle><circle cx="7" cy="2" r="1.2"></circle><circle cx="3" cy="7" r="1.2"></circle><circle cx="7" cy="7" r="1.2"></circle><circle cx="3" cy="12" r="1.2"></circle><circle cx="7" cy="12" r="1.2"></circle></svg>
+      </span>
+      <button class="snav" data-fc="美食" onclick="filterCat('美食')">
+        <span class="snav-dot" style="background:#6b7280"></span>美食<span class="snav-count">0</span>
+      </button>
+      <button class="snav-edit" onclick="openCatEditor('美食')" title="编辑分类">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="snav-del" onclick="deleteCat('美食')" title="删除分类">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div><div class="snav-wrap" draggable="true" data-cat-idx="4" ondragstart="catDragStart(event,4)" ondragover="catDragOver(event,4)" ondragleave="catDragLeave(event)" ondrop="catDrop(event,4)" ondragend="catDragEnd(event)">
+      <span class="snav-drag" title="拖动排序">
+        <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"></circle><circle cx="7" cy="2" r="1.2"></circle><circle cx="3" cy="7" r="1.2"></circle><circle cx="7" cy="7" r="1.2"></circle><circle cx="3" cy="12" r="1.2"></circle><circle cx="7" cy="12" r="1.2"></circle></svg>
+      </span>
+      <button class="snav" data-fc="鼻子 " onclick="filterCat('鼻子 ')">
+        <span class="snav-dot" style="background:#6b7280"></span>鼻子 <span class="snav-count">0</span>
+      </button>
+      <button class="snav-edit" onclick="openCatEditor('鼻子 ')" title="编辑分类">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="snav-del" onclick="deleteCat('鼻子 ')" title="删除分类">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div><div class="snav-wrap" draggable="true" data-cat-idx="5" ondragstart="catDragStart(event,5)" ondragover="catDragOver(event,5)" ondragleave="catDragLeave(event)" ondrop="catDrop(event,5)" ondragend="catDragEnd(event)">
+      <span class="snav-drag" title="拖动排序">
+        <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"></circle><circle cx="7" cy="2" r="1.2"></circle><circle cx="3" cy="7" r="1.2"></circle><circle cx="7" cy="7" r="1.2"></circle><circle cx="3" cy="12" r="1.2"></circle><circle cx="7" cy="12" r="1.2"></circle></svg>
+      </span>
+      <button class="snav" data-fc="其他" onclick="filterCat('其他')">
+        <span class="snav-dot" style="background:#6b7280"></span>其他<span class="snav-count">0</span>
+      </button>
+      <button class="snav-edit" onclick="openCatEditor('其他')" title="编辑分类">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="snav-del" onclick="deleteCat('其他')" title="删除分类">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div><div class="snav-wrap" draggable="true" data-cat-idx="6" ondragstart="catDragStart(event,6)" ondragover="catDragOver(event,6)" ondragleave="catDragLeave(event)" ondrop="catDrop(event,6)" ondragend="catDragEnd(event)">
+      <span class="snav-drag" title="拖动排序">
+        <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"></circle><circle cx="7" cy="2" r="1.2"></circle><circle cx="3" cy="7" r="1.2"></circle><circle cx="7" cy="7" r="1.2"></circle><circle cx="3" cy="12" r="1.2"></circle><circle cx="7" cy="12" r="1.2"></circle></svg>
+      </span>
+      <button class="snav" data-fc="个人 IP" onclick="filterCat('个人 IP')">
+        <span class="snav-dot" style="background:#6b7280"></span>个人 IP<span class="snav-count">1</span>
+      </button>
+      <button class="snav-edit" onclick="openCatEditor('个人 IP')" title="编辑分类">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </button>
+      <button class="snav-del" onclick="deleteCat('个人 IP')" title="删除分类">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div></div>
     </div>
   </aside>
 
@@ -363,45 +471,67 @@ a { text-decoration: none; }
       <div class="header-top">
         <div class="logo">私人<span>空间</span></div>
         <div class="header-right">
-          <span class="ver-badge" id="mob-ver">v1.29</span>
+          <span class="ver-badge" id="mob-ver">v1.31</span>
           <button class="icon-btn" onclick="openSettings()" title="设定">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
           </button>
-          <div class="header-count" id="mob-count">0 条</div>
+          <div class="header-count" id="mob-count">1 条</div>
         </div>
       </div>
       <div class="paste-bar">
         <div class="paste-wrap">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-top:2px;color:var(--text3)"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-top:2px;color:var(--text3)"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
           <textarea id="paste-input" class="paste-input" rows="1" placeholder="粘贴链接或整段分享文字..." oninput="onPasteInput()" onkeydown="pasteKeydown(event)"></textarea>
         </div>
-        <button class="save-btn" id="save-btn" onclick="handleSave()" disabled>保存</button>
+        <button class="save-btn" id="save-btn" onclick="handleSave()" disabled="">保存</button>
       </div>
       <div id="extracted-hint" class="extracted-hint" style="display:none">
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
         已识别：<span id="extracted-url" class="url-preview"></span>
       </div>
       <div class="search-bar">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text3);flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input id="search-input" class="search-input" placeholder="搜索标题、标签..." oninput="onSearch(this.value)" autocomplete="off"/>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text3);flex-shrink:0"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input id="search-input" class="search-input" placeholder="搜索标题、标签..." oninput="onSearch(this.value)" autocomplete="off">
         <button id="search-clear" onclick="clearSearch()" style="display:none;color:var(--text3);font-size:16px;line-height:1;background:none;border:none;cursor:pointer">×</button>
       </div>
       <div class="filter-selects">
         <div class="csel" id="plat-csel" onclick="toggleCsel('plat')">
-          <span id="plat-csel-label">全部平台</span>
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-          <div class="csel-drop" id="plat-csel-drop"></div>
+          <span id="plat-csel-label"><span style="display:flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>全部平台</span></span>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          <div class="csel-drop" id="plat-csel-drop"><div class="csel-opt selected" onclick="event.stopPropagation();pickPlat('all')"><span style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>全部平台</span><span style="color:var(--accent);font-size:11px">✓</span></div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('youtube')"><span style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e03e2d"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.54 3.5 12 3.5 12 3.5s-7.54 0-9.38.55A3.02 3.02 0 0 0 .5 6.19C0 8.04 0 12 0 12s0 3.96.5 5.81a3.02 3.02 0 0 0 2.12 2.14C4.46 20.5 12 20.5 12 20.5s7.54 0 9.38-.55a3.02 3.02 0 0 0 2.12-2.14C24 15.96 24 12 24 12s0-3.96-.5-5.81zM9.75 15.52V8.48L15.5 12l-5.75 3.52z"></path></svg>YouTube</span></div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('tiktok')"><span style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#1a1916"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"></path></svg>TikTok</span></div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('douyin')"><span style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#1a1916"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"></path></svg>抖音</span></div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('xiaohongshu')"><span style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e03e2d"><path d="M12 3l1.5 4.5H18l-3.75 2.75 1.5 4.5L12 12l-3.75 2.75 1.5-4.5L6 7.5h4.5L12 3z"></path><path d="M5 17h14v2H5z"></path></svg>小红书</span></div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('facebook')"><span style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg>Facebook</span></div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('instagram')"><span style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#c13584"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"></path></svg>Instagram</span></div><div class="csel-opt" onclick="event.stopPropagation();pickPlat('webpage')"><span style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4a5568" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>网页</span></div></div>
         </div>
         <div class="csel" id="cat-csel" onclick="toggleCsel('cat')">
           <span id="cat-csel-label">全部分类</span>
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-          <div class="csel-drop" id="cat-csel-drop"></div>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          <div class="csel-drop" id="cat-csel-drop"><div class="csel-opt selected" onclick="event.stopPropagation();pickCat('all')"><span style="display:flex;align-items:center;gap:8px"> 全部分类</span></div><div class="csel-opt" onclick="event.stopPropagation();pickCat('IT / Tech')"><span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#6b7280;display:inline-block"></span> IT / Tech</span></div><div class="csel-opt" onclick="event.stopPropagation();pickCat('生活')"><span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#6b7280;display:inline-block"></span> 生活</span></div><div class="csel-opt" onclick="event.stopPropagation();pickCat('健康')"><span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#6b7280;display:inline-block"></span> 健康</span></div><div class="csel-opt" onclick="event.stopPropagation();pickCat('美食')"><span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#6b7280;display:inline-block"></span> 美食</span></div><div class="csel-opt" onclick="event.stopPropagation();pickCat('鼻子 ')"><span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#6b7280;display:inline-block"></span> 鼻子 </span></div><div class="csel-opt" onclick="event.stopPropagation();pickCat('其他')"><span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#6b7280;display:inline-block"></span> 其他</span></div><div class="csel-opt" onclick="event.stopPropagation();pickCat('个人 IP')"><span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#6b7280;display:inline-block"></span> 个人 IP</span></div></div>
         </div>
       </div>
     </div>
 
     <div class="grid-wrap" id="grid-wrap">
-      <div id="card-area"></div>
+      <div id="card-area"><div class="section-label" style="margin-top:4px">外链平台</div><div class="link-list">
+      <div class="lrow" onclick="openLink('ec6c4a2e-6944-46d8-8f64-7da85dda834f')">
+        <div class="lrow-header" style="background:#1a1916">
+          <div style="position:absolute;inset:0;background:linear-gradient(90deg, rgba(0,0,0,.25) 0%, rgba(0,0,0,0) 60%);pointer-events:none"></div>
+          <div class="lrow-icon" style="position:relative"><svg width="14" height="14" viewBox="0 0 24 24" fill="#1a1916"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"></path></svg></div>
+          <span class="lrow-plat-name" style="position:relative">抖音</span>
+          <span class="lrow-cat-badge" style="position:relative">个人 IP</span>
+        </div>
+        <div class="lrow-body">
+          
+          <div class="lrow-title">我把这个香港富婆忽悠了 # 老板思维 # IP孵化...</div>
+          <div class="lrow-footer">
+            <div class="lrow-tags"></div>
+            <div class="lrow-right">
+              <span class="lrow-date">今天</span>
+              <button class="lrow-open" style="background:#1a1916" onclick="event.stopPropagation();openUrl('https://v.douyin.com/CWqvGhYeSlM/')">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                打开
+              </button>
+            </div>
+          </div>
+        </div>
+      </div></div></div>
       <div class="empty" id="empty-state" style="display:none">
         <div class="empty-icon">🔗</div>
         <p>还没有保存任何链接</p>
@@ -439,7 +569,7 @@ a { text-decoration: none; }
     <div style="display:flex;align-items:flex-start;gap:10px">
       <div id="ts-plat-icon" style="flex-shrink:0;margin-top:2px"></div>
       <div style="flex:1;min-width:0">
-        <input id="ts-title-input" class="ts-title-inp" placeholder="标题..." autocomplete="off"/>
+        <input id="ts-title-input" class="ts-title-inp" placeholder="标题..." autocomplete="off">
         <div style="font-size:10px;color:var(--text3);margin-top:2px">点击可编辑标题</div>
       </div>
     </div>
@@ -454,12 +584,12 @@ a { text-decoration: none; }
       <div class="msel" style="flex:1" id="ts-tag-msel">
         <button class="msel-trigger" id="ts-tag-trigger" onclick="toggleMsel('ts')" type="button">
           <span id="ts-tag-label">选择标签...</span>
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </button>
         <div class="msel-drop" id="ts-tag-drop">
           <div id="ts-tag-opts"></div>
           <div class="msel-add-row">
-            <input id="ts-new-tag" class="msel-add-inp" placeholder="新标签..." onkeydown="if(event.key==='Enter')addNewTagInSheet()"/>
+            <input id="ts-new-tag" class="msel-add-inp" placeholder="新标签..." onkeydown="if(event.key==='Enter')addNewTagInSheet()">
             <button class="msel-add-btn" onclick="addNewTagInSheet()">+ 加入</button>
           </div>
         </div>
@@ -491,14 +621,14 @@ a { text-decoration: none; }
     <div class="modal-body">
       <div class="sg">
         <div class="sg-label">分类名称</div>
-        <input id="cat-edit-name" class="sg-input" style="font-family:inherit;font-size:14px" placeholder="分类名称..."/>
+        <input id="cat-edit-name" class="sg-input" style="font-family:inherit;font-size:14px" placeholder="分类名称...">
       </div>
       <div class="sg">
         <div class="sg-label">颜色</div>
         <div id="cat-color-grid" style="display:grid;grid-template-columns:repeat(8,1fr);gap:8px;margin-top:4px"></div>
         <div style="display:flex;align-items:center;gap:10px;margin-top:10px">
           <span style="font-size:12px;color:var(--text2)">自定义</span>
-          <input type="color" id="cat-custom-color" style="width:36px;height:28px;border:1.5px solid var(--border);border-radius:6px;padding:2px;cursor:pointer;background:none"/>
+          <input type="color" id="cat-custom-color" style="width:36px;height:28px;border:1.5px solid var(--border);border-radius:6px;padding:2px;cursor:pointer;background:none">
         </div>
       </div>
       <button class="save-cfg-btn" onclick="saveCatEdit()">保存</button>
@@ -508,54 +638,155 @@ a { text-decoration: none; }
 </div>
 
 <!-- SETTINGS MODAL -->
-<div class="modal-overlay" id="settings-overlay" onclick="closeSettingsOutside(event)">
+<div class="modal-overlay open" id="settings-overlay" onclick="closeSettingsOutside(event)">
   <div class="modal">
-    <div class="modal-hdr"><span class="modal-ttl">设定</span><button class="close-btn" onclick="closeSettings()">✕</button></div>
-    <div class="modal-body">
-      <div class="sg">
-        <div class="sg-label">Gemini API Key</div>
-        <div class="sg-desc">用于 AI 分析链接标题。前往 <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--accent)">aistudio.google.com</a> 免费获取。</div>
-        <input id="cfg-api-key" type="password" class="sg-input" placeholder="AIza..." autocomplete="off"/>
-      </div>
-      <div class="divider"></div>
-      <div class="sg">
-        <div class="sg-label">分类管理</div>
-        <div class="sg-desc">点击分类可编辑名称和颜色，拖动可排序。</div>
-        <div id="settings-cat-list" style="display:flex;flex-direction:column;gap:5px;margin-top:4px"></div>
-        <div style="display:flex;gap:8px;margin-top:8px">
-          <input id="settings-new-cat-inp" class="sg-input" placeholder="新分类名称..." style="flex:1;font-size:13px" onkeydown="if(event.key==='Enter')settingsAddCat()"/>
-          <button onclick="settingsAddCat()" style="height:36px;padding:0 14px;background:var(--accent);color:#fff;border-radius:var(--radius-sm);font-size:13px;font-weight:500;white-space:nowrap">+ 新增</button>
+    <div class="modal-hdr">
+      <span class="modal-ttl">设定</span>
+      <span id="modal-ver" style="font-size:10px;color:var(--text3);font-family:'DM Mono',monospace">v1.31</span>
+      <button class="close-btn" onclick="closeSettings()">✕</button>
+    </div>
+    <div class="modal-body" style="gap:0;padding:0">
+
+      <!-- SECTION: AI -->
+      <div class="sset-section" id="sset-ai">
+        <div class="sset-hdr" onclick="toggleSset('ai')">
+          <div class="sset-hdr-left">
+            <div class="sset-icon" style="background:#eef1fc">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2d5be3" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4l3 3"></path></svg>
+            </div>
+            <div>
+              <div class="sset-title">AI 分析</div>
+              <div class="sset-sub" id="sset-ai-sub">API Key 已设置 ✓</div>
+            </div>
+          </div>
+          <svg class="sset-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+        <div class="sset-body" id="sset-ai-body">
+          <div class="sg-desc" style="margin-bottom:8px">用于自动分析链接标题。前往 <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--accent)">aistudio.google.com</a> 免费获取。</div>
+          <input id="cfg-api-key" type="password" class="sg-input" placeholder="AIza..." autocomplete="off">
         </div>
       </div>
-      <div class="divider"></div>
-      <div class="sg">
-        <div class="sg-label">快速标签管理</div>
-        <div class="sg-desc">保存链接时可快速选择这些标签。</div>
-        <div class="qtag-wrap" id="qtag-wrap"></div>
-        <div class="qtag-add-row">
-          <input id="qtag-inp" class="qtag-inp" placeholder="新标签..." onkeydown="if(event.key==='Enter')addQuickTag()"/>
-          <button class="qtag-add-btn" onclick="addQuickTag()">+ 加入</button>
+
+      <div class="sset-divider"></div>
+
+      <!-- SECTION: Categories -->
+      <div class="sset-section" id="sset-cats">
+        <div class="sset-hdr" onclick="toggleSset('cats')">
+          <div class="sset-hdr-left">
+            <div class="sset-icon" style="background:#f0fdf4">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a7a4a" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+            </div>
+            <div>
+              <div class="sset-title">分类管理</div>
+              <div class="sset-sub" id="sset-cats-sub">7 个分类</div>
+            </div>
+          </div>
+          <svg class="sset-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+        <div class="sset-body" id="sset-cats-body">
+          <div id="settings-cat-list" style="display:flex;flex-direction:column;gap:5px;margin-bottom:10px">
+    <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--surface2);border-radius:var(--radius-sm)">
+      <div onclick="openCatEditor('IT / Tech')" style="width:22px;height:22px;border-radius:6px;background:#6b7280;cursor:pointer;flex-shrink:0;border:2px solid rgba(0,0,0,.08)" title="点击改颜色"></div>
+      <input value="IT / Tech" onchange="settingsRenamecat(0,this.value)" onblur="settingsRenamecat(0,this.value)" style="flex:1;background:none;border:none;outline:none;font-size:13px;color:var(--text);font-family:inherit;min-width:0">
+      <button onclick="settingsConfirmDelete('IT / Tech')" style="color:var(--text3);font-size:18px;line-height:1;background:none;border:none;cursor:pointer;padding:0 2px;flex-shrink:0" title="删除">×</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--surface2);border-radius:var(--radius-sm)">
+      <div onclick="openCatEditor('生活')" style="width:22px;height:22px;border-radius:6px;background:#6b7280;cursor:pointer;flex-shrink:0;border:2px solid rgba(0,0,0,.08)" title="点击改颜色"></div>
+      <input value="生活" onchange="settingsRenamecat(1,this.value)" onblur="settingsRenamecat(1,this.value)" style="flex:1;background:none;border:none;outline:none;font-size:13px;color:var(--text);font-family:inherit;min-width:0">
+      <button onclick="settingsConfirmDelete('生活')" style="color:var(--text3);font-size:18px;line-height:1;background:none;border:none;cursor:pointer;padding:0 2px;flex-shrink:0" title="删除">×</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--surface2);border-radius:var(--radius-sm)">
+      <div onclick="openCatEditor('健康')" style="width:22px;height:22px;border-radius:6px;background:#6b7280;cursor:pointer;flex-shrink:0;border:2px solid rgba(0,0,0,.08)" title="点击改颜色"></div>
+      <input value="健康" onchange="settingsRenamecat(2,this.value)" onblur="settingsRenamecat(2,this.value)" style="flex:1;background:none;border:none;outline:none;font-size:13px;color:var(--text);font-family:inherit;min-width:0">
+      <button onclick="settingsConfirmDelete('健康')" style="color:var(--text3);font-size:18px;line-height:1;background:none;border:none;cursor:pointer;padding:0 2px;flex-shrink:0" title="删除">×</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--surface2);border-radius:var(--radius-sm)">
+      <div onclick="openCatEditor('美食')" style="width:22px;height:22px;border-radius:6px;background:#6b7280;cursor:pointer;flex-shrink:0;border:2px solid rgba(0,0,0,.08)" title="点击改颜色"></div>
+      <input value="美食" onchange="settingsRenamecat(3,this.value)" onblur="settingsRenamecat(3,this.value)" style="flex:1;background:none;border:none;outline:none;font-size:13px;color:var(--text);font-family:inherit;min-width:0">
+      <button onclick="settingsConfirmDelete('美食')" style="color:var(--text3);font-size:18px;line-height:1;background:none;border:none;cursor:pointer;padding:0 2px;flex-shrink:0" title="删除">×</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--surface2);border-radius:var(--radius-sm)">
+      <div onclick="openCatEditor('鼻子 / 鼻窦')" style="width:22px;height:22px;border-radius:6px;background:#6b7280;cursor:pointer;flex-shrink:0;border:2px solid rgba(0,0,0,.08)" title="点击改颜色"></div>
+      <input value="鼻子 / 鼻窦" onchange="settingsRenamecat(4,this.value)" onblur="settingsRenamecat(4,this.value)" style="flex:1;background:none;border:none;outline:none;font-size:13px;color:var(--text);font-family:inherit;min-width:0">
+      <button onclick="settingsConfirmDelete('鼻子 / 鼻窦')" style="color:var(--text3);font-size:18px;line-height:1;background:none;border:none;cursor:pointer;padding:0 2px;flex-shrink:0" title="删除">×</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--surface2);border-radius:var(--radius-sm)">
+      <div onclick="openCatEditor('其他')" style="width:22px;height:22px;border-radius:6px;background:#6b7280;cursor:pointer;flex-shrink:0;border:2px solid rgba(0,0,0,.08)" title="点击改颜色"></div>
+      <input value="其他" onchange="settingsRenamecat(5,this.value)" onblur="settingsRenamecat(5,this.value)" style="flex:1;background:none;border:none;outline:none;font-size:13px;color:var(--text);font-family:inherit;min-width:0">
+      <button onclick="settingsConfirmDelete('其他')" style="color:var(--text3);font-size:18px;line-height:1;background:none;border:none;cursor:pointer;padding:0 2px;flex-shrink:0" title="删除">×</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--surface2);border-radius:var(--radius-sm)">
+      <div onclick="openCatEditor('个人 IP')" style="width:22px;height:22px;border-radius:6px;background:#6b7280;cursor:pointer;flex-shrink:0;border:2px solid rgba(0,0,0,.08)" title="点击改颜色"></div>
+      <input value="个人 IP" onchange="settingsRenamecat(6,this.value)" onblur="settingsRenamecat(6,this.value)" style="flex:1;background:none;border:none;outline:none;font-size:13px;color:var(--text);font-family:inherit;min-width:0">
+      <button onclick="settingsConfirmDelete('个人 IP')" style="color:var(--text3);font-size:18px;line-height:1;background:none;border:none;cursor:pointer;padding:0 2px;flex-shrink:0" title="删除">×</button>
+    </div></div>
+          <div style="display:flex;gap:8px">
+            <input id="settings-new-cat-inp" class="sg-input" placeholder="新分类名称..." style="flex:1;font-size:13px" onkeydown="if(event.key==='Enter')settingsAddCat()">
+            <button onclick="settingsAddCat()" class="sset-add-btn">+ 新增</button>
+          </div>
         </div>
       </div>
-      <div class="divider"></div>
-      <div class="sg">
-        <div class="sg-label">GitHub 推送设定</div>
-        <input id="cfg-gh-token" type="password" class="sg-input" placeholder="GitHub Personal Access Token" autocomplete="off" style="margin-bottom:6px"/>
-        <input id="cfg-gh-repo" type="text" class="sg-input" placeholder="用户名/仓库名，例：DavyWong-84/private-space" autocomplete="off" style="margin-bottom:6px"/>
-        <input id="cfg-gh-filename" type="text" class="sg-input" placeholder="文件名，例：私人空间.html" autocomplete="off"/>
-        <div class="sg-desc" style="margin-top:4px">Token 需要 <strong>repo</strong> 权限。</div>
+
+      <div class="sset-divider"></div>
+
+      <!-- SECTION: Tags -->
+      <div class="sset-section" id="sset-tags">
+        <div class="sset-hdr" onclick="toggleSset('tags')">
+          <div class="sset-hdr-left">
+            <div class="sset-icon" style="background:#fefce8">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ba7517" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+            </div>
+            <div>
+              <div class="sset-title">快速标签</div>
+              <div class="sset-sub" id="sset-tags-sub">7 个标签</div>
+            </div>
+          </div>
+          <svg class="sset-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+        <div class="sset-body" id="sset-tags-body">
+          <div class="qtag-wrap" id="qtag-wrap" style="margin-bottom:8px"><span class="qtag-pill">待看<button class="qtag-rm" onclick="removeQuickTag('待看')">×</button></span><span class="qtag-pill">已看<button class="qtag-rm" onclick="removeQuickTag('已看')">×</button></span><span class="qtag-pill">重要<button class="qtag-rm" onclick="removeQuickTag('重要')">×</button></span><span class="qtag-pill">灵感<button class="qtag-rm" onclick="removeQuickTag('灵感')">×</button></span><span class="qtag-pill">搞笑<button class="qtag-rm" onclick="removeQuickTag('搞笑')">×</button></span><span class="qtag-pill">学习<button class="qtag-rm" onclick="removeQuickTag('学习')">×</button></span><span class="qtag-pill">工作<button class="qtag-rm" onclick="removeQuickTag('工作')">×</button></span></div>
+          <div class="qtag-add-row">
+            <input id="qtag-inp" class="qtag-inp" placeholder="新标签..." onkeydown="if(event.key==='Enter')addQuickTag()">
+            <button class="qtag-add-btn" onclick="addQuickTag()">+ 加入</button>
+          </div>
+        </div>
       </div>
-      <button class="save-cfg-btn" onclick="saveSettings()">保存设定</button>
-      <div id="modal-ver" style="text-align:center;font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:-10px"></div>
-      <div class="divider"></div>
-      <div class="sg">
-        <div class="sg-label">推送到 GitHub</div>
-        <button class="gh-btn" id="push-btn" onclick="pushToGitHub()">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-          推送到 GitHub
-        </button>
-        <div class="push-status" id="push-status"></div>
+
+      <div class="sset-divider"></div>
+
+      <!-- SECTION: GitHub -->
+      <div class="sset-section open" id="sset-gh">
+        <div class="sset-hdr" onclick="toggleSset('gh')">
+          <div class="sset-hdr-left">
+            <div class="sset-icon" style="background:#f1f0f8">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#1a1916"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"></path></svg>
+            </div>
+            <div>
+              <div class="sset-title">GitHub 同步</div>
+              <div class="sset-sub" id="sset-gh-sub">DavyWong-84/private-space</div>
+            </div>
+          </div>
+          <svg class="sset-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+        <div class="sset-body" id="sset-gh-body">
+          <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px">
+            <input id="cfg-gh-token" type="password" class="sg-input" placeholder="Personal Access Token (ghp_...)" autocomplete="off">
+            <input id="cfg-gh-repo" type="text" class="sg-input" placeholder="用户名/仓库名，例：DavyWong-84/private-space" autocomplete="off">
+            <input id="cfg-gh-filename" type="text" class="sg-input" placeholder="文件名，例：私人空间.html" autocomplete="off">
+            <div class="sg-desc">Token 需要 <strong>repo</strong> 权限。</div>
+          </div>
+          <button class="gh-btn" id="push-btn" onclick="pushToGitHub()" disabled="">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"></path></svg>
+            推送到 GitHub
+          </button>
+          <div class="push-status loading" id="push-status">正在推送 v1.31...</div>
+        </div>
       </div>
+
+      <div style="padding:14px 18px">
+        <button class="save-cfg-btn" onclick="saveSettings()">保存设定</button>
+      </div>
+
     </div>
   </div>
 </div>
@@ -576,7 +807,7 @@ const EMBEDDABLE = ['youtube','webpage']
 function getConfig() { try { return JSON.parse(localStorage.getItem('siren-config')||'{}') } catch { return {} } }
 function saveConfig(c) { localStorage.setItem('siren-config', JSON.stringify(c)) }
 function getApiKey() { return getConfig().geminiKey || '' }
-function getVersion() { return getConfig().version || 'v1.29' }
+function getVersion() { return getConfig().version || 'v1.31' }
 
 function getQuickTags() { return getConfig().quickTags || [...DEFAULT_QUICK_TAGS] }
 
@@ -997,6 +1228,9 @@ const PLAT_ICONS = {
     webpage: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4a5568" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
     all: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>`
 }
+
+function platIcon(p) { return PLAT_ICONS[p] || PLAT_ICONS.other || '' }
+
 function render() {
   const all = state.links
   const links = getFiltered()
@@ -1316,10 +1550,26 @@ function openSettings() {
   document.getElementById('modal-ver').textContent=getVersion()
   renderQuickTagsMgmt()
   renderSettingsCats()
+  // Update sub-labels
+  const apiKey = getConfig().geminiKey
+  const ghRepo = getConfig().ghRepo
+  const el1 = document.getElementById('sset-ai-sub')
+  if (el1) el1.textContent = apiKey ? 'API Key 已设置 ✓' : '未设置'
+  const el2 = document.getElementById('sset-gh-sub')
+  if (el2) el2.textContent = ghRepo ? ghRepo : '未配置'
+  const el3 = document.getElementById('sset-cats-sub')
+  if (el3) el3.textContent = `${state.categories.length} 个分类`
+  const el4 = document.getElementById('sset-tags-sub')
+  if (el4) el4.textContent = `${getQuickTags().length} 个标签`
   document.getElementById('settings-overlay').classList.add('open')
 }
 function closeSettings() { document.getElementById('settings-overlay').classList.remove('open')
-document.getElementById('cat-editor-overlay').classList.remove('open') }
+document.getElementById('cat-editor-overlay').classList.remove('open')
+// Double-guard: ensure nothing re-opens modals after render
+setTimeout(() => {
+  document.getElementById('settings-overlay').classList.remove('open')
+  document.getElementById('cat-editor-overlay').classList.remove('open')
+}, 50) }
 function closeSettingsOutside(e) { if(e.target===document.getElementById('settings-overlay')) closeSettings() }
 
 function renderQuickTagsMgmt() {
@@ -1671,10 +1921,10 @@ function renderSettingsCats() {
   const list = document.getElementById('settings-cat-list')
   if (!list) return
   list.innerHTML = state.categories.map((cat, i) => `
-    <div style="display:flex;align-items:center;gap:8px;padding:6px 8px;background:var(--surface2);border-radius:var(--radius-sm)">
-      <div onclick="settingsPickColor(${i})" style="width:20px;height:20px;border-radius:5px;background:${cat.color};cursor:pointer;flex-shrink:0;border:2px solid rgba(0,0,0,.1)"></div>
-      <input value="${esc(cat.name)}" onchange="settingsRenamecat(${i},this.value)" style="flex:1;background:none;border:none;outline:none;font-size:13px;color:var(--text);font-family:inherit"/>
-      <button onclick="deleteCat('${esc(cat.name)}');renderSettingsCats()" style="color:var(--text3);font-size:16px;line-height:1;background:none;border:none;cursor:pointer">×</button>
+    <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--surface2);border-radius:var(--radius-sm)">
+      <div onclick="openCatEditor('${esc(cat.name)}')" style="width:22px;height:22px;border-radius:6px;background:${cat.color};cursor:pointer;flex-shrink:0;border:2px solid rgba(0,0,0,.08)" title="点击改颜色"></div>
+      <input value="${esc(cat.name)}" onchange="settingsRenamecat(${i},this.value)" onblur="settingsRenamecat(${i},this.value)" style="flex:1;background:none;border:none;outline:none;font-size:13px;color:var(--text);font-family:inherit;min-width:0"/>
+      <button onclick="settingsConfirmDelete('${esc(cat.name)}')" style="color:var(--text3);font-size:18px;line-height:1;background:none;border:none;cursor:pointer;padding:0 2px;flex-shrink:0" title="删除">×</button>
     </div>`).join('')
 }
 function settingsRenamecat(idx, newName) {
@@ -1699,6 +1949,36 @@ function settingsAddCat() {
   inp.value = ''
 }
 
+
+// ── SETTINGS ACCORDION ────────────────────────────────────────────────────────
+function toggleSset(id) {
+  const section = document.getElementById('sset-' + id)
+  if (!section) return
+  const isOpen = section.classList.contains('open')
+  // Close all others
+  document.querySelectorAll('.sset-section').forEach(s => s.classList.remove('open'))
+  if (!isOpen) section.classList.add('open')
+}
+
+
+function settingsConfirmDelete(name) {
+  const count = state.links.filter(l => l.category === name).length
+  const msg = count > 0
+    ? `删除「${name}」？该分类下有 ${count} 条链接，删除后会归到「其他」。`
+    : `确定删除分类「${name}」？`
+  if (confirm(msg)) {
+    deleteCat(name)
+    renderSettingsCats()
+  }
+}
+function settingsConfirmAddTag() {
+  const inp = document.getElementById('qtag-inp')
+  const val = inp.value.trim()
+  if (!val) return
+  if (getQuickTags().includes(val)) { alert('标签已存在'); return }
+  addQuickTag()
+}
+
 // ── UTILS ─────────────────────────────────────────────────────────────────────
 function esc(str) { return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;') }
 function fmtDate(iso) {
@@ -1712,6 +1992,11 @@ loadState()
 render()
 document.getElementById('settings-overlay').classList.remove('open')
 document.getElementById('cat-editor-overlay').classList.remove('open')
+// Double-guard: ensure nothing re-opens modals after render
+setTimeout(() => {
+  document.getElementById('settings-overlay').classList.remove('open')
+  document.getElementById('cat-editor-overlay').classList.remove('open')
+}, 50)
 
 // Handle Android back button
 window.addEventListener('popstate', function(e) {
@@ -1726,5 +2011,6 @@ window.addEventListener('popstate', function(e) {
   }
 })
 </script>
-</body>
-</html>
+
+
+</body></html>
