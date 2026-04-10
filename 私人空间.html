@@ -29,7 +29,7 @@ a { text-decoration: none; }
 #app { display: flex; flex-direction: column; height: 100dvh; overflow: hidden; }
 
 /* HEADER */
-.header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 12px 14px 0; flex-shrink: 0; }
+.header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 12px 14px 0; flex-shrink: 0; overflow: hidden; }
 .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
 .logo { font-size: 17px; font-weight: 500; color: var(--text); }
 .logo span { color: var(--accent); }
@@ -56,7 +56,7 @@ a { text-decoration: none; }
 .ftab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
 /* MAIN GRID AREA */
-.grid-wrap { flex: 1; overflow-y: auto; padding: 10px 12px; }
+.grid-wrap { flex: 1; overflow-y: auto; padding: 10px 12px; min-height: 0; -webkit-overflow-scrolling: touch; }
 
 /* SECTION LABELS */
 .section-label { font-size: 10px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: .06em; margin: 4px 0 6px; }
@@ -212,7 +212,7 @@ a { text-decoration: none; }
   .snav.active .snav-count { background: #d5dffb; color: var(--accent-text); }
   .sb-div { height: 1px; background: var(--border); margin: 6px 10px; }
   .new-cat-inp { margin: 3px 8px 6px; width: calc(100% - 16px); background: var(--surface2); border: 1.5px solid var(--accent); border-radius: 7px; padding: 5px 9px; font-size: 11px; outline: none; color: var(--text); font-family: inherit; }
-  .main-col { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+  .main-col { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 0; }
   .header { padding: 14px 18px 0; }
 
   /* desktop grid */
@@ -233,6 +233,19 @@ a { text-decoration: none; }
   .dp-embed iframe { width: 100%; height: 100%; border: none; }
   .dp-info { padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
   .dp-actions { padding: 8px 14px 14px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 7px; flex-shrink: 0; }
+  .dp-save-panel { display: flex; flex-direction: column; gap: 12px; padding: 16px; height: 100%; overflow-y: auto; }
+  .dp-save-title { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.45; }
+  .dp-save-label { font-size: 10px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 5px; }
+  .dp-save-select { width: 100%; background: var(--surface2); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 8px 10px; font-size: 13px; color: var(--text); outline: none; font-family: inherit; }
+  .dp-save-select:focus { border-color: var(--accent); }
+  .dp-tag-grid { display: flex; flex-wrap: wrap; gap: 5px; }
+  .dp-tag-btn { display: flex; align-items: center; gap: 4px; padding: 4px 10px; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 99px; font-size: 11px; color: var(--text2); cursor: pointer; transition: all .12s; }
+  .dp-tag-btn.on { background: #fff8e1; border-color: #ba7517; color: #7a5000; }
+  .dp-new-tag-row { display: flex; gap: 6px; }
+  .dp-new-tag-inp { flex: 1; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 99px; padding: 4px 10px; font-size: 11px; outline: none; color: var(--text); font-family: inherit; }
+  .dp-new-tag-inp:focus { border-color: var(--accent); }
+  .dp-confirm-btn { width: 100%; height: 40px; background: var(--accent); color: #fff; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500; cursor: pointer; }
+  .dp-cancel-btn { width: 100%; height: 36px; border: 1.5px solid var(--border); color: var(--text2); border-radius: var(--radius-sm); font-size: 12px; cursor: pointer; background: none; }
 
   .modal-overlay { align-items: center; }
   .modal { border-radius: 16px; max-height: 80vh; }
@@ -254,6 +267,9 @@ a { text-decoration: none; }
 .ts-tag-btn { display: flex; align-items: center; gap: 4px; padding: 5px 11px; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 99px; font-size: 12px; color: var(--text2); transition: all .12s; }
 .ts-tag-btn.ts-tag-on { background: #fff8e1; border-color: #ba7517; color: #7a5000; }
 .ts-tag-check { font-size: 11px; color: #ba7517; font-weight: 500; }
+.filter-selects { display: flex; gap: 8px; margin-bottom: 10px; }
+.filter-select { flex: 1; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 99px; padding: 6px 14px; font-size: 12px; font-weight: 500; color: var(--text2); outline: none; font-family: inherit; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23a8a69e' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; cursor: pointer; }
+.filter-select:focus { border-color: var(--accent); }
 </style>
 </head>
 <body>
@@ -265,7 +281,7 @@ a { text-decoration: none; }
       <h1>私人<span>空间</span></h1>
       <div class="sb-logo-sub">
         <p id="sb-count">1 条已保存</p>
-        <span class="sb-ver" id="sb-ver">v1.09</span>
+        <span class="sb-ver" id="sb-ver">v1.12</span>
       </div>
     </div>
     <div class="sb-sec">
@@ -358,12 +374,12 @@ a { text-decoration: none; }
   </aside>
 
   <!-- MAIN -->
-  <div class="main-col">
+  <div class="main-col" style="flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0">
     <div class="header">
       <div class="header-top">
         <div class="logo">私人<span>空间</span></div>
         <div class="header-right">
-          <span class="ver-badge" id="mob-ver">v1.09</span>
+          <span class="ver-badge" id="mob-ver">v1.12</span>
           <button class="icon-btn" onclick="openSettings()" title="设定">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
           </button>
@@ -381,8 +397,10 @@ a { text-decoration: none; }
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
         已识别：<span id="extracted-url" class="url-preview"></span>
       </div>
-      <div class="filter-scroll" id="mob-plat-filters"><button class="ftab active" onclick="filterPlat('all')">全部平台</button><button class="ftab" onclick="filterPlat('youtube')">YouTube</button><button class="ftab" onclick="filterPlat('tiktok')">TikTok</button><button class="ftab" onclick="filterPlat('douyin')">抖音</button><button class="ftab" onclick="filterPlat('xiaohongshu')">小红书</button><button class="ftab" onclick="filterPlat('facebook')">Facebook</button><button class="ftab" onclick="filterPlat('instagram')">Instagram</button></div>
-      <div class="filter-scroll" id="mob-cat-filters"><button class="ftab active" data-cat="all" onclick="filterCat('all')">全部分类</button><button class="ftab" data-cat="IT / Tech" onclick="filterCat('IT / Tech')">IT / Tech</button><button class="ftab" data-cat="生活" onclick="filterCat('生活')">生活</button><button class="ftab" data-cat="健康" onclick="filterCat('健康')">健康</button><button class="ftab" data-cat="美食" onclick="filterCat('美食')">美食</button><button class="ftab" data-cat="鼻子 / 鼻窦" onclick="filterCat('鼻子 / 鼻窦')">鼻子 / 鼻窦</button><button class="ftab" data-cat="其他" onclick="filterCat('其他')">其他</button><button class="ftab" data-cat="个人 IP" onclick="filterCat('个人 IP')">个人 IP</button></div>
+      <div class="filter-selects">
+        <select class="filter-select" id="mob-plat-select" onchange="filterPlat(this.value)"><option value="all" selected="">全部平台</option><option value="youtube">YouTube</option><option value="tiktok">TikTok</option><option value="douyin">抖音</option><option value="xiaohongshu">小红书</option><option value="facebook">Facebook</option><option value="instagram">Instagram</option></select>
+        <select class="filter-select" id="mob-cat-select" onchange="filterCat(this.value)"><option value="all" selected="">全部分类</option><option value="IT / Tech">IT / Tech</option><option value="生活">生活</option><option value="健康">健康</option><option value="美食">美食</option><option value="鼻子 / 鼻窦">鼻子 / 鼻窦</option><option value="其他">其他</option><option value="个人 IP">个人 IP</option></select>
+      </div>
     </div>
 
     <div class="grid-wrap" id="grid-wrap">
@@ -492,7 +510,7 @@ a { text-decoration: none; }
         <div class="sg-desc" style="margin-top:4px">Token 需要 <strong>repo</strong> 权限。</div>
       </div>
       <button class="save-cfg-btn" onclick="saveSettings()">保存设定</button>
-      <div id="modal-ver" style="text-align:center;font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:-10px">v1.09</div>
+      <div id="modal-ver" style="text-align:center;font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:-10px">v1.12</div>
       <div class="divider"></div>
       <div class="sg">
         <div class="sg-label">推送到 GitHub</div>
@@ -500,7 +518,7 @@ a { text-decoration: none; }
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"></path></svg>
           推送到 GitHub
         </button>
-        <div class="push-status loading" id="push-status">正在推送 v1.09...</div>
+        <div class="push-status loading" id="push-status">正在推送 v1.12...</div>
       </div>
     </div>
   </div>
@@ -515,9 +533,9 @@ const EMBEDDABLE = ['youtube','facebook']
 function getConfig() { try { return JSON.parse(localStorage.getItem('siren-config')||'{}') } catch { return {} } }
 function saveConfig(c) { localStorage.setItem('siren-config', JSON.stringify(c)) }
 function getApiKey() { return getConfig().geminiKey || '' }
-function getVersion() { return getConfig().version || 'v1.09' }
+function getVersion() { return getConfig().version || 'v1.12' }
 function bumpVersion(v) {
-  const m = v.match(/v(\d+)\.(\d+)/); if (!m) return 'v1.09'
+  const m = v.match(/v(\d+)\.(\d+)/); if (!m) return 'v1.12'
   let [,maj,min] = m; min = parseInt(min)+1
   if (min > 99) { maj = parseInt(maj)+1; min = 0 }
   return `v${maj}.${String(min).padStart(2,'0')}`
@@ -568,6 +586,18 @@ function buildEmbedUrl(url, plat) {
 }
 
 // ── URL EXTRACT ───────────────────────────────────────────────────────────────
+
+function extractUrlTitle(url) {
+  try {
+    const u = new URL(url)
+    const h = u.hostname.replace(/^www\./, '')
+    // For short URLs like v.douyin.com, just show domain
+    const path = u.pathname.replace(/\/$/, '').split('/').pop() || ''
+    if (path && path.length > 3 && path.length < 60) return decodeURIComponent(path).replace(/[-_]/g, ' ')
+    return h
+  } catch { return url.slice(0, 60) }
+}
+
 function extractUrl(text) {
   const m = text.match(/https?:\/\/[^\s\u4e00-\u9fff\u3000-\u303f，。！？、；：""''【】《》]+/g)
   if (!m) return null
@@ -601,21 +631,23 @@ async function handleSave() {
   const url = extractedUrl||(()=>{try{new URL(val);return val}catch{return null}})()
   if (!url) { alert('找不到有效链接'); return }
   const rawText = val!==url ? val : undefined
-  const hint = rawText ? extractTitleHint(rawText)||url : url
+  const hint = rawText ? (extractTitleHint(rawText)||extractUrlTitle(url)) : extractUrlTitle(url)
   const platform = detectPlatform(url)
   const embedUrl = buildEmbedUrl(url, platform)
 
-  // Try AI title in background, but open tag sheet immediately
   pendingSave = { url, rawText, platform, embedUrl, title: hint }
   tsSelectedCat = '其他'
   tsSelectedTags = []
 
-  // Try to get better title from AI first (fast, non-blocking feel)
   if (getApiKey()) {
     classifyLink(url, rawText).then(r => { if(pendingSave) pendingSave.title = r.title || hint })
   }
 
-  openTagSheet(hint)
+  if (window.innerWidth >= 768) {
+    openDesktopSavePanel(hint)
+  } else {
+    openTagSheet(hint)
+  }
 
   document.getElementById('paste-input').value=''
   document.getElementById('paste-input').style.height='auto'
@@ -686,7 +718,11 @@ function confirmSave() {
   state.links.unshift(link)
   saveState()
   pendingSave=null
-  cancelTagSheet()
+  if (window.innerWidth >= 768) {
+    cancelDesktopSave()
+  } else {
+    cancelTagSheet()
+  }
   render()
 }
 
@@ -799,8 +835,8 @@ function render() {
   }).join('')
 
   // mobile filter tabs
-  // Platform filter row
-  const platFilters = [
+  // Platform select
+  const platOpts = [
     {key:'all', label:'全部平台'},
     {key:'youtube', label:'YouTube'},
     {key:'tiktok', label:'TikTok'},
@@ -809,13 +845,17 @@ function render() {
     {key:'facebook', label:'Facebook'},
     {key:'instagram', label:'Instagram'},
   ]
-  document.getElementById('mob-plat-filters').innerHTML=
-    platFilters.map(p=>`<button class="ftab${state.filterPlat===p.key?' active':''}" onclick="filterPlat('${p.key}')">${p.label}</button>`).join('')
+  const platSel = document.getElementById('mob-plat-select')
+  if (platSel) {
+    platSel.innerHTML = platOpts.map(p=>`<option value="${p.key}"${state.filterPlat===p.key?' selected':''}>${p.label}</option>`).join('')
+  }
 
-  // Category filter row
-  document.getElementById('mob-cat-filters').innerHTML=
-    `<button class="ftab${state.filterCat==='all'?' active':''}" data-cat="all" onclick="filterCat('all')">全部分类</button>`+
-    state.categories.map(cat=>`<button class="ftab${state.filterCat===cat?' active':''}" data-cat="${esc(cat)}" onclick="filterCat('${esc(cat)}')">${esc(cat)}</button>`).join('')
+  // Category select
+  const catSel = document.getElementById('mob-cat-select')
+  if (catSel) {
+    catSel.innerHTML = `<option value="all"${state.filterCat==='all'?' selected':''}>全部分类</option>` +
+      state.categories.map(cat=>`<option value="${esc(cat)}"${state.filterCat===cat?' selected':''}>${esc(cat)}</option>`).join('')
+  }
 
   // split links
   const embedLinks = links.filter(l=>EMBEDDABLE.includes(l.platform))
@@ -1161,6 +1201,74 @@ function deleteCat(cat) {
   if (state.filterCat === cat) state.filterCat = 'all'
   saveState()
   render()
+}
+
+
+// ── DESKTOP SAVE PANEL ────────────────────────────────────────────────────────
+function openDesktopSavePanel(title) {
+  document.getElementById('dp-empty').style.display = 'none'
+  const c = document.getElementById('dp-content')
+  c.style.display = 'flex'
+  document.getElementById('dp-embed').innerHTML = ''
+  document.getElementById('dp-info').innerHTML = `
+    <div style="padding:14px 14px 0">
+      <div style="font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">保存链接</div>
+      <div class="dp-save-title">${esc(title)}</div>
+    </div>`
+  document.getElementById('dp-actions').innerHTML = buildDesktopSaveForm()
+  renderDpSaveForm()
+}
+
+function buildDesktopSaveForm() {
+  return `<div class="dp-save-panel" id="dp-save-form">
+    <div>
+      <div class="dp-save-label">分类</div>
+      <select class="dp-save-select" id="dp-cat-select" onchange="tsSelectedCat=this.value">
+        ${state.categories.map(c => `<option value="${esc(c)}"${tsSelectedCat===c?' selected':''}>${esc(c)}</option>`).join('')}
+      </select>
+    </div>
+    <div>
+      <div class="dp-save-label">标签（可多选）</div>
+      <div class="dp-tag-grid" id="dp-tag-grid"></div>
+      <div class="dp-new-tag-row" style="margin-top:7px">
+        <input id="dp-new-tag" class="dp-new-tag-inp" placeholder="新标签..." onkeydown="if(event.key==='Enter')dpAddTag()"/>
+        <button class="new-tag-add" onclick="dpAddTag()" style="height:28px;padding:0 10px;font-size:11px">+ 加</button>
+      </div>
+    </div>
+    <button class="dp-confirm-btn" onclick="confirmSave()">确认保存</button>
+    <button class="dp-cancel-btn" onclick="cancelDesktopSave()">取消</button>
+  </div>`
+}
+
+function renderDpSaveForm() {
+  const grid = document.getElementById('dp-tag-grid')
+  if (!grid) return
+  const qt = getQuickTags()
+  grid.innerHTML = qt.map(tag =>
+    `<button class="dp-tag-btn${tsSelectedTags.includes(tag)?' on':''}" onclick="dpToggleTag('${esc(tag)}')">${tsSelectedTags.includes(tag)?'✓ ':''} ${esc(tag)}</button>`
+  ).join('')
+}
+
+function dpToggleTag(tag) {
+  if (tsSelectedTags.includes(tag)) tsSelectedTags = tsSelectedTags.filter(t => t !== tag)
+  else tsSelectedTags.push(tag)
+  renderDpSaveForm()
+}
+
+function dpAddTag() {
+  const inp = document.getElementById('dp-new-tag')
+  const val = inp.value.trim(); if (!val) return
+  const cfg = getConfig(); const qt = getQuickTags()
+  if (!qt.includes(val)) { qt.push(val); cfg.quickTags = qt; saveConfig(cfg) }
+  if (!tsSelectedTags.includes(val)) tsSelectedTags.push(val)
+  inp.value = ''
+  renderDpSaveForm()
+}
+
+function cancelDesktopSave() {
+  pendingSave = null
+  document.getElementById('dp-empty').style.display = 'flex'
+  document.getElementById('dp-content').style.display = 'none'
 }
 
 // ── UTILS ─────────────────────────────────────────────────────────────────────
