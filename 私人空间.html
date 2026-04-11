@@ -367,10 +367,62 @@ a { text-decoration: none; }
 /* desktop: hide tab bar, show sidebar toggle instead */
 @media (min-width: 768px) {
   .tab-bar { display: none; }
-  .tab-pane { display: flex !important; }
-  .work-tab-pane { display: none !important; }
-  .work-tab-pane.desktop-active { display: flex !important; }
+  /* desktop: tab-panes controlled by JS active class only */
 }
+
+/* ── WORK TAB ─────────────────────────────────────────────────────────────── */
+.wk-view-btn { height:26px; padding:0 10px; border-radius:99px; font-size:11px; font-weight:500; border:1.5px solid var(--border); background:none; color:var(--text2); cursor:pointer; font-family:inherit; transition:all .12s; }
+.wk-view-btn.active { background:var(--accent); border-color:var(--accent); color:#fff; }
+.wk-content { flex:1; overflow:hidden; display:flex; flex-direction:column; min-height:0; }
+.wk-view { display:none; flex:1; flex-direction:column; overflow:hidden; min-height:0; }
+.wk-view.active { display:flex; }
+.wk-filter-row { display:flex; gap:5px; padding:10px 14px 0; flex-shrink:0; }
+.wk-filter { height:26px; padding:0 12px; border-radius:99px; font-size:11px; font-weight:500; border:1.5px solid var(--border); background:none; color:var(--text2); cursor:pointer; font-family:inherit; white-space:nowrap; }
+.wk-filter.active { background:var(--accent-bg); border-color:var(--accent); color:var(--accent); }
+.wk-month-nav { display:flex; align-items:center; gap:8px; }
+.wk-month-btn { width:28px; height:28px; border-radius:8px; border:1.5px solid var(--border); background:none; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--text2); }
+
+/* Task cards */
+.wk-section-label { font-size:10px; font-weight:500; color:var(--text3); text-transform:uppercase; letter-spacing:.06em; padding:10px 0 4px; }
+.wk-task { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:10px 12px; margin-bottom:7px; cursor:pointer; transition:transform .1s; }
+.wk-task:active { transform:scale(.99); }
+.wk-task-header { display:flex; align-items:flex-start; gap:9px; }
+.wk-check { width:18px; height:18px; border-radius:50%; border:2px solid var(--border); flex-shrink:0; margin-top:1px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .15s; }
+.wk-check.done { background:#1a7a4a; border-color:#1a7a4a; }
+.wk-task-title { font-size:13px; font-weight:500; color:var(--text); line-height:1.4; flex:1; }
+.wk-task-title.done { text-decoration:line-through; color:var(--text3); }
+.wk-task-meta { font-size:10px; color:var(--text3); margin-top:3px; }
+.wk-pri { font-size:9px; padding:1px 6px; border-radius:99px; font-weight:500; flex-shrink:0; }
+.wk-progress { margin-top:7px; }
+.wk-progress-bar { height:4px; background:var(--surface2); border-radius:2px; overflow:hidden; margin-top:3px; }
+.wk-progress-fill { height:100%; border-radius:2px; transition:width .3s; }
+.wk-progress-row { display:flex; justify-content:space-between; align-items:center; }
+.wk-follow-chips { display:flex; flex-wrap:wrap; gap:4px; margin-top:6px; }
+.wk-chip { font-size:10px; background:var(--surface2); border:0.5px solid var(--border); border-radius:4px; padding:2px 7px; color:var(--text2); }
+.wk-today-banner { background:#eef1fc; border-bottom:1px solid #c8d4f8; padding:8px 14px; flex-shrink:0; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+
+/* Timeline */
+.wk-tl-grid { display:flex; gap:3px; align-items:flex-end; }
+.wk-tl-day { display:flex; flex-direction:column; align-items:center; gap:3px; flex:1; cursor:pointer; }
+.wk-tl-bar { width:100%; border-radius:3px; min-height:6px; transition:opacity .15s; }
+.wk-tl-day:hover .wk-tl-bar { opacity:.7; }
+.wk-tl-num { font-size:9px; color:var(--text3); }
+.wk-tl-detail-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:10px 12px; }
+
+/* Archive */
+.wk-arc-task { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid var(--border); }
+.wk-arc-task:last-child { border-bottom:none; }
+.wk-arc-done-icon { width:16px; height:16px; border-radius:50%; background:#1a7a4a; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+
+/* Add Task Sheet */
+.wk-add-sheet { position:fixed; bottom:0; left:0; right:0; background:var(--surface); border-radius:20px 20px 0 0; z-index:201; transform:translateY(100%); transition:transform .3s cubic-bezier(.32,.72,0,1); max-height:85dvh; display:flex; flex-direction:column; overflow:hidden; }
+.wk-add-sheet.open { transform:translateY(0); }
+.wk-sheet-body { overflow-y:auto; flex:1; padding:16px; display:flex; flex-direction:column; gap:11px; padding-bottom:env(safe-area-inset-bottom,16px); }
+.wk-inp { width:100%; background:var(--surface2); border:1.5px solid var(--border); border-radius:var(--radius-sm); padding:9px 12px; font-size:13px; color:var(--text); outline:none; font-family:inherit; }
+.wk-inp:focus { border-color:var(--accent); }
+.wk-label { font-size:11px; font-weight:500; color:var(--text2); margin-bottom:4px; }
+.wk-save-btn { width:100%; height:44px; background:var(--accent); color:#fff; border-radius:var(--radius-sm); font-size:14px; font-weight:500; }
+.wk-empty { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; flex:1; padding:40px 20px; text-align:center; }
 </style>
 </head>
 <body>
@@ -382,14 +434,42 @@ a { text-decoration: none; }
       <h1>私人<span>空间</span></h1>
       <div class="sb-logo-sub">
         <p id="sb-count">1 条已保存</p>
-        <span class="sb-ver" id="sb-ver">v1.34</span>
+        <span class="sb-ver" id="sb-ver">v1.40</span>
       </div>
       <div style="display:flex;gap:4px;margin-top:10px">
         <button id="sbTab-video" onclick="switchTab('video')" style="flex: 1 1 0%; padding: 5px 0px; font-size: 11px; font-weight: 500; border-radius: 6px; border-color: var(--accent); border-top-style: ; border-top-width: ; border-right-style: ; border-right-width: ; border-bottom-style: ; border-bottom-width: ; border-left-style: ; border-left-width: ; border-image-source: ; border-image-slice: ; border-image-width: ; border-image-outset: ; border-image-repeat: ; background: var(--accent-bg); color: var(--accent-text); cursor: pointer; font-family: inherit;">视频</button>
         <button id="sbTab-work" onclick="switchTab('work')" style="flex: 1 1 0%; padding: 5px 0px; font-size: 11px; font-weight: 500; border-radius: 6px; border-color: var(--border); border-top-style: ; border-top-width: ; border-right-style: ; border-right-width: ; border-bottom-style: ; border-bottom-width: ; border-left-style: ; border-left-width: ; border-image-source: ; border-image-slice: ; border-image-width: ; border-image-outset: ; border-image-repeat: ; background: none; color: var(--text2); cursor: pointer; font-family: inherit;">工作</button>
       </div>
+    <div id="sb-work-section" style="padding: 14px 16px; flex-direction: column; gap: 8px; display: none;">
+      <div style="font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px">工作分类</div>
+      <div id="sb-wk-cats"><div style="display:flex;align-items:center;gap:7px;padding:4px 8px;border-radius:6px;cursor:pointer" onclick="">
+      <span style="width:8px;height:8px;border-radius:50%;background:#7c3aed;flex-shrink:0;display:inline-block"></span>
+      <span style="flex:1;font-size:12px;color:var(--text2)">工作跟进</span>
+      <span style="font-size:10px;color:var(--text3)"></span>
+    </div><div style="display:flex;align-items:center;gap:7px;padding:4px 8px;border-radius:6px;cursor:pointer" onclick="">
+      <span style="width:8px;height:8px;border-radius:50%;background:#0891b2;flex-shrink:0;display:inline-block"></span>
+      <span style="flex:1;font-size:12px;color:var(--text2)">客户项目</span>
+      <span style="font-size:10px;color:var(--text3)"></span>
+    </div><div style="display:flex;align-items:center;gap:7px;padding:4px 8px;border-radius:6px;cursor:pointer" onclick="">
+      <span style="width:8px;height:8px;border-radius:50%;background:#1a7a4a;flex-shrink:0;display:inline-block"></span>
+      <span style="flex:1;font-size:12px;color:var(--text2)">个人事务</span>
+      <span style="font-size:10px;color:var(--text3)"></span>
+    </div><div style="display:flex;align-items:center;gap:7px;padding:4px 8px;border-radius:6px;cursor:pointer" onclick="">
+      <span style="width:8px;height:8px;border-radius:50%;background:#e03e2d;flex-shrink:0;display:inline-block"></span>
+      <span style="flex:1;font-size:12px;color:var(--text2)">健康</span>
+      <span style="font-size:10px;color:var(--text3)"></span>
+    </div><div style="display:flex;align-items:center;gap:7px;padding:4px 8px;border-radius:6px;cursor:pointer" onclick="">
+      <span style="width:8px;height:8px;border-radius:50%;background:#6b7280;flex-shrink:0;display:inline-block"></span>
+      <span style="flex:1;font-size:12px;color:var(--text2)">其他</span>
+      <span style="font-size:10px;color:var(--text3)"></span>
+    </div></div>
+      <div style="font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin:6px 0 2px">快速操作</div>
+      <button onclick="switchWorkView('tasks');setWkFilter('today')" style="text-align:left;padding:5px 8px;font-size:12px;color:var(--text2);background:none;border:none;cursor:pointer;border-radius:6px;font-family:inherit;width:100%">今天待办</button>
+      <button onclick="switchWorkView('timeline')" style="text-align:left;padding:5px 8px;font-size:12px;color:var(--text2);background:none;border:none;cursor:pointer;border-radius:6px;font-family:inherit;width:100%">时间轴</button>
+      <button onclick="switchWorkView('archive')" style="text-align:left;padding:5px 8px;font-size:12px;color:var(--text2);background:none;border:none;cursor:pointer;border-radius:6px;font-family:inherit;width:100%">归档记录</button>
     </div>
-    <div class="sb-sec">
+    </div>
+    <div class="sb-sec sb-video-only" style="">
       <div class="sb-lbl">平台</div>
       <button class="snav active" data-fp="all" onclick="filterPlat('all')"><span class="snav-dot" style="background:#a8a69e"></span>全部<span class="snav-count" id="sc-all">1</span></button>
       <button class="snav" data-fp="youtube" onclick="filterPlat('youtube')"><span class="snav-dot" style="background:#e03e2d"></span>YouTube<span class="snav-count" id="sc-youtube">0</span></button>
@@ -483,7 +563,7 @@ a { text-decoration: none; }
       <div class="header-top">
         <div class="logo">私人<span>空间</span></div>
         <div class="header-right">
-          <span class="ver-badge" id="mob-ver">v1.34</span>
+          <span class="ver-badge" id="mob-ver">v1.40</span>
           <button class="icon-btn" onclick="openSettings()" title="设定">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
           </button>
@@ -535,7 +615,7 @@ a { text-decoration: none; }
           <div class="lrow-footer">
             <div class="lrow-tags"></div>
             <div class="lrow-right">
-              <span class="lrow-date">今天</span>
+              <span class="lrow-date">昨天</span>
               <button class="lrow-open" style="background:#1a1916" onclick="event.stopPropagation();openUrl('https://v.douyin.com/CWqvGhYeSlM/')">
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                 打开
@@ -549,55 +629,169 @@ a { text-decoration: none; }
         <p>还没有保存任何链接</p>
       </div>
     </div>
-  </div>
-
   </div><!-- end tab-pane video -->
 
   <!-- TAB PANE: 工作 -->
-  <div class="tab-pane work-tab-pane" id="tab-work">
+  <div class="tab-pane" id="tab-work">
+    <!-- Work Header -->
     <div class="header">
       <div class="header-top">
         <div class="logo">工作<span style="color:var(--accent)">空间</span></div>
         <div class="header-right">
-          <span class="ver-badge">即将推出</span>
+          <div style="display:flex;align-items:center;gap:6px">
+            <button class="wk-view-btn" id="wkBtn-tasks" onclick="switchWorkView('tasks')">任务</button>
+            <button class="wk-view-btn active" id="wkBtn-timeline" onclick="switchWorkView('timeline')">时间轴</button>
+            <button class="wk-view-btn" id="wkBtn-archive" onclick="switchWorkView('archive')">归档</button>
+          </div>
+          <button class="icon-btn" onclick="openAddTask()" title="新增任务">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </button>
         </div>
       </div>
     </div>
-    <div class="work-empty">
-      <div class="work-empty-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2d5be3" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+
+    <!-- Work Views -->
+    <div class="wk-content">
+
+      <!-- VIEW: Tasks -->
+      <div class="wk-view" id="wkView-tasks">
+        <!-- Today Banner -->
+        <div class="wk-today-banner" id="wk-today-banner" style="display:none"></div>
+        <!-- Filter tabs -->
+        <div class="wk-filter-row">
+          <button class="wk-filter active" data-wf="today" onclick="setWkFilter('today')">今天</button>
+          <button class="wk-filter" data-wf="week" onclick="setWkFilter('week')">本周</button>
+          <button class="wk-filter" data-wf="month" onclick="setWkFilter('month')">本月</button>
+          <button class="wk-filter" data-wf="all" onclick="setWkFilter('all')">全部</button>
+        </div>
+        <div class="grid-wrap" id="wk-task-list"><div class="wk-empty"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="3" y1="10" x2="21" y2="10"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="16" y1="2" x2="16" y2="6"></line></svg><div style="font-size:13px;color:var(--text3)">没有任务，按 + 新增</div></div></div>
       </div>
-      <div class="work-empty-title">工作区正在建设中</div>
-      <div class="work-empty-sub">即将加入任务管理和时间轴功能，帮你记录工作和个人事项。</div>
-      <div class="work-coming-soon">
-        <div class="work-feature">
-          <div class="work-feature-icon" style="background:#eef1fc">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2d5be3" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+
+      <!-- VIEW: Timeline -->
+      <div class="wk-view active" id="wkView-timeline">
+        <div style="padding:12px 14px">
+          <div class="wk-month-nav">
+            <button class="wk-month-btn" onclick="wkMonthNav(-1)">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <span id="wk-month-label" style="font-size:14px;font-weight:500;color:var(--text)">2026年 4月</span>
+            <button class="wk-month-btn" onclick="wkMonthNav(1)">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+            <div style="margin-left:auto;display:flex;gap:4px">
+              <button class="wk-filter" onclick="wkMonthPreset('prev')">上月</button>
+              <button class="wk-filter active" id="wkTlBtn-curr" onclick="wkMonthPreset('curr')">本月</button>
+              <button class="wk-filter" onclick="wkMonthPreset('next')">下月</button>
+            </div>
           </div>
-          <div>
-            <div class="work-feature-title">任务列表</div>
-            <div class="work-feature-text">今天 / 本周 / 本月待办，支持优先级</div>
-          </div>
-        </div>
-        <div class="work-feature">
-          <div class="work-feature-icon" style="background:#f0fdf4">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a7a4a" stroke-width="2"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line></svg>
-          </div>
-          <div>
-            <div class="work-feature-title">时间轴</div>
-            <div class="work-feature-text">本月事项一览，今天高亮显示</div>
-          </div>
-        </div>
-        <div class="work-feature">
-          <div class="work-feature-icon" style="background:#fefce8">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ba7517" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-          </div>
-          <div>
-            <div class="work-feature-title">打开提醒</div>
-            <div class="work-feature-text">每次开启时提示今日待办事项</div>
-          </div>
+          <div id="wk-timeline-grid" style="margin-top:12px"><div class="wk-tl-grid"><div class="wk-tl-day" onclick="showTlDay(1)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">1</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(2)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">2</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(3)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">3</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(4)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">4</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(5)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">5</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(6)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">6</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(7)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">7</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(8)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">8</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(9)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">9</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(10)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">10</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(11)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);border:1.5px solid #2d5be3;"></div>
+      <div class="wk-tl-num" style="color:#2d5be3;font-weight:600">11</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(12)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">12</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(13)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">13</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(14)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">14</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(15)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">15</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(16)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">16</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(17)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">17</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(18)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">18</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(19)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">19</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(20)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">20</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(21)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">21</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(22)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">22</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(23)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">23</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(24)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">24</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(25)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">25</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(26)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">26</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(27)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">27</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(28)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">28</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(29)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">29</div>
+    </div><div class="wk-tl-day" onclick="showTlDay(30)">
+      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
+      <div class="wk-tl-num" style="">30</div>
+    </div></div></div>
+          <div id="wk-timeline-detail" style="margin-top:12px"></div>
         </div>
       </div>
+
+      <!-- VIEW: Archive -->
+      <div class="wk-view" id="wkView-archive">
+        <div style="padding:12px 14px">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px">
+            <button class="wk-filter active" id="wkArcBtn-prev" onclick="setArchiveMonth('prev')">上月</button>
+            <button class="wk-filter" id="wkArcBtn-curr" onclick="setArchiveMonth('curr')">本月</button>
+            <button class="wk-filter" id="wkArcBtn-custom" onclick="setArchiveMonth('custom')">自定义</button>
+            <input type="month" id="wk-arc-custom-inp" style="display:none;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:4px 8px;font-size:12px;color:var(--text);font-family:inherit" onchange="setArchiveMonthCustom(this.value)">
+          </div>
+          <div id="wk-archive-list"><div class="wk-empty"><div style="font-size:13px;color:var(--text3)">2026年3月没有已完成的任务</div></div></div>
+        </div>
+      </div>
+
     </div>
   </div><!-- end tab-pane work -->
 
@@ -613,6 +807,7 @@ a { text-decoration: none; }
     </button>
   </nav>
 
+
   <!-- DESKTOP RIGHT PANEL -->
   <div class="dp" id="dp" style="">
     <div class="dp-empty" id="dp-empty"><div class="ei">▶</div><p>选择内容预览</p></div>
@@ -622,6 +817,7 @@ a { text-decoration: none; }
       <div class="dp-actions" id="dp-actions"></div>
     </div>
   </div>
+
 </div>
 
 <!-- MOBILE SHEET -->
@@ -716,7 +912,7 @@ a { text-decoration: none; }
   <div class="modal" style="display:flex;flex-direction:column;max-height:90dvh">
     <div class="modal-hdr">
       <span class="modal-ttl">设定</span>
-      <span id="modal-ver" style="font-size:10px;color:var(--text3);font-family:'DM Mono',monospace">v1.34</span>
+      <span id="modal-ver" style="font-size:10px;color:var(--text3);font-family:'DM Mono',monospace">v1.40</span>
       <button class="close-btn" onclick="closeSettings()">✕</button>
     </div>
     <div class="modal-body" style="gap:0;padding:0;overflow-y:auto;flex:1">
@@ -843,7 +1039,7 @@ a { text-decoration: none; }
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"></path></svg>
             推送到 GitHub
           </button>
-          <div class="push-status loading" id="push-status">正在推送 v1.34...</div>
+          <div class="push-status loading" id="push-status">正在推送 v1.40...</div>
         </div>
       </div>
 
@@ -870,7 +1066,7 @@ const EMBEDDABLE = ['youtube','webpage']
 function getConfig() { try { return JSON.parse(localStorage.getItem('siren-config')||'{}') } catch { return {} } }
 function saveConfig(c) { localStorage.setItem('siren-config', JSON.stringify(c)) }
 function getApiKey() { return getConfig().geminiKey || '' }
-function getVersion() { return getConfig().version || 'v1.34' }
+function getVersion() { return getConfig().version || 'v1.40' }
 
 function getQuickTags() { return getConfig().quickTags || [...DEFAULT_QUICK_TAGS] }
 
@@ -1170,20 +1366,36 @@ async function fetchTikTokMeta(url) {
 // Free tier: 100 requests/month, no auth needed
 async function fetchMicrolinkMeta(url) {
   try {
-    const endpoint = `https://api.microlink.io/?url=${encodeURIComponent(url)}&screenshot=false&video=false`
-    const res = await fetch(endpoint, {
-      headers: { 'Accept': 'application/json' }
-    })
+    // Try with iframe-friendly params
+    const endpoint = `https://api.microlink.io/?url=${encodeURIComponent(url)}&meta=true&video=false`
+    const res = await fetch(endpoint)
     if (!res.ok) return null
     const data = await res.json()
-    if (data.status !== 'success') return null
     const d = data.data || {}
-    return {
-      title: d.title || d.description || null,
-      thumbnail: d.image?.url || d.logo?.url || null,
-      author: d.author || null
-    }
+    // Microlink sometimes returns 'fail' but still has data
+    const title = d.title || d.description || null
+    const thumbnail = d.image?.url || d.screenshot?.url || d.logo?.url || null
+    // Author: try multiple fields
+    const author = d.author || d['og:site_name'] || null
+    if (!title && !thumbnail) return null
+    return { title, thumbnail, author }
   } catch { return null }
+}
+
+// Fallback: try to extract title from douyin share text
+function extractDouyinTitle(rawText) {
+  if (!rawText) return null
+  // Douyin share format: "xxx, 复制链接打开抖音..." 
+  // or "【title】..."
+  const clean = rawText
+    .replace(/复制链接.*$/s, '')
+    .replace(/打开抖音.*$/s, '')
+    .replace(/https?:\/\/\S+/g, '')
+    .replace(/【|】/g, '')
+    .replace(/^[\s#@]+/, '')
+    .trim()
+  if (clean.length > 5 && clean.length < 100) return clean
+  return null
 }
 
 // Fetch metadata (title + thumbnail) per platform after save
@@ -1209,7 +1421,16 @@ async function fetchPlatformMeta(url, platform) {
       } catch {}
       return await fetchMicrolinkMeta(url) || {}
     }
-    case 'douyin':
+    case 'douyin': {
+      // First try to extract title from share text (already in pendingSave)
+      const rawTitle = pendingSave?.rawText ? extractDouyinTitle(pendingSave.rawText) : null
+      const meta = await fetchMicrolinkMeta(url)
+      return {
+        title: meta?.title || rawTitle || null,
+        thumbnail: meta?.thumbnail || null,
+        author: meta?.author || null
+      }
+    }
     case 'xiaohongshu':
     case 'instagram':
     case 'facebook':
@@ -1217,7 +1438,7 @@ async function fetchPlatformMeta(url, platform) {
     case 'other':
     default: {
       const meta = await fetchMicrolinkMeta(url)
-      if (meta) return meta
+      if (meta?.title || meta?.thumbnail) return meta
       // Last resort: use domain as title
       try {
         const domain = new URL(url).hostname.replace(/^www\./, '')
@@ -2110,13 +2331,12 @@ async function shareLink(url, title) {
 
 // ── TAB SWITCHING ─────────────────────────────────────────────────────────────
 function switchTab(tab) {
-  // Update panes
   document.getElementById('tab-video').classList.toggle('active', tab === 'video')
   document.getElementById('tab-work').classList.toggle('active', tab === 'work')
-  // Mobile tab bar buttons
+  // Mobile tab bar
   document.getElementById('tabBtn-video').classList.toggle('active', tab === 'video')
   document.getElementById('tabBtn-work').classList.toggle('active', tab === 'work')
-  // Desktop sidebar buttons
+  // Desktop sidebar tab buttons
   const sbV = document.getElementById('sbTab-video')
   const sbW = document.getElementById('sbTab-work')
   if (sbV) {
@@ -2129,11 +2349,393 @@ function switchTab(tab) {
     sbW.style.borderColor = tab==='work' ? 'var(--accent)' : 'var(--border)'
     sbW.style.color = tab==='work' ? 'var(--accent-text)' : 'var(--text2)'
   }
-  // Desktop: show/hide dp panel based on tab
+  // Desktop: show/hide dp panel and sidebar sections
   const dp = document.getElementById('dp')
   if (dp) dp.style.display = tab==='video' ? '' : 'none'
+  // Hide video-specific sidebar sections on work tab
+  const sbSections = document.querySelectorAll('.sb-video-only')
+  sbSections.forEach(el => el.style.display = tab==='video' ? '' : 'none')
+  // Show/hide work sidebar
+  const wkSb = document.getElementById('sb-work-section')
+  if (wkSb) wkSb.style.display = tab==='work' ? '' : 'none'
+  if (tab === 'work') { renderWkTasks(); renderWkSidebar() }
 }
 
+
+// ── WORK TAB DATA ─────────────────────────────────────────────────────────────
+const WK_DEFAULT_CATS = [
+  {name:'工作跟进', color:'#7c3aed'},
+  {name:'客户项目', color:'#0891b2'},
+  {name:'个人事务', color:'#1a7a4a'},
+  {name:'健康',    color:'#e03e2d'},
+  {name:'其他',    color:'#6b7280'},
+]
+const WK_PRI_COLORS = { high:'#e03e2d', mid:'#ba7517', low:'#1a7a4a' }
+const WK_PRI_LABELS = { high:'高', mid:'中', low:'低' }
+const WK_PRI_BG    = { high:'#fef2f1', mid:'#faeeda', low:'#f0fdf4' }
+
+let wkState = { tasks:[], cats:[...WK_DEFAULT_CATS] }
+let wkFilter = 'today'
+let wkTimelineMonth = null  // {year, month}
+let wkArchiveMonth = 'prev'
+let wkArchiveCustom = null
+let wkEditingId = null
+let wkSelectedTlDay = null
+
+function loadWkState() {
+  try {
+    const s = localStorage.getItem('siren-wk-v1')
+    if (s) {
+      const p = JSON.parse(s)
+      wkState.tasks = p.tasks || []
+      wkState.cats = p.cats || [...WK_DEFAULT_CATS]
+    }
+  } catch {}
+  const now = new Date()
+  wkTimelineMonth = { year: now.getFullYear(), month: now.getMonth() }
+}
+function saveWkState() {
+  localStorage.setItem('siren-wk-v1', JSON.stringify(wkState))
+}
+
+// ── WORK VIEWS ─────────────────────────────────────────────────────────────────
+function switchWorkView(v) {
+  ['tasks','timeline','archive'].forEach(id => {
+    document.getElementById('wkView-' + id).classList.toggle('active', id === v)
+    document.getElementById('wkBtn-' + id).classList.toggle('active', id === v)
+  })
+  if (v === 'tasks') renderWkTasks()
+  if (v === 'timeline') renderWkTimeline()
+  if (v === 'archive') renderWkArchive()
+}
+function setWkFilter(f) {
+  wkFilter = f
+  document.querySelectorAll('[data-wf]').forEach(el =>
+    el.classList.toggle('active', el.dataset.wf === f)
+  )
+  renderWkTasks()
+}
+
+// ── TASK FILTERING ─────────────────────────────────────────────────────────────
+function getWkFiltered() {
+  const now = new Date(); now.setHours(0,0,0,0)
+  const week = new Date(now); week.setDate(week.getDate() + 7)
+  const month = new Date(now.getFullYear(), now.getMonth()+1, 0)
+  return wkState.tasks.filter(t => {
+    if (t.archived) return false
+    if (!t.dueDate) return true
+    const due = new Date(t.dueDate + 'T00:00:00')
+    if (wkFilter === 'today')  return due <= now || due.toDateString() === now.toDateString()
+    if (wkFilter === 'week')   return due <= week
+    if (wkFilter === 'month')  return due <= month
+    return true
+  })
+}
+
+// ── RENDER TASKS ───────────────────────────────────────────────────────────────
+function renderWkTasks() {
+  // Today banner
+  const now = new Date(); now.setHours(0,0,0,0)
+  const overdue = wkState.tasks.filter(t => !t.archived && !t.done && t.dueDate && new Date(t.dueDate+'T00:00:00') < now)
+  const todayTasks = wkState.tasks.filter(t => !t.archived && !t.done && t.dueDate && new Date(t.dueDate+'T00:00:00').toDateString() === now.toDateString())
+  const banner = document.getElementById('wk-today-banner')
+  if (overdue.length || todayTasks.length) {
+    banner.style.display = 'flex'
+    banner.innerHTML = `
+      <div style="font-size:12px;font-weight:500;color:#1a3db0;flex:1">
+        ${new Date().toLocaleDateString('zh-CN',{month:'long',day:'numeric',weekday:'short'})}
+      </div>
+      ${overdue.length ? `<span style="font-size:11px;background:#fce8e6;color:#c0392b;padding:2px 8px;border-radius:99px">⚠ ${overdue.length} 件过期</span>` : ''}
+      ${todayTasks.length ? `<span style="font-size:11px;background:white;color:#1a3db0;border:0.5px solid #b5d4f8;padding:2px 8px;border-radius:99px">今天 ${todayTasks.length} 件</span>` : ''}
+    `
+  } else {
+    banner.style.display = 'none'
+  }
+
+  const list = document.getElementById('wk-task-list')
+  const tasks = getWkFiltered()
+  if (tasks.length === 0) {
+    list.innerHTML = `<div class="wk-empty"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg><div style="font-size:13px;color:var(--text3)">没有任务，按 + 新增</div></div>`
+    return
+  }
+
+  // Group: overdue, today, upcoming, done
+  const groups = { overdue:[], today:[], upcoming:[], done:[] }
+  tasks.forEach(t => {
+    if (t.done) { groups.done.push(t); return }
+    if (!t.dueDate) { groups.upcoming.push(t); return }
+    const due = new Date(t.dueDate+'T00:00:00')
+    if (due < now) groups.overdue.push(t)
+    else if (due.toDateString() === now.toDateString()) groups.today.push(t)
+    else groups.upcoming.push(t)
+  })
+
+  let html = ''
+  if (groups.overdue.length) html += `<div class="wk-section-label" style="color:#c0392b">⚠ 过期</div>` + groups.overdue.map(t => wkTaskCard(t, true)).join('')
+  if (groups.today.length)   html += `<div class="wk-section-label">今天</div>` + groups.today.map(t => wkTaskCard(t, false)).join('')
+  if (groups.upcoming.length)html += `<div class="wk-section-label">即将到来</div>` + groups.upcoming.map(t => wkTaskCard(t, false)).join('')
+  if (groups.done.length)    html += `<div class="wk-section-label">已完成</div>` + groups.done.map(t => wkTaskCard(t, false)).join('')
+  list.innerHTML = html
+}
+
+function wkTaskCard(t, isOverdue) {
+  const cat = wkState.cats.find(c => c.name === t.cat) || {color:'#6b7280'}
+  const pri = WK_PRI_COLORS[t.priority] || '#6b7280'
+  const borderColor = isOverdue ? '#e03e2d' : cat.color
+  const pct = t.progress || 0
+  const dateStr = t.dueDate ? new Date(t.dueDate+'T00:00:00').toLocaleDateString('zh-CN',{month:'short',day:'numeric'}) : ''
+  return `<div class="wk-task" style="border-left:3px solid ${borderColor}" onclick="openEditTask('${t.id}')">
+    <div class="wk-task-header">
+      <div class="wk-check${t.done?' done':''}" onclick="event.stopPropagation();toggleWkDone('${t.id}')">
+        ${t.done ? '<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
+      </div>
+      <div style="flex:1;min-width:0">
+        <div class="wk-task-title${t.done?' done':''}">${esc(t.title)}</div>
+        <div class="wk-task-meta">${dateStr ? dateStr+' · ' : ''}${esc(t.cat||'')}</div>
+      </div>
+      ${t.priority ? `<span class="wk-pri" style="background:${WK_PRI_BG[t.priority]};color:${pri}">${WK_PRI_LABELS[t.priority]}</span>` : ''}
+    </div>
+    <div class="wk-progress">
+      <div class="wk-progress-row">
+        <div style="font-size:10px;color:var(--text3)">完成度</div>
+        <div style="font-size:10px;font-weight:500;color:${cat.color}">${pct}%</div>
+      </div>
+      <div class="wk-progress-bar"><div class="wk-progress-fill" style="width:${pct}%;background:${cat.color}"></div></div>
+    </div>
+    ${t.notes ? `<div class="wk-follow-chips"><span class="wk-chip">${esc(t.notes.slice(0,40))}${t.notes.length>40?'...':''}</span></div>` : ''}
+  </div>`
+}
+
+function toggleWkDone(id) {
+  const t = wkState.tasks.find(t => t.id === id); if (!t) return
+  t.done = !t.done
+  if (t.done) { t.progress = 100; t.archivedAt = new Date().toISOString() }
+  saveWkState(); renderWkTasks()
+}
+
+// ── TIMELINE ───────────────────────────────────────────────────────────────────
+function wkMonthNav(dir) {
+  wkTimelineMonth.month += dir
+  if (wkTimelineMonth.month > 11) { wkTimelineMonth.month = 0; wkTimelineMonth.year++ }
+  if (wkTimelineMonth.month < 0)  { wkTimelineMonth.month = 11; wkTimelineMonth.year-- }
+  renderWkTimeline()
+}
+function wkMonthPreset(p) {
+  const now = new Date()
+  if (p === 'prev') { wkTimelineMonth = { year: now.getFullYear(), month: now.getMonth()-1 < 0 ? 11 : now.getMonth()-1 } }
+  if (p === 'curr') { wkTimelineMonth = { year: now.getFullYear(), month: now.getMonth() } }
+  if (p === 'next') { wkTimelineMonth = { year: now.getFullYear(), month: now.getMonth()+1 > 11 ? 0 : now.getMonth()+1 } }
+  renderWkTimeline()
+}
+function renderWkTimeline() {
+  const { year, month } = wkTimelineMonth
+  const daysInMonth = new Date(year, month+1, 0).getDate()
+  const today = new Date(); today.setHours(0,0,0,0)
+  document.getElementById('wk-month-label').textContent = `${year}年 ${month+1}月`
+
+  // Count tasks per day
+  const counts = {}
+  wkState.tasks.forEach(t => {
+    if (!t.dueDate) return
+    const d = new Date(t.dueDate+'T00:00:00')
+    if (d.getFullYear()===year && d.getMonth()===month) {
+      const day = d.getDate()
+      counts[day] = (counts[day]||0) + 1
+    }
+  })
+  const max = Math.max(...Object.values(counts), 1)
+
+  let html = '<div class="wk-tl-grid">'
+  for (let d = 1; d <= daysInMonth; d++) {
+    const cnt = counts[d] || 0
+    const h = Math.max(6, Math.round((cnt/max)*40))
+    const isToday = today.getFullYear()===year && today.getMonth()===month && today.getDate()===d
+    const hasOverdue = wkState.tasks.some(t => {
+      if (!t.dueDate || t.done) return false
+      const dd = new Date(t.dueDate+'T00:00:00')
+      return dd < today && dd.getFullYear()===year && dd.getMonth()===month && dd.getDate()===d
+    })
+    const barColor = hasOverdue ? '#fce8e6' : cnt > 0 ? '#eef1fc' : 'var(--surface2)'
+    const border = isToday ? 'border:1.5px solid #2d5be3;' : ''
+    html += `<div class="wk-tl-day" onclick="showTlDay(${d})">
+      <div class="wk-tl-bar" style="height:${h}px;background:${barColor};${border}"></div>
+      <div class="wk-tl-num" style="${isToday?'color:#2d5be3;font-weight:600':''}">${d}</div>
+    </div>`
+  }
+  html += '</div>'
+  document.getElementById('wk-timeline-grid').innerHTML = html
+  document.getElementById('wk-timeline-detail').innerHTML = ''
+}
+function showTlDay(day) {
+  const { year, month } = wkTimelineMonth
+  const tasks = wkState.tasks.filter(t => {
+    if (!t.dueDate) return false
+    const d = new Date(t.dueDate+'T00:00:00')
+    return d.getFullYear()===year && d.getMonth()===month && d.getDate()===day
+  })
+  const el = document.getElementById('wk-timeline-detail')
+  if (!tasks.length) { el.innerHTML = `<div style="text-align:center;font-size:12px;color:var(--text3);padding:10px">${day}日 没有任务</div>`; return }
+  el.innerHTML = `<div style="font-size:11px;font-weight:500;color:var(--text2);margin-bottom:6px">${month+1}月${day}日 · ${tasks.length}件</div>` +
+    tasks.map(t => {
+      const cat = wkState.cats.find(c => c.name===t.cat)||{color:'#6b7280'}
+      return `<div class="wk-tl-detail-card" style="margin-bottom:5px;border-left:3px solid ${cat.color}">
+        <div style="font-size:13px;font-weight:500;color:var(--text)">${esc(t.title)}</div>
+        <div style="font-size:10px;color:var(--text3);margin-top:2px">${esc(t.cat||'')} · ${t.progress||0}%</div>
+      </div>`
+    }).join('')
+}
+
+// ── ARCHIVE ────────────────────────────────────────────────────────────────────
+function setArchiveMonth(p) {
+  wkArchiveMonth = p
+  document.getElementById('wk-arc-custom-inp').style.display = p==='custom' ? 'block' : 'none'
+  ;['prev','curr','custom'].forEach(id => {
+    document.getElementById('wkArcBtn-'+id).classList.toggle('active', id===p)
+  })
+  if (p !== 'custom') renderWkArchive()
+}
+function setArchiveMonthCustom(val) {
+  wkArchiveCustom = val; renderWkArchive()
+}
+function renderWkArchive() {
+  const now = new Date()
+  let year, month
+  if (wkArchiveMonth === 'prev') { month = now.getMonth()-1; year = now.getFullYear(); if(month<0){month=11;year--} }
+  else if (wkArchiveMonth === 'curr') { month = now.getMonth(); year = now.getFullYear() }
+  else if (wkArchiveMonth === 'custom' && wkArchiveCustom) { [year, month] = wkArchiveCustom.split('-').map(Number); month-- }
+  else { month = now.getMonth()-1; year = now.getFullYear(); if(month<0){month=11;year--} }
+
+  document.getElementById('wk-arc-custom-inp').value = wkArchiveCustom || ''
+
+  const tasks = wkState.tasks.filter(t => {
+    if (!t.done) return false
+    const d = new Date(t.archivedAt || t.dueDate+'T00:00:00')
+    return d.getFullYear()===year && d.getMonth()===month
+  })
+  const el = document.getElementById('wk-archive-list')
+  if (!tasks.length) {
+    el.innerHTML = `<div class="wk-empty"><div style="font-size:13px;color:var(--text3)">${year}年${month+1}月没有已完成的任务</div></div>`
+    return
+  }
+  el.innerHTML = `<div style="font-size:11px;color:var(--text2);margin-bottom:8px">${year}年${month+1}月 · 共完成 ${tasks.length} 件</div>` +
+    tasks.map(t => {
+      const cat = wkState.cats.find(c=>c.name===t.cat)||{color:'#6b7280'}
+      const d = new Date(t.archivedAt || t.dueDate+'T00:00:00').toLocaleDateString('zh-CN',{month:'short',day:'numeric'})
+      return `<div class="wk-arc-task">
+        <div class="wk-arc-done-icon"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:13px;color:var(--text2);text-decoration:line-through">${esc(t.title)}</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:1px">${d} · ${esc(t.cat||'')} · 100%</div>
+        </div>
+        <span style="font-size:10px;background:${cat.color}18;color:${cat.color};padding:2px 7px;border-radius:99px">${esc(t.cat||'')}</span>
+      </div>`
+    }).join('')
+}
+
+// ── ADD / EDIT TASK ────────────────────────────────────────────────────────────
+function openAddTask() {
+  wkEditingId = null
+  document.getElementById('wk-add-title').textContent = '新增任务'
+  document.getElementById('wk-inp-title').value = ''
+  document.getElementById('wk-inp-date').value = new Date().toISOString().slice(0,10)
+  document.getElementById('wk-inp-pri').value = 'mid'
+  document.getElementById('wk-inp-progress').value = 0
+  document.getElementById('wk-progress-label').textContent = '0%'
+  document.getElementById('wk-inp-notes').value = ''
+  renderWkCatSelect()
+  document.getElementById('wk-add-overlay').classList.add('open')
+  document.getElementById('wk-add-sheet').classList.add('open')
+  document.body.style.overflow = 'hidden'
+  history.pushState({wkSheet:true}, '')
+}
+function openEditTask(id) {
+  const t = wkState.tasks.find(t=>t.id===id); if(!t) return
+  wkEditingId = id
+  document.getElementById('wk-add-title').textContent = '编辑任务'
+  document.getElementById('wk-inp-title').value = t.title
+  document.getElementById('wk-inp-date').value = t.dueDate || ''
+  document.getElementById('wk-inp-pri').value = t.priority || 'mid'
+  document.getElementById('wk-inp-progress').value = t.progress || 0
+  document.getElementById('wk-progress-label').textContent = (t.progress||0)+'%'
+  document.getElementById('wk-inp-notes').value = t.notes || ''
+  renderWkCatSelect(t.cat)
+  document.getElementById('wk-add-overlay').classList.add('open')
+  document.getElementById('wk-add-sheet').classList.add('open')
+  document.body.style.overflow = 'hidden'
+  history.pushState({wkSheet:true}, '')
+}
+function renderWkCatSelect(selected) {
+  const sel = document.getElementById('wk-inp-cat')
+  sel.innerHTML = wkState.cats.map(c =>
+    `<option value="${esc(c.name)}"${c.name===(selected||wkState.cats[0]?.name)?' selected':''}>${esc(c.name)}</option>`
+  ).join('')
+}
+function closeAddTask() {
+  document.getElementById('wk-add-overlay').classList.remove('open')
+  document.getElementById('wk-add-sheet').classList.remove('open')
+  document.body.style.overflow = ''
+}
+function saveTask() {
+  const title = document.getElementById('wk-inp-title').value.trim()
+  if (!title) { document.getElementById('wk-inp-title').focus(); return }
+  const task = {
+    id: wkEditingId || crypto.randomUUID(),
+    title,
+    dueDate: document.getElementById('wk-inp-date').value || null,
+    priority: document.getElementById('wk-inp-pri').value,
+    cat: document.getElementById('wk-inp-cat').value,
+    progress: parseInt(document.getElementById('wk-inp-progress').value),
+    notes: document.getElementById('wk-inp-notes').value.trim(),
+    done: false,
+    archived: false,
+    createdAt: new Date().toISOString()
+  }
+  if (wkEditingId) {
+    const idx = wkState.tasks.findIndex(t=>t.id===wkEditingId)
+    if (idx !== -1) {
+      task.done = wkState.tasks[idx].done
+      task.archived = wkState.tasks[idx].archived
+      task.archivedAt = wkState.tasks[idx].archivedAt
+      wkState.tasks[idx] = task
+    }
+  } else {
+    wkState.tasks.unshift(task)
+  }
+  saveWkState()
+  closeAddTask()
+  renderWkTasks()
+  showToast(wkEditingId ? '任务已更新 ✓' : '任务已保存 ✓')
+  wkEditingId = null
+}
+
+// Progress slider live update
+document.addEventListener('input', function(e) {
+  if (e.target.id === 'wk-inp-progress') {
+    document.getElementById('wk-progress-label').textContent = e.target.value + '%'
+  }
+})
+
+// Back button for work sheet
+window.addEventListener('popstate', function(e) {
+  if (document.getElementById('wk-add-sheet')?.classList.contains('open')) {
+    closeAddTask()
+  }
+})
+
+
+function renderWkSidebar() {
+  const el = document.getElementById('sb-wk-cats')
+  if (!el) return
+  el.innerHTML = wkState.cats.map(c => {
+    const count = wkState.tasks.filter(t => t.cat === c.name && !t.done).length
+    return `<div style="display:flex;align-items:center;gap:7px;padding:4px 8px;border-radius:6px;cursor:pointer" onclick="">
+      <span style="width:8px;height:8px;border-radius:50%;background:${c.color};flex-shrink:0;display:inline-block"></span>
+      <span style="flex:1;font-size:12px;color:var(--text2)">${esc(c.name)}</span>
+      <span style="font-size:10px;color:var(--text3)">${count||''}</span>
+    </div>`
+  }).join('')
+  document.getElementById('sb-work-section').style.display = 'flex'
+}
 // ── UTILS ─────────────────────────────────────────────────────────────────────
 function esc(str) { return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;') }
 function fmtDate(iso) {
@@ -2144,7 +2746,9 @@ function fmtDate(iso) {
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
 loadState()
+loadWkState()
 render()
+renderWkTasks()
 document.getElementById('settings-overlay').classList.remove('open')
 document.getElementById('cat-editor-overlay').classList.remove('open')
 // Double-guard: ensure nothing re-opens modals after render
@@ -2167,5 +2771,48 @@ window.addEventListener('popstate', function(e) {
 })
 </script>
 
+<!-- ADD TASK SHEET -->
+<div class="sheet-overlay" id="wk-add-overlay" onclick="closeAddTask()"></div>
+<div class="wk-add-sheet" id="wk-add-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-hdr"><span class="sheet-hdr-title" id="wk-add-title">新增任务</span><button class="close-btn" onclick="closeAddTask()">✕</button></div>
+  <div class="wk-sheet-body">
+    <div>
+      <div class="wk-label">任务标题 *</div>
+      <input id="wk-inp-title" class="wk-inp" placeholder="任务名称...">
+    </div>
+    <div style="display:flex;gap:8px">
+      <div style="flex:1">
+        <div class="wk-label">截止日期</div>
+        <input id="wk-inp-date" type="date" class="wk-inp">
+      </div>
+      <div style="flex:1">
+        <div class="wk-label">优先级</div>
+        <select id="wk-inp-pri" class="wk-inp">
+          <option value="high">高</option>
+          <option value="mid" selected="">中</option>
+          <option value="low">低</option>
+        </select>
+      </div>
+    </div>
+    <div>
+      <div class="wk-label">分类</div>
+      <select id="wk-inp-cat" class="wk-inp"></select>
+    </div>
+    <div>
+      <div class="wk-label">完成进度</div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <input type="range" id="wk-inp-progress" min="0" max="100" step="10" value="0" style="flex:1">
+        <span id="wk-progress-label" style="font-size:13px;font-weight:500;color:var(--accent);min-width:32px">0%</span>
+      </div>
+    </div>
+    <div>
+      <div class="wk-label">跟进备注</div>
+      <textarea id="wk-inp-notes" class="wk-inp" rows="3" placeholder="补充信息、跟进记录..."></textarea>
+    </div>
+    <button class="wk-save-btn" onclick="saveTask()">保存任务</button>
+  </div>
+</div>
 
-</body></html>
+
+</div></body></html>
