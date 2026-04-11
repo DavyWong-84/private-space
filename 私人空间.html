@@ -510,6 +510,26 @@ a { text-decoration: none; }
 .wk-prog-opt.p50.sel { background:#faeeda; border-color:#ba7517; color:#7a5000; }
 .wk-prog-opt.p75.sel { background:#eef1fc; border-color:#2d5be3; color:#1a3db0; }
 .wk-prog-opt.p100.sel{ background:#f0fdf4; border-color:#1a7a4a; color:#145c37; }
+
+/* Followup chat */
+.wk-followup-box { background:var(--surface2); border-radius:var(--radius-sm); overflow:hidden; display:flex; flex-direction:column; }
+.wk-followup-msgs { max-height:160px; overflow-y:auto; padding:8px 10px; display:flex; flex-direction:column; gap:0; -webkit-overflow-scrolling:touch; }
+.wk-followup-msgs:empty::after { content:'还没有跟进记录'; font-size:11px; color:var(--text3); text-align:center; display:block; padding:10px 0; }
+.wk-fdate-sep { text-align:center; margin:6px 0 4px; }
+.wk-fdate-sep span { font-size:9px; color:var(--text3); background:var(--border); padding:1px 8px; border-radius:99px; }
+.wk-fmsg { margin-bottom:6px; }
+.wk-fmsg-bubble { background:var(--surface); border:0.5px solid var(--border); border-radius:8px 8px 8px 2px; padding:7px 10px; display:inline-block; max-width:90%; cursor:pointer; }
+.wk-fmsg-text { font-size:12px; color:var(--text); line-height:1.5; }
+.wk-fmsg-tag { display:inline-block; font-size:9px; padding:1px 6px; border-radius:4px; margin-top:3px; font-weight:500; }
+.wk-fmsg-time { font-size:9px; color:var(--text3); margin-top:2px; }
+.wk-followup-tags { display:flex; gap:4px; padding:6px 10px; overflow-x:auto; scrollbar-width:none; border-top:0.5px solid var(--border); }
+.wk-followup-tags::-webkit-scrollbar { display:none; }
+.wk-ftag { height:22px; padding:0 8px; border-radius:99px; border:1.5px solid var(--border); background:none; font-size:10px; font-weight:500; color:var(--text2); cursor:pointer; white-space:nowrap; font-family:inherit; }
+.wk-ftag.selected { border-color:var(--accent); background:var(--accent-bg); color:var(--accent); }
+.wk-followup-input-row { display:flex; align-items:flex-end; gap:6px; padding:6px 10px; border-top:0.5px solid var(--border); }
+.wk-followup-inp { flex:1; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:6px 9px; font-size:12px; color:var(--text); resize:none; outline:none; font-family:inherit; max-height:60px; }
+.wk-followup-inp:focus { border-color:var(--accent); }
+.wk-followup-send { width:30px; height:30px; border-radius:50%; background:var(--accent); display:flex; align-items:center; justify-content:center; border:none; cursor:pointer; flex-shrink:0; }
 </style>
 </head>
 <body>
@@ -521,16 +541,36 @@ a { text-decoration: none; }
       <h1>私人<span>空间</span></h1>
       <div class="sb-logo-sub">
         <p id="sb-count">1 条已保存</p>
-        <span class="sb-ver" id="sb-ver">v1.46</span>
+        <span class="sb-ver" id="sb-ver">v1.47</span>
       </div>
       <div style="display:flex;gap:3px;margin-top:10px">
         <button id="sbTab-video" onclick="switchTab('video')" style="flex: 1 1 0%; padding: 5px 0px; font-size: 11px; font-weight: 500; border-radius: 6px; border-color: var(--accent); border-top-style: ; border-top-width: ; border-right-style: ; border-right-width: ; border-bottom-style: ; border-bottom-width: ; border-left-style: ; border-left-width: ; border-image-source: ; border-image-slice: ; border-image-width: ; border-image-outset: ; border-image-repeat: ; background: var(--accent-bg); color: var(--accent-text); cursor: pointer; font-family: inherit;">视频</button>
         <button id="sbTab-work" onclick="switchTab('work')" style="flex: 1 1 0%; padding: 5px 0px; font-size: 11px; font-weight: 500; border-radius: 6px; border-color: var(--border); border-top-style: ; border-top-width: ; border-right-style: ; border-right-width: ; border-bottom-style: ; border-bottom-width: ; border-left-style: ; border-left-width: ; border-image-source: ; border-image-slice: ; border-image-width: ; border-image-outset: ; border-image-repeat: ; background: none; color: var(--text2); cursor: pointer; font-family: inherit;">工作</button>
         <button id="sbTab-record" onclick="switchTab('record')" style="flex: 1 1 0%; padding: 5px 0px; font-size: 11px; font-weight: 500; border-radius: 6px; border-color: var(--border); border-top-style: ; border-top-width: ; border-right-style: ; border-right-width: ; border-bottom-style: ; border-bottom-width: ; border-left-style: ; border-left-width: ; border-image-source: ; border-image-slice: ; border-image-width: ; border-image-outset: ; border-image-repeat: ; background: none; color: var(--text2); cursor: pointer; font-family: inherit;">录音</button>
       </div>
-    <div id="sb-work-section" style="display:none;padding:14px 16px;flex-direction:column;gap:8px">
+    <div id="sb-work-section" style="display: none; padding: 14px 16px; flex-direction: column; gap: 8px;">
       <div style="font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px">工作分类</div>
-      <div id="sb-wk-cats"></div>
+      <div id="sb-wk-cats"><div style="display:flex;align-items:center;gap:7px;padding:4px 8px;border-radius:6px;cursor:pointer" onclick="">
+      <span style="width:8px;height:8px;border-radius:50%;background:#7c3aed;flex-shrink:0;display:inline-block"></span>
+      <span style="flex:1;font-size:12px;color:var(--text2)">工作跟进</span>
+      <span style="font-size:10px;color:var(--text3)"></span>
+    </div><div style="display:flex;align-items:center;gap:7px;padding:4px 8px;border-radius:6px;cursor:pointer" onclick="">
+      <span style="width:8px;height:8px;border-radius:50%;background:#0891b2;flex-shrink:0;display:inline-block"></span>
+      <span style="flex:1;font-size:12px;color:var(--text2)">客户项目</span>
+      <span style="font-size:10px;color:var(--text3)"></span>
+    </div><div style="display:flex;align-items:center;gap:7px;padding:4px 8px;border-radius:6px;cursor:pointer" onclick="">
+      <span style="width:8px;height:8px;border-radius:50%;background:#1a7a4a;flex-shrink:0;display:inline-block"></span>
+      <span style="flex:1;font-size:12px;color:var(--text2)">个人事务</span>
+      <span style="font-size:10px;color:var(--text3)"></span>
+    </div><div style="display:flex;align-items:center;gap:7px;padding:4px 8px;border-radius:6px;cursor:pointer" onclick="">
+      <span style="width:8px;height:8px;border-radius:50%;background:#e03e2d;flex-shrink:0;display:inline-block"></span>
+      <span style="flex:1;font-size:12px;color:var(--text2)">健康</span>
+      <span style="font-size:10px;color:var(--text3)"></span>
+    </div><div style="display:flex;align-items:center;gap:7px;padding:4px 8px;border-radius:6px;cursor:pointer" onclick="">
+      <span style="width:8px;height:8px;border-radius:50%;background:#6b7280;flex-shrink:0;display:inline-block"></span>
+      <span style="flex:1;font-size:12px;color:var(--text2)">其他</span>
+      <span style="font-size:10px;color:var(--text3)"></span>
+    </div></div>
       <div style="font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin:6px 0 2px">快速操作</div>
       <button onclick="switchWorkView('tasks');setWkFilter('today')" style="text-align:left;padding:5px 8px;font-size:12px;color:var(--text2);background:none;border:none;cursor:pointer;border-radius:6px;font-family:inherit;width:100%">今天待办</button>
       <button onclick="switchWorkView('timeline')" style="text-align:left;padding:5px 8px;font-size:12px;color:var(--text2);background:none;border:none;cursor:pointer;border-radius:6px;font-family:inherit;width:100%">时间轴</button>
@@ -538,7 +578,7 @@ a { text-decoration: none; }
     </div>
     </div>
     <!-- RECORD sidebar section -->
-    <div id="sb-record-section" style="display:none;padding:14px 16px;flex-direction:column;gap:6px">
+    <div id="sb-record-section" style="display: none; padding: 14px 16px; flex-direction: column; gap: 6px;">
       <div style="font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">录音空间</div>
       <div style="font-size:12px;color:var(--text2);line-height:1.6">
         点击麦克风开始录音，录音完成后 AI 自动生成转录和会议纪要。
@@ -549,7 +589,7 @@ a { text-decoration: none; }
       <div style="font-size:11px;color:var(--text3);line-height:1.6">• 手机请保持屏幕常亮</div>
       <div style="font-size:11px;color:var(--text3);line-height:1.6">• 需要 Gemini API Key 才能分析</div>
     </div>
-    <div class="sb-sec sb-video-only">
+    <div class="sb-sec sb-video-only" style="">
       <div class="sb-lbl">平台</div>
       <button class="snav active" data-fp="all" onclick="filterPlat('all')"><span class="snav-dot" style="background:#a8a69e"></span>全部<span class="snav-count" id="sc-all">1</span></button>
       <button class="snav" data-fp="youtube" onclick="filterPlat('youtube')"><span class="snav-dot" style="background:#e03e2d"></span>YouTube<span class="snav-count" id="sc-youtube">0</span></button>
@@ -560,8 +600,8 @@ a { text-decoration: none; }
       <button class="snav" data-fp="instagram" onclick="filterPlat('instagram')"><span class="snav-dot" style="background:#c13584"></span>Instagram<span class="snav-count" id="sc-instagram">0</span></button>
       <button class="snav" data-fp="webpage" onclick="filterPlat('webpage')"><span class="snav-dot" style="background:#4a5568"></span>网页<span class="snav-count" id="sc-webpage">0</span></button>
     </div>
-    <div class="sb-div sb-video-only"></div>
-    <div class="sb-sec sb-video-only" style="flex:1">
+    <div class="sb-div sb-video-only" style=""></div>
+    <div class="sb-sec sb-video-only" style="flex: 1 1 0%;">
       <div class="sb-lbl" style="display:flex;align-items:center">分类<button onclick="toggleAddCat()" style="margin-left:auto;font-size:16px;color:var(--text3);cursor:pointer;padding:0 2px">+</button></div>
       <input id="new-cat-inp" class="new-cat-inp" placeholder="新分类..." style="display:none" onkeydown="newCatKey(event)">
       <button class="snav active" data-fc="all" onclick="filterCat('all')"><span class="snav-dot" style="background:#2d5be3"></span>全部<span class="snav-count" id="cc-all">1</span></button>
@@ -643,7 +683,7 @@ a { text-decoration: none; }
       <div class="header-top">
         <div class="logo">私人<span>空间</span></div>
         <div class="header-right">
-          <span class="ver-badge" id="mob-ver">v1.46</span>
+          <span class="ver-badge" id="mob-ver">v1.47</span>
           <button class="icon-btn" onclick="openSettings()" title="设定">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
           </button>
@@ -966,7 +1006,7 @@ a { text-decoration: none; }
   <div class="modal" style="display:flex;flex-direction:column;max-height:90dvh">
     <div class="modal-hdr">
       <span class="modal-ttl">设定</span>
-      <span id="modal-ver" style="font-size:10px;color:var(--text3);font-family:'DM Mono',monospace">v1.46</span>
+      <span id="modal-ver" style="font-size:10px;color:var(--text3);font-family:'DM Mono',monospace">v1.47</span>
       <button class="close-btn" onclick="closeSettings()">✕</button>
     </div>
     <div class="modal-body" style="gap:0;padding:0;overflow-y:auto;flex:1">
@@ -1093,7 +1133,7 @@ a { text-decoration: none; }
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"></path></svg>
             推送到 GitHub
           </button>
-          <div class="push-status loading" id="push-status">正在推送 v1.46...</div>
+          <div class="push-status loading" id="push-status">正在推送 v1.47...</div>
         </div>
       </div>
 
@@ -1120,7 +1160,7 @@ const EMBEDDABLE = ['youtube','webpage']
 function getConfig() { try { return JSON.parse(localStorage.getItem('siren-config')||'{}') } catch { return {} } }
 function saveConfig(c) { localStorage.setItem('siren-config', JSON.stringify(c)) }
 function getApiKey() { return getConfig().geminiKey || '' }
-function getVersion() { return getConfig().version || 'v1.46' }
+function getVersion() { return getConfig().version || 'v1.47' }
 
 function getQuickTags() { return getConfig().quickTags || [...DEFAULT_QUICK_TAGS] }
 
@@ -2562,7 +2602,7 @@ function wkTaskCard(t, isOverdue) {
       </div>
       <div class="wk-progress-bar"><div class="wk-progress-fill" style="width:${pct}%;background:${cat.color}"></div></div>
     </div>
-    ${t.notes ? `<div class="wk-follow-chips"><span class="wk-chip">${esc(t.notes.slice(0,40))}${t.notes.length>40?'...':''}</span></div>` : ''}
+    ${t.followups?.length ? `<div class="wk-follow-chips"><span class="wk-chip">${esc(t.followups[t.followups.length-1].text.slice(0,40))}${t.followups[t.followups.length-1].text.length>40?'...':''}</span></div>` : ''}
   </div>`
 }
 
@@ -2768,6 +2808,10 @@ function openAddTask() {
   selectWkProg(0)
   document.getElementById('wk-inp-notes').value = ''
   renderWkCatSelect()
+  window._pendingFollowups = []
+  renderFollowupMsgs([])
+  wkFollowupTag = ''
+  document.querySelectorAll('.wk-ftag').forEach(b => b.classList.remove('selected'))
   document.getElementById('wk-add-overlay').classList.add('open')
   document.getElementById('wk-add-sheet').classList.add('open')
   document.body.style.overflow = 'hidden'
@@ -2784,6 +2828,9 @@ function openEditTask(id) {
   selectWkProg(t.progress || 0)
   document.getElementById('wk-inp-notes').value = t.notes || ''
   renderWkCatSelect(t.cat)
+  wkFollowupTag = ''
+  document.querySelectorAll('.wk-ftag').forEach(b => b.classList.remove('selected'))
+  renderFollowupMsgs(t.followups || [])
   document.getElementById('wk-add-overlay').classList.add('open')
   document.getElementById('wk-add-sheet').classList.add('open')
   document.body.style.overflow = 'hidden'
@@ -2810,7 +2857,7 @@ function saveTask() {
     priority: document.getElementById('wk-inp-pri').value,
     cat: document.getElementById('wk-inp-cat').value,
     progress: parseInt(document.getElementById('wk-inp-progress').value),
-    notes: document.getElementById('wk-inp-notes').value.trim(),
+    followups: wkEditingId ? (wkState.tasks.find(t=>t.id===wkEditingId)?.followups || []) : [],
     done: false,
     archived: false,
     createdAt: new Date().toISOString()
@@ -2821,9 +2868,13 @@ function saveTask() {
       task.done = wkState.tasks[idx].done
       task.archived = wkState.tasks[idx].archived
       task.archivedAt = wkState.tasks[idx].archivedAt
+      task.followups = wkState.tasks[idx].followups || []
       wkState.tasks[idx] = task
     }
   } else {
+    // Merge pending followups for new task
+    task.followups = window._pendingFollowups || []
+    window._pendingFollowups = []
     wkState.tasks.unshift(task)
   }
   saveWkState()
@@ -3279,6 +3330,89 @@ window.addEventListener('popstate', function(e) {
   }
 })
 
+
+// ── FOLLOWUP NOTES ────────────────────────────────────────────────────────────
+let wkFollowupTag = ''
+
+function selectFollowupTag(btn) {
+  wkFollowupTag = btn.dataset.tag
+  document.querySelectorAll('.wk-ftag').forEach(b => b.classList.toggle('selected', b === btn))
+}
+
+function addFollowup() {
+  const inp = document.getElementById('wk-inp-notes')
+  const text = inp.value.trim()
+  if (!text) return
+  if (!wkEditingId) {
+    // New task - store temporarily in a pending array
+    if (!window._pendingFollowups) window._pendingFollowups = []
+    window._pendingFollowups.push({ text, tag: wkFollowupTag, time: new Date().toISOString() })
+    inp.value = ''
+    renderFollowupMsgs(window._pendingFollowups)
+    return
+  }
+  const task = wkState.tasks.find(t => t.id === wkEditingId)
+  if (!task) return
+  if (!task.followups) task.followups = []
+  task.followups.push({ text, tag: wkFollowupTag, time: new Date().toISOString() })
+  saveWkState()
+  inp.value = ''
+  renderFollowupMsgs(task.followups)
+}
+
+function renderFollowupMsgs(followups) {
+  const el = document.getElementById('wk-followup-msgs')
+  if (!el) return
+  if (!followups || !followups.length) { el.innerHTML = ''; return }
+
+  const TAG_STYLES = {
+    '进行中': 'background:#eef1fc;color:#1a3db0',
+    '待回复': 'background:#faeeda;color:#7a5000',
+    '有进展': 'background:#f0fdf4;color:#145c37',
+    '完成':   'background:#eef1fc;color:#1a7a4a',
+  }
+
+  let html = ''
+  let lastDate = ''
+  followups.forEach((f, i) => {
+    const d = new Date(f.time)
+    const dateStr = d.toLocaleDateString('zh-CN', {month:'short', day:'numeric'})
+    const isToday = d.toDateString() === new Date().toDateString()
+    const displayDate = isToday ? '今天' : dateStr
+    if (displayDate !== lastDate) {
+      html += `<div class="wk-fdate-sep"><span>${displayDate}</span></div>`
+      lastDate = displayDate
+    }
+    const timeStr = d.toLocaleTimeString('zh-CN', {hour:'2-digit', minute:'2-digit'})
+    const tagHTML = f.tag ? `<div><span class="wk-fmsg-tag" style="${TAG_STYLES[f.tag]||''}">${esc(f.tag)}</span></div>` : ''
+    html += `<div class="wk-fmsg" oncontextmenu="deleteFollowup(${i},event)">
+      <div class="wk-fmsg-bubble">
+        <div class="wk-fmsg-text">${esc(f.text)}</div>
+        ${tagHTML}
+      </div>
+      <div class="wk-fmsg-time">${timeStr}</div>
+    </div>`
+  })
+  el.innerHTML = html
+  el.scrollTop = el.scrollHeight
+}
+
+function deleteFollowup(idx, event) {
+  event.preventDefault()
+  if (!confirm('删除这条跟进记录？')) return
+  if (wkEditingId) {
+    const task = wkState.tasks.find(t => t.id === wkEditingId)
+    if (task?.followups) {
+      task.followups.splice(idx, 1)
+      saveWkState()
+      renderFollowupMsgs(task.followups)
+    }
+  } else if (window._pendingFollowups) {
+    window._pendingFollowups.splice(idx, 1)
+    renderFollowupMsgs(window._pendingFollowups)
+  }
+}
+
 // ── UTILS ─────────────────────────────────────────────────────────────────────
 function esc(str) { return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;') }
 function fmtDate(iso) {
@@ -3358,8 +3492,23 @@ window.addEventListener('popstate', function(e) {
       <input type="hidden" id="wk-inp-progress" value="0">
     </div>
     <div>
-      <div class="wk-label">跟进备注</div>
-      <textarea id="wk-inp-notes" class="wk-inp" rows="3" placeholder="补充信息、跟进记录..."></textarea>
+      <div class="wk-label">跟进记录</div>
+      <div class="wk-followup-box" id="wk-followup-box">
+        <div class="wk-followup-msgs" id="wk-followup-msgs"></div>
+        <div class="wk-followup-tags" id="wk-followup-tags">
+          <button class="wk-ftag" data-tag="" onclick="selectFollowupTag(this)">无标签</button>
+          <button class="wk-ftag" data-tag="进行中" onclick="selectFollowupTag(this)">进行中</button>
+          <button class="wk-ftag" data-tag="待回复" onclick="selectFollowupTag(this)">待回复</button>
+          <button class="wk-ftag" data-tag="有进展" onclick="selectFollowupTag(this)">有进展</button>
+          <button class="wk-ftag" data-tag="完成" onclick="selectFollowupTag(this)">完成</button>
+        </div>
+        <div class="wk-followup-input-row">
+          <textarea id="wk-inp-notes" class="wk-followup-inp" rows="1" placeholder="写跟进备注..."></textarea>
+          <button class="wk-followup-send" onclick="addFollowup()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          </button>
+        </div>
+      </div>
     </div>
     <button class="wk-save-btn" onclick="saveTask()">保存任务</button>
   </div>
