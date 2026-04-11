@@ -229,7 +229,7 @@ a { text-decoration: none; }
 
   /* desktop: right panel */
   .sheet-overlay, .sheet, .tag-sheet { display: none !important; }
-  #dp { display: flex !important; }
+  #dp { display: flex; }  /* switchTab controls this via style.display */
   .filter-selects { display: none !important; }
   .dp { width: 300px; flex-shrink: 0; background: var(--surface); border-left: 1px solid var(--border); flex-direction: column; overflow: hidden; }
   .dp-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 6px; }
@@ -423,6 +423,63 @@ a { text-decoration: none; }
 .wk-label { font-size:11px; font-weight:500; color:var(--text2); margin-bottom:4px; }
 .wk-save-btn { width:100%; height:44px; background:var(--accent); color:#fff; border-radius:var(--radius-sm); font-size:14px; font-weight:500; }
 .wk-empty { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; flex:1; padding:40px 20px; text-align:center; }
+
+/* ── TAB 3: RECORDING ─────────────────────────────────────────────────────── */
+.rec-main { flex:1; display:flex; flex-direction:column; overflow:hidden; min-height:0; }
+.rec-widget { padding:20px 16px 16px; display:flex; flex-direction:column; align-items:center; gap:14px; border-bottom:1px solid var(--border); flex-shrink:0; }
+.rec-timer-wrap { text-align:center; }
+.rec-timer { font-size:32px; font-weight:500; color:var(--text); font-variant-numeric:tabular-nums; letter-spacing:.02em; }
+.rec-status { font-size:12px; color:var(--text3); margin-top:4px; }
+.rec-wave { display:flex; align-items:center; gap:3px; height:36px; }
+.rec-wave-bar { width:4px; border-radius:2px; background:var(--border); transition:height .1s; }
+.rec-wave-bar.active { background:var(--accent); }
+.rec-controls { display:flex; align-items:center; gap:16px; }
+.rec-btn-main { width:72px; height:72px; border-radius:50%; background:#e03e2d; display:flex; align-items:center; justify-content:center; border:none; cursor:pointer; transition:transform .1s, background .2s; }
+.rec-btn-main:active { transform:scale(.95); }
+.rec-btn-main.recording { background:#e03e2d; animation:rec-pulse 1.5s infinite; }
+.rec-btn-main.paused { background:#ba7517; }
+@keyframes rec-pulse { 0%,100%{box-shadow:0 0 0 0 rgba(224,62,45,.4)} 50%{box-shadow:0 0 0 10px rgba(224,62,45,0)} }
+.rec-btn-pause { width:44px; height:44px; border-radius:50%; background:var(--surface2); border:1.5px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--text2); }
+.rec-hint { font-size:10px; color:var(--text3); text-align:center; }
+.rec-list-section { flex:1; overflow-y:auto; min-height:0; -webkit-overflow-scrolling:touch; }
+.rec-list-header { padding:10px 14px 6px; display:flex; align-items:center; justify-content:space-between; }
+.rec-list-wrap { padding:0 12px 12px; display:flex; flex-direction:column; gap:8px; }
+.rec-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:11px 13px; cursor:pointer; }
+.rec-item:active { background:var(--surface2); }
+.rec-item-top { display:flex; align-items:flex-start; justify-content:space-between; gap:8px; margin-bottom:5px; }
+.rec-item-title { font-size:13px; font-weight:500; color:var(--text); flex:1; }
+.rec-item-badge { font-size:9px; padding:2px 7px; border-radius:99px; flex-shrink:0; }
+.rec-item-meta { font-size:10px; color:var(--text3); display:flex; gap:10px; }
+.rec-item-progress { height:3px; background:var(--surface2); border-radius:2px; margin-top:7px; overflow:hidden; }
+.rec-item-progress-fill { height:100%; background:var(--accent); border-radius:2px; }
+
+/* Detail view */
+.rec-detail { position:absolute; inset:0; background:var(--bg); z-index:10; display:flex; flex-direction:column; }
+.rec-detail-hdr { padding:12px 14px; border-bottom:1px solid var(--border); flex-shrink:0; background:var(--surface); }
+.rec-detail-back { display:flex; align-items:center; gap:6px; font-size:13px; color:var(--accent); cursor:pointer; margin-bottom:8px; }
+.rec-detail-title { font-size:15px; font-weight:500; color:var(--text); }
+.rec-detail-meta { font-size:11px; color:var(--text3); margin-top:2px; }
+.rec-detail-tabs { display:flex; background:var(--surface2); border-radius:8px; padding:2px; gap:2px; margin-top:10px; }
+.rec-detail-tab { flex:1; text-align:center; padding:6px; font-size:12px; border-radius:6px; cursor:pointer; color:var(--text2); }
+.rec-detail-tab.active { background:var(--surface); font-weight:500; color:var(--text); border:0.5px solid var(--border); }
+.rec-detail-body { flex:1; overflow-y:auto; min-height:0; -webkit-overflow-scrolling:touch; padding:14px; display:flex; flex-direction:column; gap:12px; }
+.transcript-seg { display:flex; gap:10px; }
+.seg-time { font-size:10px; color:var(--text3); width:38px; flex-shrink:0; padding-top:3px; font-variant-numeric:tabular-nums; }
+.seg-content { flex:1; }
+.seg-speaker { font-size:10px; font-weight:500; margin-bottom:2px; }
+.seg-text { font-size:13px; color:var(--text); line-height:1.65; }
+.rep-block { display:flex; flex-direction:column; gap:6px; }
+.rep-block-label { font-size:10px; font-weight:500; color:var(--text3); text-transform:uppercase; letter-spacing:.06em; }
+.rep-block-card { background:var(--surface2); border-radius:var(--radius-sm); padding:10px 12px; }
+.rep-block-text { font-size:13px; color:var(--text); line-height:1.65; }
+.rep-row { display:flex; align-items:flex-start; gap:8px; padding:6px 0; border-bottom:0.5px solid var(--border); font-size:13px; color:var(--text); line-height:1.5; }
+.rep-row:last-child { border-bottom:none; }
+.rep-dot { width:6px; height:6px; border-radius:50%; background:var(--accent); flex-shrink:0; margin-top:6px; }
+.action-chk { width:16px; height:16px; border-radius:4px; border:1.5px solid var(--border); flex-shrink:0; margin-top:1px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.action-chk.done { background:var(--accent); border-color:var(--accent); }
+.rec-analyzing { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:40px 20px; text-align:center; flex:1; }
+.rec-analyzing-spinner { width:36px; height:36px; border:3px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin .8s linear infinite; }
+@keyframes spin { to{transform:rotate(360deg)} }
 </style>
 </head>
 <body>
@@ -434,13 +491,14 @@ a { text-decoration: none; }
       <h1>私人<span>空间</span></h1>
       <div class="sb-logo-sub">
         <p id="sb-count">1 条已保存</p>
-        <span class="sb-ver" id="sb-ver">v1.40</span>
+        <span class="sb-ver" id="sb-ver">v1.44</span>
       </div>
-      <div style="display:flex;gap:4px;margin-top:10px">
+      <div style="display:flex;gap:3px;margin-top:10px">
         <button id="sbTab-video" onclick="switchTab('video')" style="flex: 1 1 0%; padding: 5px 0px; font-size: 11px; font-weight: 500; border-radius: 6px; border-color: var(--accent); border-top-style: ; border-top-width: ; border-right-style: ; border-right-width: ; border-bottom-style: ; border-bottom-width: ; border-left-style: ; border-left-width: ; border-image-source: ; border-image-slice: ; border-image-width: ; border-image-outset: ; border-image-repeat: ; background: var(--accent-bg); color: var(--accent-text); cursor: pointer; font-family: inherit;">视频</button>
         <button id="sbTab-work" onclick="switchTab('work')" style="flex: 1 1 0%; padding: 5px 0px; font-size: 11px; font-weight: 500; border-radius: 6px; border-color: var(--border); border-top-style: ; border-top-width: ; border-right-style: ; border-right-width: ; border-bottom-style: ; border-bottom-width: ; border-left-style: ; border-left-width: ; border-image-source: ; border-image-slice: ; border-image-width: ; border-image-outset: ; border-image-repeat: ; background: none; color: var(--text2); cursor: pointer; font-family: inherit;">工作</button>
+        <button id="sbTab-record" onclick="switchTab('record')" style="flex: 1 1 0%; padding: 5px 0px; font-size: 11px; font-weight: 500; border-radius: 6px; border-color: var(--border); border-top-style: ; border-top-width: ; border-right-style: ; border-right-width: ; border-bottom-style: ; border-bottom-width: ; border-left-style: ; border-left-width: ; border-image-source: ; border-image-slice: ; border-image-width: ; border-image-outset: ; border-image-repeat: ; background: none; color: var(--text2); cursor: pointer; font-family: inherit;">录音</button>
       </div>
-    <div id="sb-work-section" style="padding: 14px 16px; flex-direction: column; gap: 8px; display: none;">
+    <div id="sb-work-section" style="display: none; padding: 14px 16px; flex-direction: column; gap: 8px;">
       <div style="font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px">工作分类</div>
       <div id="sb-wk-cats"><div style="display:flex;align-items:center;gap:7px;padding:4px 8px;border-radius:6px;cursor:pointer" onclick="">
       <span style="width:8px;height:8px;border-radius:50%;background:#7c3aed;flex-shrink:0;display:inline-block"></span>
@@ -469,6 +527,18 @@ a { text-decoration: none; }
       <button onclick="switchWorkView('archive')" style="text-align:left;padding:5px 8px;font-size:12px;color:var(--text2);background:none;border:none;cursor:pointer;border-radius:6px;font-family:inherit;width:100%">归档记录</button>
     </div>
     </div>
+    <!-- RECORD sidebar section -->
+    <div id="sb-record-section" style="display: none; padding: 14px 16px; flex-direction: column; gap: 6px;">
+      <div style="font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">录音空间</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.6">
+        点击麦克风开始录音，录音完成后 AI 自动生成转录和会议纪要。
+      </div>
+      <div style="height:1px;background:var(--border);margin:4px 0"></div>
+      <div style="font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px">提示</div>
+      <div style="font-size:11px;color:var(--text3);line-height:1.6">• 开会时外放声音效果最好</div>
+      <div style="font-size:11px;color:var(--text3);line-height:1.6">• 手机请保持屏幕常亮</div>
+      <div style="font-size:11px;color:var(--text3);line-height:1.6">• 需要 Gemini API Key 才能分析</div>
+    </div>
     <div class="sb-sec sb-video-only" style="">
       <div class="sb-lbl">平台</div>
       <button class="snav active" data-fp="all" onclick="filterPlat('all')"><span class="snav-dot" style="background:#a8a69e"></span>全部<span class="snav-count" id="sc-all">1</span></button>
@@ -480,8 +550,8 @@ a { text-decoration: none; }
       <button class="snav" data-fp="instagram" onclick="filterPlat('instagram')"><span class="snav-dot" style="background:#c13584"></span>Instagram<span class="snav-count" id="sc-instagram">0</span></button>
       <button class="snav" data-fp="webpage" onclick="filterPlat('webpage')"><span class="snav-dot" style="background:#4a5568"></span>网页<span class="snav-count" id="sc-webpage">0</span></button>
     </div>
-    <div class="sb-div"></div>
-    <div class="sb-sec" style="flex:1">
+    <div class="sb-div sb-video-only" style=""></div>
+    <div class="sb-sec sb-video-only" style="flex: 1 1 0%;">
       <div class="sb-lbl" style="display:flex;align-items:center">分类<button onclick="toggleAddCat()" style="margin-left:auto;font-size:16px;color:var(--text3);cursor:pointer;padding:0 2px">+</button></div>
       <input id="new-cat-inp" class="new-cat-inp" placeholder="新分类..." style="display:none" onkeydown="newCatKey(event)">
       <button class="snav active" data-fc="all" onclick="filterCat('all')"><span class="snav-dot" style="background:#2d5be3"></span>全部<span class="snav-count" id="cc-all">1</span></button>
@@ -563,7 +633,7 @@ a { text-decoration: none; }
       <div class="header-top">
         <div class="logo">私人<span>空间</span></div>
         <div class="header-right">
-          <span class="ver-badge" id="mob-ver">v1.40</span>
+          <span class="ver-badge" id="mob-ver">v1.44</span>
           <button class="icon-btn" onclick="openSettings()" title="设定">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
           </button>
@@ -639,8 +709,8 @@ a { text-decoration: none; }
         <div class="logo">工作<span style="color:var(--accent)">空间</span></div>
         <div class="header-right">
           <div style="display:flex;align-items:center;gap:6px">
-            <button class="wk-view-btn" id="wkBtn-tasks" onclick="switchWorkView('tasks')">任务</button>
-            <button class="wk-view-btn active" id="wkBtn-timeline" onclick="switchWorkView('timeline')">时间轴</button>
+            <button class="wk-view-btn active" id="wkBtn-tasks" onclick="switchWorkView('tasks')">任务</button>
+            <button class="wk-view-btn" id="wkBtn-timeline" onclick="switchWorkView('timeline')">时间轴</button>
             <button class="wk-view-btn" id="wkBtn-archive" onclick="switchWorkView('archive')">归档</button>
           </div>
           <button class="icon-btn" onclick="openAddTask()" title="新增任务">
@@ -654,7 +724,7 @@ a { text-decoration: none; }
     <div class="wk-content">
 
       <!-- VIEW: Tasks -->
-      <div class="wk-view" id="wkView-tasks">
+      <div class="wk-view active" id="wkView-tasks">
         <!-- Today Banner -->
         <div class="wk-today-banner" id="wk-today-banner" style="display:none"></div>
         <!-- Filter tabs -->
@@ -668,13 +738,13 @@ a { text-decoration: none; }
       </div>
 
       <!-- VIEW: Timeline -->
-      <div class="wk-view active" id="wkView-timeline">
+      <div class="wk-view" id="wkView-timeline">
         <div style="padding:12px 14px">
           <div class="wk-month-nav">
             <button class="wk-month-btn" onclick="wkMonthNav(-1)">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
             </button>
-            <span id="wk-month-label" style="font-size:14px;font-weight:500;color:var(--text)">2026年 4月</span>
+            <span id="wk-month-label" style="font-size:14px;font-weight:500;color:var(--text)"></span>
             <button class="wk-month-btn" onclick="wkMonthNav(1)">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </button>
@@ -684,97 +754,7 @@ a { text-decoration: none; }
               <button class="wk-filter" onclick="wkMonthPreset('next')">下月</button>
             </div>
           </div>
-          <div id="wk-timeline-grid" style="margin-top:12px"><div class="wk-tl-grid"><div class="wk-tl-day" onclick="showTlDay(1)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">1</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(2)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">2</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(3)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">3</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(4)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">4</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(5)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">5</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(6)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">6</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(7)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">7</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(8)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">8</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(9)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">9</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(10)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">10</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(11)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);border:1.5px solid #2d5be3;"></div>
-      <div class="wk-tl-num" style="color:#2d5be3;font-weight:600">11</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(12)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">12</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(13)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">13</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(14)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">14</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(15)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">15</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(16)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">16</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(17)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">17</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(18)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">18</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(19)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">19</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(20)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">20</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(21)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">21</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(22)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">22</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(23)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">23</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(24)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">24</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(25)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">25</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(26)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">26</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(27)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">27</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(28)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">28</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(29)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">29</div>
-    </div><div class="wk-tl-day" onclick="showTlDay(30)">
-      <div class="wk-tl-bar" style="height:6px;background:var(--surface2);"></div>
-      <div class="wk-tl-num" style="">30</div>
-    </div></div></div>
+          <div id="wk-timeline-grid" style="margin-top:12px"></div>
           <div id="wk-timeline-detail" style="margin-top:12px"></div>
         </div>
       </div>
@@ -788,12 +768,66 @@ a { text-decoration: none; }
             <button class="wk-filter" id="wkArcBtn-custom" onclick="setArchiveMonth('custom')">自定义</button>
             <input type="month" id="wk-arc-custom-inp" style="display:none;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:4px 8px;font-size:12px;color:var(--text);font-family:inherit" onchange="setArchiveMonthCustom(this.value)">
           </div>
-          <div id="wk-archive-list"><div class="wk-empty"><div style="font-size:13px;color:var(--text3)">2026年3月没有已完成的任务</div></div></div>
+          <div id="wk-archive-list"></div>
         </div>
       </div>
 
     </div>
   </div><!-- end tab-pane work -->
+
+  <!-- TAB PANE: 录音 -->
+  <div class="tab-pane" id="tab-record">
+    <div class="header">
+      <div class="header-top">
+        <div class="logo">录音<span style="color:var(--accent)">空间</span></div>
+        <div class="header-right">
+          <span class="ver-badge" id="rec-count-badge">0 条</span>
+        </div>
+      </div>
+    </div>
+    <!-- Recording area -->
+    <div class="rec-main">
+      <!-- Recorder widget -->
+      <div class="rec-widget" id="rec-widget">
+        <div class="rec-timer-wrap">
+          <div class="rec-timer" id="rec-timer">00:00:00</div>
+          <div class="rec-status" id="rec-status">点击麦克风开始录音</div>
+        </div>
+        <div class="rec-wave" id="rec-wave">
+          <div class="rec-wave-bar" style="height:6px"></div>
+          <div class="rec-wave-bar" style="height:6px"></div>
+          <div class="rec-wave-bar" style="height:6px"></div>
+          <div class="rec-wave-bar" style="height:6px"></div>
+          <div class="rec-wave-bar" style="height:6px"></div>
+          <div class="rec-wave-bar" style="height:6px"></div>
+          <div class="rec-wave-bar" style="height:6px"></div>
+          <div class="rec-wave-bar" style="height:6px"></div>
+          <div class="rec-wave-bar" style="height:6px"></div>
+          <div class="rec-wave-bar" style="height:6px"></div>
+          <div class="rec-wave-bar" style="height:6px"></div>
+          <div class="rec-wave-bar" style="height:6px"></div>
+        </div>
+        <div class="rec-controls">
+          <button class="rec-btn-main" id="rec-btn-main" onclick="toggleRecording()">
+            <svg id="rec-icon-mic" width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2" fill="none" stroke="white" stroke-width="2"></path><line x1="12" y1="19" x2="12" y2="23" stroke="white" stroke-width="2"></line><line x1="8" y1="23" x2="16" y2="23" stroke="white" stroke-width="2"></line></svg>
+            <svg id="rec-icon-stop" width="28" height="28" viewBox="0 0 24 24" fill="white" style="display:none"><rect x="4" y="4" width="16" height="16" rx="2"></rect></svg>
+          </button>
+          <button class="rec-btn-pause" id="rec-btn-pause" onclick="pauseRecording()" style="display:none">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+          </button>
+        </div>
+        <div class="rec-hint" id="rec-hint">手机录音时请保持画面常亮</div>
+      </div>
+
+      <!-- Records list -->
+      <div class="rec-list-section">
+        <div class="rec-list-header">
+          <span style="font-size:12px;font-weight:500;color:var(--text2)">录音空间</span>
+        </div>
+        <div id="rec-list" class="rec-list-wrap"><div style="text-align:center;padding:40px 20px;color:var(--text3);font-size:13px">还没有录音，点击麦克风开始</div></div>
+      </div>
+    </div>
+  </div><!-- end tab-pane record -->
 
   <!-- MOBILE TAB BAR -->
   <nav class="tab-bar">
@@ -805,11 +839,15 @@ a { text-decoration: none; }
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
       <span>工作</span>
     </button>
+    <button class="tab-btn" id="tabBtn-record" onclick="switchTab('record')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+      <span>录音</span>
+    </button>
   </nav>
 
 
   <!-- DESKTOP RIGHT PANEL -->
-  <div class="dp" id="dp" style="">
+  <div class="dp" id="dp" style="display: flex;">
     <div class="dp-empty" id="dp-empty"><div class="ei">▶</div><p>选择内容预览</p></div>
     <div id="dp-content" style="display:none;flex-direction:column;height:100%">
       <div class="dp-hdr"><span style="font-size:12px;color:var(--text2);font-weight:500">正在查看</span><button class="dp-close" onclick="closePanel()">✕</button></div>
@@ -912,7 +950,7 @@ a { text-decoration: none; }
   <div class="modal" style="display:flex;flex-direction:column;max-height:90dvh">
     <div class="modal-hdr">
       <span class="modal-ttl">设定</span>
-      <span id="modal-ver" style="font-size:10px;color:var(--text3);font-family:'DM Mono',monospace">v1.40</span>
+      <span id="modal-ver" style="font-size:10px;color:var(--text3);font-family:'DM Mono',monospace">v1.44</span>
       <button class="close-btn" onclick="closeSettings()">✕</button>
     </div>
     <div class="modal-body" style="gap:0;padding:0;overflow-y:auto;flex:1">
@@ -1039,7 +1077,7 @@ a { text-decoration: none; }
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"></path></svg>
             推送到 GitHub
           </button>
-          <div class="push-status loading" id="push-status">正在推送 v1.40...</div>
+          <div class="push-status loading" id="push-status">正在推送 v1.44...</div>
         </div>
       </div>
 
@@ -1066,7 +1104,7 @@ const EMBEDDABLE = ['youtube','webpage']
 function getConfig() { try { return JSON.parse(localStorage.getItem('siren-config')||'{}') } catch { return {} } }
 function saveConfig(c) { localStorage.setItem('siren-config', JSON.stringify(c)) }
 function getApiKey() { return getConfig().geminiKey || '' }
-function getVersion() { return getConfig().version || 'v1.40' }
+function getVersion() { return getConfig().version || 'v1.44' }
 
 function getQuickTags() { return getConfig().quickTags || [...DEFAULT_QUICK_TAGS] }
 
@@ -1866,6 +1904,8 @@ function openSettings() {
 }
 function closeSettings() { document.getElementById('settings-overlay').classList.remove('open')
 document.getElementById('cat-editor-overlay').classList.remove('open')
+// Initialize desktop tab state properly
+if (window.innerWidth >= 768) { switchTab('video') }
 // Double-guard: ensure nothing re-opens modals after render
 setTimeout(() => {
   document.getElementById('settings-overlay').classList.remove('open')
@@ -2331,34 +2371,37 @@ async function shareLink(url, title) {
 
 // ── TAB SWITCHING ─────────────────────────────────────────────────────────────
 function switchTab(tab) {
-  document.getElementById('tab-video').classList.toggle('active', tab === 'video')
-  document.getElementById('tab-work').classList.toggle('active', tab === 'work')
+  ;['video','work','record'].forEach(t => document.getElementById('tab-'+t)?.classList.toggle('active', t===tab))
   // Mobile tab bar
-  document.getElementById('tabBtn-video').classList.toggle('active', tab === 'video')
-  document.getElementById('tabBtn-work').classList.toggle('active', tab === 'work')
+  ;['video','work','record'].forEach(t => document.getElementById('tabBtn-'+t)?.classList.toggle('active', t===tab))
   // Desktop sidebar tab buttons
   const sbV = document.getElementById('sbTab-video')
   const sbW = document.getElementById('sbTab-work')
-  if (sbV) {
-    sbV.style.background = tab==='video' ? 'var(--accent-bg)' : 'none'
-    sbV.style.borderColor = tab==='video' ? 'var(--accent)' : 'var(--border)'
-    sbV.style.color = tab==='video' ? 'var(--accent-text)' : 'var(--text2)'
-  }
-  if (sbW) {
-    sbW.style.background = tab==='work' ? 'var(--accent-bg)' : 'none'
-    sbW.style.borderColor = tab==='work' ? 'var(--accent)' : 'var(--border)'
-    sbW.style.color = tab==='work' ? 'var(--accent-text)' : 'var(--text2)'
-  }
+  ;['video','work','record'].forEach(t => {
+    const btn = document.getElementById('sbTab-' + t)
+    if (!btn) return
+    const on = t === tab
+    btn.style.background = on ? 'var(--accent-bg)' : 'none'
+    btn.style.borderColor = on ? 'var(--accent)' : 'var(--border)'
+    btn.style.color = on ? 'var(--accent-text)' : 'var(--text2)'
+  })
   // Desktop: show/hide dp panel and sidebar sections
   const dp = document.getElementById('dp')
-  if (dp) dp.style.display = tab==='video' ? '' : 'none'
-  // Hide video-specific sidebar sections on work tab
-  const sbSections = document.querySelectorAll('.sb-video-only')
-  sbSections.forEach(el => el.style.display = tab==='video' ? '' : 'none')
-  // Show/hide work sidebar
+  if (dp) {
+    if (window.innerWidth >= 768) {
+      dp.style.display = tab==='video' ? 'flex' : 'none'
+    } else {
+      dp.style.display = 'none'
+    }
+  }
+  // Show/hide sidebar sections per tab
+  document.querySelectorAll('.sb-video-only').forEach(el => el.style.display = tab==='video' ? '' : 'none')
   const wkSb = document.getElementById('sb-work-section')
-  if (wkSb) wkSb.style.display = tab==='work' ? '' : 'none'
+  if (wkSb) wkSb.style.display = tab==='work' ? 'flex' : 'none'
   if (tab === 'work') { renderWkTasks(); renderWkSidebar() }
+  // Show/hide record sidebar section
+  const recSb = document.getElementById('sb-record-section')
+  if (recSb) recSb.style.display = tab === 'record' ? 'flex' : 'none'
 }
 
 
@@ -2736,6 +2779,428 @@ function renderWkSidebar() {
   }).join('')
   document.getElementById('sb-work-section').style.display = 'flex'
 }
+
+// ── TAB 3: RECORDING ─────────────────────────────────────────────────────────
+let recState = { recordings: [] }
+let recMediaRecorder = null
+let recAudioChunks = []
+let recTimerInterval = null
+let recSeconds = 0
+let recIsRecording = false
+let recIsPaused = false
+let recWaveInterval = null
+let recCurrentId = null
+let recDetailView = null
+
+function loadRecState() {
+  try {
+    const s = localStorage.getItem('siren-rec-v1')
+    if (s) recState = JSON.parse(s)
+    if (!recState.recordings) recState.recordings = []
+  } catch {}
+}
+function saveRecState() {
+  // Save without audio blobs (too large for localStorage)
+  const toSave = {
+    recordings: recState.recordings.map(r => ({...r, audioBlob: undefined, audioUrl: undefined}))
+  }
+  localStorage.setItem('siren-rec-v1', JSON.stringify(toSave))
+}
+
+// ── RECORDING CONTROLS ────────────────────────────────────────────────────────
+async function toggleRecording() {
+  if (!recIsRecording) {
+    await startRecording()
+  } else {
+    await stopRecording()
+  }
+}
+
+async function startRecording() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+    recMediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' })
+    recAudioChunks = []
+    recMediaRecorder.ondataavailable = e => { if (e.data.size > 0) recAudioChunks.push(e.data) }
+    recMediaRecorder.start(1000)
+    recIsRecording = true
+    recIsPaused = false
+    recSeconds = 0
+
+    // UI
+    document.getElementById('rec-btn-main').classList.add('recording')
+    document.getElementById('rec-icon-mic').style.display = 'none'
+    document.getElementById('rec-icon-stop').style.display = 'block'
+    document.getElementById('rec-btn-pause').style.display = 'flex'
+    document.getElementById('rec-status').textContent = '录音中 · 点击停止'
+    document.getElementById('rec-hint').textContent = '请保持屏幕常亮，不要切换到其他应用'
+
+    // Timer
+    recTimerInterval = setInterval(() => {
+      if (!recIsPaused) {
+        recSeconds++
+        document.getElementById('rec-timer').textContent = formatRecTime(recSeconds)
+      }
+    }, 1000)
+
+    // Wave animation
+    recWaveInterval = setInterval(animateWave, 150)
+
+  } catch (e) {
+    alert('无法访问麦克风，请检查权限设置。')
+  }
+}
+
+async function stopRecording() {
+  if (!recMediaRecorder) return
+  return new Promise(resolve => {
+    recMediaRecorder.onstop = async () => {
+      const blob = new Blob(recAudioChunks, { type: 'audio/webm' })
+      const url = URL.createObjectURL(blob)
+      const id = crypto.randomUUID()
+      const rec = {
+        id, title: '未命名录音',
+        date: new Date().toISOString(),
+        duration: recSeconds,
+        status: 'pending', // pending | analyzing | done
+        transcript: null,
+        report: null,
+        audioUrl: url,
+        audioBlob: blob
+      }
+      recState.recordings.unshift(rec)
+      saveRecState()
+      resetRecUI()
+      renderRecList()
+      resolve()
+      // Auto-analyze if API key set
+      if (getApiKey()) {
+        showToast('录音完成，开始 AI 分析...')
+        await analyzeRecording(id)
+      } else {
+        showToast('录音已保存，请在设定里配置 Gemini API Key 后分析')
+      }
+    }
+    recMediaRecorder.stop()
+    recMediaRecorder.stream.getTracks().forEach(t => t.stop())
+    clearInterval(recTimerInterval)
+    clearInterval(recWaveInterval)
+    recIsRecording = false
+  })
+}
+
+function pauseRecording() {
+  if (!recMediaRecorder) return
+  if (!recIsPaused) {
+    recMediaRecorder.pause()
+    recIsPaused = true
+    document.getElementById('rec-btn-pause').innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>'
+    document.getElementById('rec-status').textContent = '已暂停 · 点击继续'
+    document.getElementById('rec-btn-main').classList.remove('recording')
+    document.getElementById('rec-btn-main').classList.add('paused')
+    clearInterval(recWaveInterval)
+  } else {
+    recMediaRecorder.resume()
+    recIsPaused = false
+    document.getElementById('rec-btn-pause').innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>'
+    document.getElementById('rec-status').textContent = '录音中 · 点击停止'
+    document.getElementById('rec-btn-main').classList.add('recording')
+    document.getElementById('rec-btn-main').classList.remove('paused')
+    recWaveInterval = setInterval(animateWave, 150)
+  }
+}
+
+function resetRecUI() {
+  document.getElementById('rec-btn-main').classList.remove('recording','paused')
+  document.getElementById('rec-icon-mic').style.display = 'block'
+  document.getElementById('rec-icon-stop').style.display = 'none'
+  document.getElementById('rec-btn-pause').style.display = 'none'
+  document.getElementById('rec-status').textContent = '点击麦克风开始录音'
+  document.getElementById('rec-timer').textContent = '00:00:00'
+  document.getElementById('rec-hint').textContent = '手机录音时请保持画面常亮'
+  document.querySelectorAll('.rec-wave-bar').forEach(b => { b.style.height='6px'; b.classList.remove('active') })
+  recIsPaused = false
+  recSeconds = 0
+}
+
+function animateWave() {
+  document.querySelectorAll('.rec-wave-bar').forEach(b => {
+    const h = Math.floor(Math.random() * 28) + 4
+    b.style.height = h + 'px'
+    b.classList.add('active')
+  })
+}
+
+function formatRecTime(s) {
+  const h = Math.floor(s/3600), m = Math.floor((s%3600)/60), sec = s%60
+  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`
+}
+
+// ── AI ANALYSIS ───────────────────────────────────────────────────────────────
+async function analyzeRecording(id) {
+  const rec = recState.recordings.find(r => r.id === id)
+  if (!rec || !rec.audioBlob) {
+    // No blob (loaded from storage) - can't re-analyze without audio
+    showToast('原始音频已不在内存，无法重新分析')
+    return
+  }
+  rec.status = 'analyzing'
+  saveRecState(); renderRecList()
+
+  try {
+    // Convert blob to base64
+    const base64Audio = await blobToBase64(rec.audioBlob)
+    const audioData = base64Audio.split(',')[1]
+
+    // Gemini API with audio
+    const prompt = `You are analyzing a meeting/conversation recording. Please provide:
+
+1. TRANSCRIPT: A timestamped transcript of the conversation. Group by speaker (Speaker A, Speaker B, etc.). Format each segment as:
+[MM:SS] Speaker X: text
+
+2. REPORT: A structured meeting report in the SAME LANGUAGE as the conversation, containing:
+- SUMMARY: 2-4 sentence overview
+- DECISIONS: Key decisions made (bullet points)  
+- ACTION_ITEMS: Specific tasks with who is responsible
+- FOLLOW_UP: Items that need follow-up
+
+Respond ONLY in this JSON format:
+{
+  "transcript": [
+    {"time": "00:00", "speaker": "Speaker A", "color": "#2d5be3", "text": "..."},
+    {"time": "00:38", "speaker": "Speaker B", "color": "#1a7a4a", "text": "..."}
+  ],
+  "report": {
+    "summary": "...",
+    "decisions": ["...", "..."],
+    "actionItems": [{"task": "...", "person": "Speaker A", "done": false}],
+    "followUp": ["..."]
+  },
+  "suggestedTitle": "meeting title in the conversation language",
+  "language": "zh/en/mixed"
+}`
+
+    const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=' + getApiKey(), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{
+          parts: [
+            { inlineData: { mimeType: 'audio/webm', data: audioData } },
+            { text: prompt }
+          ]
+        }],
+        generationConfig: { responseMimeType: 'application/json' }
+      })
+    })
+
+    if (!response.ok) throw new Error('API error ' + response.status)
+    const data = await response.json()
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text
+    if (!text) throw new Error('No response')
+
+    const result = JSON.parse(text.replace(/```json|```/g, '').trim())
+    rec.transcript = result.transcript || []
+    rec.report = result.report || {}
+    rec.status = 'done'
+    if (result.suggestedTitle && rec.title === '未命名录音') {
+      rec.title = result.suggestedTitle
+    }
+    saveRecState(); renderRecList()
+    showToast('分析完成 ✓')
+
+    // If detail view is open for this recording, refresh it
+    if (recCurrentId === id && recDetailView) {
+      openRecDetail(id)
+    }
+
+  } catch (e) {
+    rec.status = 'error'
+    rec.errorMsg = e.message
+    saveRecState(); renderRecList()
+    showToast('分析失败：' + e.message)
+  }
+}
+
+function blobToBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = reject
+    reader.readAsDataURL(blob)
+  })
+}
+
+// ── RENDER LIST ───────────────────────────────────────────────────────────────
+function renderRecList() {
+  const list = document.getElementById('rec-list')
+  if (!list) return
+  const badge = document.getElementById('rec-count-badge')
+  if (badge) badge.textContent = recState.recordings.length + ' 条'
+
+  if (!recState.recordings.length) {
+    list.innerHTML = `<div style="text-align:center;padding:40px 20px;color:var(--text3);font-size:13px">还没有录音，点击麦克风开始</div>`
+    return
+  }
+
+  list.innerHTML = recState.recordings.map(r => {
+    const dateStr = new Date(r.date).toLocaleDateString('zh-CN', {month:'short', day:'numeric'})
+    const durStr = formatRecTime(r.duration)
+    const badgeStyle = r.status === 'done'
+      ? 'background:#eef1fc;color:#1a3db0'
+      : r.status === 'analyzing'
+      ? 'background:#faeeda;color:#7a5000'
+      : r.status === 'error'
+      ? 'background:#fef2f1;color:#c0392b'
+      : 'background:var(--surface2);color:var(--text3)'
+    const badgeText = r.status === 'done' ? '已分析' : r.status === 'analyzing' ? '分析中...' : r.status === 'error' ? '分析失败' : '待分析'
+
+    return `<div class="rec-item" onclick="openRecDetail('${r.id}')">
+      <div class="rec-item-top">
+        <div class="rec-item-title">${esc(r.title)}</div>
+        <span class="rec-item-badge" style="${badgeStyle}">${badgeText}</span>
+      </div>
+      <div class="rec-item-meta">
+        <span>${dateStr}</span>
+        <span>${durStr}</span>
+      </div>
+    </div>`
+  }).join('')
+}
+
+// ── DETAIL VIEW ───────────────────────────────────────────────────────────────
+function openRecDetail(id) {
+  recCurrentId = id
+  const rec = recState.recordings.find(r => r.id === id)
+  if (!rec) return
+
+  const container = document.getElementById('tab-record')
+  // Remove existing detail if any
+  const existing = document.getElementById('rec-detail-panel')
+  if (existing) existing.remove()
+
+  const panel = document.createElement('div')
+  panel.id = 'rec-detail-panel'
+  panel.className = 'rec-detail'
+  panel.innerHTML = buildRecDetailHTML(rec)
+  container.appendChild(panel)
+  recDetailView = panel
+  history.pushState({recDetail: true}, '')
+}
+
+function buildRecDetailHTML(rec) {
+  const dateStr = new Date(rec.date).toLocaleDateString('zh-CN', {year:'numeric', month:'long', day:'numeric'})
+  const durStr = formatRecTime(rec.duration)
+
+  const transcriptHTML = rec.transcript && rec.transcript.length
+    ? rec.transcript.map(seg => `
+      <div class="transcript-seg">
+        <div class="seg-time">${esc(seg.time)}</div>
+        <div class="seg-content">
+          <div class="seg-speaker" style="color:${seg.color||'var(--accent)'}">${esc(seg.speaker)}</div>
+          <div class="seg-text">${esc(seg.text)}</div>
+        </div>
+      </div>`).join('')
+    : rec.status === 'analyzing'
+    ? `<div class="rec-analyzing"><div class="rec-analyzing-spinner"></div><div style="font-size:13px;color:var(--text3)">AI 正在分析录音...</div></div>`
+    : `<div style="text-align:center;padding:40px;color:var(--text3);font-size:13px">${rec.status === 'pending' ? '尚未分析，点击右上角「分析」按钮' : '分析失败：' + (rec.errorMsg||'未知错误')}</div>`
+
+  const report = rec.report || {}
+  const reportHTML = rec.status === 'done' ? `
+    <div class="rep-block">
+      <div class="rep-block-label">摘要</div>
+      <div class="rep-block-card"><div class="rep-block-text">${esc(report.summary||'')}</div></div>
+    </div>
+    ${report.decisions?.length ? `<div class="rep-block">
+      <div class="rep-block-label">决定事项</div>
+      <div class="rep-block-card" style="padding:6px 12px">
+        ${report.decisions.map(d => `<div class="rep-row"><div class="rep-dot"></div><span>${esc(d)}</span></div>`).join('')}
+      </div>
+    </div>` : ''}
+    ${report.actionItems?.length ? `<div class="rep-block">
+      <div class="rep-block-label">Action Items</div>
+      <div class="rep-block-card" style="padding:6px 12px">
+        ${report.actionItems.map((a,i) => `<div class="rep-row">
+          <div class="action-chk${a.done?' done':''}" onclick="toggleRecAction('${rec.id}',${i})">${a.done?'<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>':''}</div>
+          <span><strong style="color:var(--text2);font-weight:500">${esc(a.person)}</strong> — ${esc(a.task)}</span>
+        </div>`).join('')}
+      </div>
+    </div>` : ''}
+    ${report.followUp?.length ? `<div class="rep-block">
+      <div class="rep-block-label">待跟进</div>
+      <div class="rep-block-card" style="padding:6px 12px">
+        ${report.followUp.map(f => `<div class="rep-row"><div class="rep-dot" style="background:#ba7517"></div><span>${esc(f)}</span></div>`).join('')}
+      </div>
+    </div>` : ''}
+  ` : `<div style="text-align:center;padding:40px;color:var(--text3);font-size:13px">${rec.status==='analyzing'?'AI 分析中...':'尚未生成报告'}</div>`
+
+  return `
+    <div class="rec-detail-hdr">
+      <div class="rec-detail-back" onclick="closeRecDetail()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        返回
+      </div>
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+        <div style="flex:1;min-width:0">
+          <div class="rec-detail-title" id="rec-det-title" onclick="editRecTitle('${rec.id}')" title="点击改名">${esc(rec.title)}</div>
+          <div class="rec-detail-meta">${dateStr} · ${durStr}</div>
+        </div>
+        ${rec.status !== 'done' && rec.status !== 'analyzing' ? `<button onclick="analyzeRecording('${rec.id}')" style="height:28px;padding:0 10px;background:var(--accent);color:#fff;border-radius:99px;font-size:11px;font-weight:500;white-space:nowrap;border:none;cursor:pointer;font-family:inherit">AI 分析</button>` : ''}
+      </div>
+      <div class="rec-detail-tabs">
+        <div class="rec-detail-tab active" id="recTab-transcript" onclick="switchRecTab('transcript')">原始转录</div>
+        <div class="rec-detail-tab" id="recTab-report" onclick="switchRecTab('report')">分析报告</div>
+      </div>
+    </div>
+    <div class="rec-detail-body" id="recView-transcript">${transcriptHTML}</div>
+    <div class="rec-detail-body" id="recView-report" style="display:none">${reportHTML}</div>
+  `
+}
+
+function switchRecTab(tab) {
+  document.getElementById('recTab-transcript').classList.toggle('active', tab==='transcript')
+  document.getElementById('recTab-report').classList.toggle('active', tab==='report')
+  document.getElementById('recView-transcript').style.display = tab==='transcript' ? 'flex' : 'none'
+  document.getElementById('recView-report').style.display = tab==='report' ? 'flex' : 'none'
+}
+
+function closeRecDetail() {
+  const panel = document.getElementById('rec-detail-panel')
+  if (panel) panel.remove()
+  recDetailView = null
+  recCurrentId = null
+}
+
+function editRecTitle(id) {
+  const rec = recState.recordings.find(r => r.id === id)
+  if (!rec) return
+  const newTitle = prompt('修改录音标题：', rec.title)
+  if (newTitle && newTitle.trim()) {
+    rec.title = newTitle.trim()
+    saveRecState()
+    renderRecList()
+    const el = document.getElementById('rec-det-title')
+    if (el) el.textContent = rec.title
+    showToast('标题已更新 ✓')
+  }
+}
+
+function toggleRecAction(recId, idx) {
+  const rec = recState.recordings.find(r => r.id === recId)
+  if (!rec?.report?.actionItems?.[idx]) return
+  rec.report.actionItems[idx].done = !rec.report.actionItems[idx].done
+  saveRecState()
+  openRecDetail(recId)
+  switchRecTab('report')
+}
+
+// Popstate: close detail on back button
+window.addEventListener('popstate', function(e) {
+  if (document.getElementById('rec-detail-panel')) {
+    closeRecDetail()
+  }
+})
+
 // ── UTILS ─────────────────────────────────────────────────────────────────────
 function esc(str) { return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;') }
 function fmtDate(iso) {
@@ -2747,10 +3212,14 @@ function fmtDate(iso) {
 // ── INIT ──────────────────────────────────────────────────────────────────────
 loadState()
 loadWkState()
+loadRecState()
 render()
 renderWkTasks()
+renderRecList()
 document.getElementById('settings-overlay').classList.remove('open')
 document.getElementById('cat-editor-overlay').classList.remove('open')
+// Initialize desktop tab state properly
+if (window.innerWidth >= 768) { switchTab('video') }
 // Double-guard: ensure nothing re-opens modals after render
 setTimeout(() => {
   document.getElementById('settings-overlay').classList.remove('open')
